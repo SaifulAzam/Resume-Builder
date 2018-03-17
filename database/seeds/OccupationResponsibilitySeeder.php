@@ -1,12 +1,14 @@
 <?php
 
+use App\Occupation;
+use App\Responsibility;
 use Illuminate\Database\Seeder;
 
 /**
  * @package Resume Builder
  * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
  */
-class DatabaseSeeder extends Seeder
+class OccupationResponsibilitySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(OccupationResponsibilitySeeder::class);
+        // 
     }
 }

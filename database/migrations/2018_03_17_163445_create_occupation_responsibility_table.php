@@ -17,7 +17,6 @@ class CreateOccupationResponsibilityTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('occupation_id');
             $table->unsignedInteger('responsibility_id');
-            $table->timestamps();
 
             $table->foreign('occupation_id')
 			    ->references('id')

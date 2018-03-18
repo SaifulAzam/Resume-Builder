@@ -21,6 +21,15 @@ class Resume extends Model
     ];
 
     /**
+     * The name of the design templates.
+     * 
+     * @var array
+     */
+    public static $templates = [
+        // 
+    ];
+
+    /**
      * Defines the relationship between the user and their resumes.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

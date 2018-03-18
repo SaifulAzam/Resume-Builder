@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/occupations', 'API\OccupationController@getOccupations');
+Route::get('/occupations/{occupation_id}/responsibilities', 'API\OccupationController@getResponsibilities');
+Route::get('/templates', 'API\ResumeTemplateController@getTemplates');

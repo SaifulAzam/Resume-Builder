@@ -20,6 +20,13 @@ class Occupation extends Model
     ];
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Defines the relationship between the occupations and their
      * responsibilities.
      * 

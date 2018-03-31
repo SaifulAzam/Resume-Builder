@@ -56,4 +56,50 @@ class OccupationController extends Controller
             $occupation->responsibilities
         );
     }
+
+    /**
+     * Stores the new occupation into the database.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function storeOccupation(Request $request) {
+        // 
+    }
+
+    /**
+     * Stores the new responsibility into the database.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function storeResponsibility(Request $request) {
+        // 
+    }
+
+    /**
+     * Updates the existing occupation.
+     * 
+     * @param  Request $request
+     * @param  int $occupation_id
+     * 
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function updateOccupation(Request $request, $occupation_id) {
+        // 
+    }
+
+    /**
+     * Updates the existing responsibility.
+     * 
+     * @param  Request $request
+     * @param  int $responsibility_id
+     * 
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function updateResponsibility(Request $request, $responsibility_id) {
+        // 
+    }
 }

@@ -11,6 +11,15 @@
 |
 */
 
+Route::name('resumes.')->prefix('resumes')->group(function () {
+    Route::get('/{resume_id}', 'ResumeController@showResume')->where(['resume_id' => '[0-9]+'])->name('single');
+    Route::get('/', 'ResumeController@showAllResumes')->name('all');
+});
+
+Route::name('users.')->prefix('users')->group(function () {
+    Route::get('/{user_id}/resumes', 'ResumeController@showAllResumes')->where(['user_id' => '[0-9]+'])->name('resumes');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

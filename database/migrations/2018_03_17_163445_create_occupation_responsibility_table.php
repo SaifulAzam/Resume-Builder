@@ -37,7 +37,7 @@ class CreateOccupationResponsibilityTable extends Migration
      */
     public function down()
     {
-        Schema::table('occupation_responsibilty', function (Blueprint $table) {
+        Schema::table('occupation_responsibility', function (Blueprint $table) {
             $table->dropForeign('occupation_responsibility_occupation_id_foreign');
             $table->dropForeign('occupation_responsibility_responsibility_id_foreign');
         });

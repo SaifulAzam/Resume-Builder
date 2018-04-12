@@ -55,7 +55,7 @@ class Resume extends Model implements ResumeTokenInterface
      * the same privillage as of the owner of the resume even when they're not
      * authenticated in the application.
      *
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function generateToken() {
       $key = bcrypt(Carbon::now());

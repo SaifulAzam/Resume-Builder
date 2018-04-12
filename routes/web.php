@@ -12,6 +12,7 @@
 */
 
 Route::name('resumes.')->prefix('resumes')->group(function () {
+    Route::get('/new', 'ResumeController@createResume')->name('create');
     Route::get('/{resume_id}', 'ResumeController@showResume')->where(['resume_id' => '[0-9]+'])->name('single');
     Route::get('/', 'ResumeController@showAllResumes')->name('all');
 });

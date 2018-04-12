@@ -19,14 +19,14 @@ class CreateOccupationResponsibilityTable extends Migration
             $table->unsignedInteger('responsibility_id');
 
             $table->foreign('occupation_id')
-			    ->references('id')
-				->on('occupations')
+                ->references('id')
+                ->on('occupations')
                 ->onDelete('cascade');
-                
+
             $table->foreign('responsibility_id')
-			    ->references('id')
-				->on('responsibilities')
-				->onDelete('cascade');
+                ->references('id')
+                ->on('responsibilities')
+                ->onDelete('cascade');
         });
     }
 

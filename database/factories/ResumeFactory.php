@@ -2,6 +2,10 @@
 
 use Faker\Generator as Faker;
 
+/**
+ * @package Resume Builder
+ * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
+ */
 $factory->define(App\Resume::class, function (Faker $faker) {
     $data = serialize([
         'sections' => [

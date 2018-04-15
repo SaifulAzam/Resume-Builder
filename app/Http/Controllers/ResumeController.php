@@ -129,7 +129,7 @@ class ResumeController extends Controller implements ResumeInterface
             // resume.
             if (! $user->hasPermissionTo('delete resumes')) {
                 return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
-            } elseif ($user->id !== $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
+            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
                 return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
             }
         } elseif (! $resume->validateToken()) {
@@ -158,7 +158,7 @@ class ResumeController extends Controller implements ResumeInterface
         // We'll determine whether resumes are being requested of a particular
         // user or all and then display the resumes accordingly.
         if (! empty($user_id)) {
-            if ($user->id !== $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
+            if ((int) $user->id !== (int) $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
                 return "Sorry! You're not allowed to view the resumes.";
             }
 
@@ -171,7 +171,7 @@ class ResumeController extends Controller implements ResumeInterface
             $resumes = $resumes->all();
         }
 
-        return view('dashboard', [ 'resumes' => $resumes ]);
+        return view('pages.dashboard', [ 'resumes' => $resumes ]);
     }
 
     /**
@@ -195,7 +195,7 @@ class ResumeController extends Controller implements ResumeInterface
             // apply then we'll restrict the user from accessing the resume and
             // redirect him with error messages to explain him better about the
             // issue.
-            if ($user->id !== $author->id) {
+            if ((int) $user->id !== (int) $author->id) {
                 return "Sorry! You're not allowed to view this resume.";
             } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 return "Sorry! You're not allowed to view this resume.";
@@ -204,7 +204,7 @@ class ResumeController extends Controller implements ResumeInterface
             return "Sorry! You're not allowed to view this resume.";
         }
 
-        return view('resumes-single', [
+        return view('pages.resumes-single', [
             'author'   => $resume->author,
             'data'     => $resume->data,
             'template' => $resume->template,
@@ -242,7 +242,7 @@ class ResumeController extends Controller implements ResumeInterface
             // resume.
             if (! $user->hasPermissionTo('update resumes')) {
                 return redirect()->back()->withErrors("message", "Sorry! You don't have permission to update a resume.");
-            } elseif ($user->id !== $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
+            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
                 return redirect()->back()->withErrors("message", "Sorry! You don't have permission to update a resume.");
             }
         } elseif (! $resume->validateToken()) {

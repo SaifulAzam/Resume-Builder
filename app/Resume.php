@@ -19,8 +19,9 @@ class Resume extends Model implements ResumeTokenInterface
      * @var array
      */
     protected $fillable = [
-        'template',
         'data',
+        'template',
+        'title'
     ];
 
     /**

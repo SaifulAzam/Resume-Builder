@@ -12,8 +12,17 @@
 */
 
 Route::name('resumes.')->prefix('resumes')->group(function () {
+    Route::get('/error', function () {
+        return view('pages.resumes-error');
+    })->name('error');
+
     Route::get('/new', 'ResumeController@createResume')->name('create');
-    Route::get('/{resume_id}', 'ResumeController@showResume')->where(['resume_id' => '[0-9]+'])->name('single');
+    Route::post('/new', 'ResumeController@storeResume')->name('store');
+
+    Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
+    Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');
+    Route::delete('/{resume_id}', 'ResumeController@deleteResume')->name('destroy');
+
     Route::get('/', 'ResumeController@showAllResumes')->name('all');
 });
 

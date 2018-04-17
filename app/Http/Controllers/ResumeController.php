@@ -16,13 +16,171 @@ use Illuminate\Support\Facades\Hash;
 class ResumeController extends Controller implements ResumeInterface
 {
     /**
-     * Creates a new resume for the user.
+     * Displays a form to create a new resume.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
+    public function createResume() {
+        $author = '';
+
+        // Determine whether the authenticated user is trying to create a resume
+        // or an unauthenticated user since we need to restrict the
+        // authenticated user from creating the resume if they have no
+        // permission.
+        if (Auth::check()) {
+            $author = Auth::user();
+            $user   = $author;
+
+            if (! $user->hasPermissionTo('create resumes')) {
+                return redirect()->route('resumes.error')
+                    ->withErrors("message", "Sorry! You don't have permission to create a resume.")
+                    ->with([
+                        'author_id' => $request->input('author_id'),
+                        'data'      => $request->input('data'),
+                        'template'  => $request->input('template'),
+                        'title'     => $request->input('title'),
+                    ]);
+            }
+
+            // Next, we'll check whether the user is a person with super
+            // privillages and is trying to create a resume for some other user.
+            // And if so, then we'll change author of the resume.
+            if ($user->hasAnyRole(['administrator', 'moderator'])) {
+                if ($request->has('author_id')) {
+                    $author = User::findOrFail($request->input('author_id'));
+                }
+            }
+        }
+
+        return view('pages.resumes-single', [
+            'author'          => $author,
+            'form_action_url' => route('resumes.store'),
+            'title'           => 'New Resume'
+        ]);
+    }
+
+    /**
+     * Deletes the resume with supplied resume id.
+     *
+     * @param  int $resume_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function deleteResume($resume_id) {
+        $resume = Resume::with('author')->findOrFail($resume_id);
+        $author = $resume->author;
+
+        // To delete a resume either the user should be authenticated or they
+        // should hold the token with them to enjoy the resume owner
+        // privillages.
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            // Next, we'll determine whether the authenticated user has not
+            // been restricted from deleting the resume. Or the user should be
+            // a person with super privillage if they are not the owner of the
+            // resume.
+            if (! $user->hasPermissionTo('delete resumes')) {
+                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
+                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+            }
+        } elseif (! $resume->validateToken()) {
+          return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+        }
+
+        $resume->delete();
+        return redirect()->route('resumes.single')->with('status', 'deleted');
+    }
+
+    /**
+     * Displays all the resumes.
+     *
+     * @param  int $user_id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
+    public function showAllResumes($user_id = null) {
+        if (! Auth::check()) {
+            return redirect()->route('resumes.error')
+                ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+        }
+
+        $resumes = new Resume;
+        $user   = Auth::user();
+
+        // We'll determine whether resumes are being requested of a particular
+        // user or all and then display the resumes accordingly.
+        if (! empty($user_id)) {
+            if ((int) $user->id !== (int) $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
+                return redirect()->route('resumes.error')
+                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            }
+
+            $resumes = $user->resumes;
+        } else {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                return redirect()->route('resumes.error')
+                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            }
+
+            $resumes = $resumes->all();
+        }
+
+        return view('pages.resumes-all', [ 'resumes' => $resumes ]);
+    }
+
+    /**
+     * Displays the resume with supplied resume id.
+     *
+     * @param  int $resume_id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
+    public function showResume($resume_id) {
+        $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
+        $author = $resume->author;
+
+        // Determine whether the user is authenticated or holds the resume token
+        // to access the resume.
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            // Next, we'll check whether the authenticated user is the owner of
+            // the resume or holds any super privillage and if none of the case
+            // apply then we'll restrict the user from accessing the resume and
+            // redirect him with error messages to explain him better about the
+            // issue.
+            if ((int) $user->id !== (int) $author->id) {
+                return redirect()->route('resumes.error')
+                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                return redirect()->route('resumes.error')
+                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            }
+        } elseif (! $resume->validateToken()) {
+            return redirect()->route('resumes.error')
+                ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+        }
+
+        return view('pages.resumes-single', [
+            'author'          => $resume->author,
+            'data'            => $resume->data,
+            'form_action_url' => route('resumes.update'),
+            'template'        => $resume->template,
+            'title'           => $resume->title
+        ]);
+    }
+
+    /**
+     * Stores the new resume into the database.
      *
      * @param  \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createResume(Request $request) {
+    public function storeResume(Request $request) {
         $request->validate([
             'author_id'          => 'exists:users,id',
             'data'               => 'required|array',
@@ -106,119 +264,12 @@ class ResumeController extends Controller implements ResumeInterface
     }
 
     /**
-     * Deletes the resume with supplied resume id.
-     *
-     * @param  int $resume_id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function deleteResume($resume_id) {
-        $resume = Resume::with('author')->findOrFail($resume_id);
-        $author = $resume->author;
-
-        // To delete a resume either the user should be authenticated or they
-        // should hold the token with them to enjoy the resume owner
-        // privillages.
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            // Next, we'll determine whether the authenticated user has not
-            // been restricted from deleting the resume. Or the user should be
-            // a person with super privillage if they are not the owner of the
-            // resume.
-            if (! $user->hasPermissionTo('delete resumes')) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
-            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
-            }
-        } elseif (! $resume->validateToken()) {
-          return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
-        }
-
-        $resume->delete();
-        return redirect()->route('resumes.single')->with('status', 'deleted');
-    }
-
-    /**
-     * Displays all the resumes.
-     *
-     * @param  int $user_id
-     *
-     * @return void
-     */
-    public function showAllResumes($user_id = null) {
-        if (! Auth::check()) {
-            return "Sorry! You're not allowed to view this resumes.";
-        }
-
-        $resumes = new Resume;
-        $user   = Auth::user();
-
-        // We'll determine whether resumes are being requested of a particular
-        // user or all and then display the resumes accordingly.
-        if (! empty($user_id)) {
-            if ((int) $user->id !== (int) $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return "Sorry! You're not allowed to view the resumes.";
-            }
-
-            $resumes = $user->resumes;
-        } else {
-            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return "Sorry! You're not allowed to view the resumes.";
-            }
-
-            $resumes = $resumes->all();
-        }
-
-        return view('pages.dashboard', [ 'resumes' => $resumes ]);
-    }
-
-    /**
-     * Displays the resume with supplied resume id.
-     *
-     * @param  int $resume_id
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
-     */
-    public function showResume($resume_id) {
-        $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
-        $author = $resume->author;
-
-        // Determine whether the user is authenticated or holds the resume token
-        // to access the resume.
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            // Next, we'll check whether the authenticated user is the owner of
-            // the resume or holds any super privillage and if none of the case
-            // apply then we'll restrict the user from accessing the resume and
-            // redirect him with error messages to explain him better about the
-            // issue.
-            if ((int) $user->id !== (int) $author->id) {
-                return "Sorry! You're not allowed to view this resume.";
-            } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return "Sorry! You're not allowed to view this resume.";
-            }
-        } elseif (! $resume->validateToken()) {
-            return "Sorry! You're not allowed to view this resume.";
-        }
-
-        return view('pages.resumes-single', [
-            'author'   => $resume->author,
-            'data'     => $resume->data,
-            'template' => $resume->template,
-            'title'    => $resume->title
-        ]);
-    }
-
-    /**
      * Updates the resume with new supplied details.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $resume_id
      *
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updateResume(Request $request, $resume_id) {
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);

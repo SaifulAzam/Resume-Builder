@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ResumePermissionError;
 use App\Contracts\ResumeInterface;
 use App\Exceptions\NoPermissionException;
 use App\Resume;
@@ -37,7 +38,7 @@ class ResumeController extends Controller implements ResumeInterface
             $user   = $author;
 
             if (! $user->hasPermissionTo('create resumes')) {
-                throw new NoPermissionException("Sorry! You don't have permission to create a resume.");
+                throw new NoPermissionException( ResumePermissionError::CREATE );
             }
 
             // Next, we'll check whether the user is a person with super
@@ -82,12 +83,12 @@ class ResumeController extends Controller implements ResumeInterface
             // a person with super privilege if they are not the owner of the
             // resume.
             if (! $user->hasPermissionTo('delete resumes')) {
-                throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
+                throw new NoPermissionException( ResumePermissionError::DELETE );
             } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
+                throw new NoPermissionException( ResumePermissionError::DELETE );
             }
         } elseif (! $resume->validateToken()) {
-            throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
+            throw new NoPermissionException( ResumePermissionError::DELETE );
         }
 
         $resume->delete();
@@ -97,31 +98,37 @@ class ResumeController extends Controller implements ResumeInterface
     /**
      * Displays all the resumes.
      *
-     * @param  int $user_id
+     * @param  string $username
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      *
      * @throws NoPermissionException
      */
-    public function showAllResumes($user_id = null) {
+    public function showAllResumes($username = null) {
         if (! Auth::check()) {
-            throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+            return redirect()->route('login');
         }
 
         $resumes = new Resume;
         $user   = Auth::user();
 
+        $is_super_user = $user->hasAnyRole(['administrator', 'moderator']);
+
         // We'll determine whether resumes are being requested of a particular
         // user or all and then display the resumes accordingly.
-        if (! empty($user_id)) {
-            if ((int) $user->id !== (int) $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+        if (! empty($username)) {
+            $author = User::with('resumes')->where('username', $username)->firstOrFail();
+
+            // Restrict the user to access the resumes of other users if
+            // they are not the users with super privileges.
+            if ((int) $user->id !== (int) $author->id && ! $is_super_user) {
+                throw new NoPermissionException( ResumePermissionError::VIEW );
             }
 
-            $resumes = $user->resumes;
+            $resumes = $author->resumes;
         } else {
-            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+            if (! $is_super_user) {
+                return redirect()->route('users.resumes', ['username' => $user->username]);
             }
 
             $resumes = $resumes->all();
@@ -154,12 +161,12 @@ class ResumeController extends Controller implements ResumeInterface
             // redirect him with error messages to explain him better about the
             // issue.
             if ((int) $user->id !== (int) $author->id) {
-                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException( ResumePermissionError::VIEW );
             } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException( ResumePermissionError::VIEW );
             }
         } elseif (! $resume->validateToken()) {
-            throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
+            throw new NoPermissionException( ResumePermissionError::VIEW );
         }
 
         return view('pages.resumes-single', [
@@ -200,7 +207,7 @@ class ResumeController extends Controller implements ResumeInterface
             $user   = $author;
 
             if (! $user->hasPermissionTo('create resumes')) {
-                throw new NoPermissionException("Sorry! You don't have permission to create a resume.");
+                throw new NoPermissionException( ResumePermissionError::CREATE );
             }
 
             // Next, we'll check whether the user is a person with super
@@ -287,12 +294,12 @@ class ResumeController extends Controller implements ResumeInterface
             // a person with super privilege if they are not the owner of the
             // resume.
             if (! $user->hasPermissionTo('update resumes')) {
-                throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
+                throw new NoPermissionException( ResumePermissionError::UPDATE );
             } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
+                throw new NoPermissionException( ResumePermissionError::UPDATE );
             }
         } elseif (! $resume->validateToken()) {
-            throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
+            throw new NoPermissionException( ResumePermissionError::UPDATE );
         }
 
         // Finally, we'll save the properties of the resume in the database and

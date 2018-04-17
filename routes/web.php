@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+
 Route::name('resumes.')->prefix('resumes')->group(function () {
     Route::get('/new', 'ResumeController@createResume')->name('create');
     Route::post('/new', 'ResumeController@storeResume')->name('store');
@@ -22,10 +24,10 @@ Route::name('resumes.')->prefix('resumes')->group(function () {
     Route::get('/', 'ResumeController@showAllResumes')->name('all');
 });
 
-Route::name('users.')->prefix('users')->group(function () {
-    Route::get('/{user_id}/resumes', 'ResumeController@showAllResumes')->where(['user_id' => '[0-9]+'])->name('resumes');
+Route::name('users.')->prefix('profile')->group(function () {
+    Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->where(['username' => '[a-z0-9]+'])->name('resumes');
 });
 
 Route::get('/', function () {
     return view('pages.index');
-});
+})->name('index');

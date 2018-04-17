@@ -224,18 +224,16 @@ class ResumeController extends Controller implements ResumeInterface
             // random user and assign it the resume since we always need to
             // assign a user to the resume and hence we're restricted to it.
             if ($request->has('registration_email') && $request->has('registration_pass')) {
-                $username = User::generateUsername();
                 $password = $request->input('registration_pass');
 
-                $author = User::create([
+                $author = app('\App\Http\Controllers\Auth\RegisterController')->create([
                     'email'    => $request->input('registration_email'),
                     'name'     => $request->input('registration_name'),
-                    'password' => Hash::make($password),
-                    'username' => $username
+                    'password' => $password
                 ]);
 
                 Auth::attempt([
-                    'username' => $username,
+                    'username' => $author->username,
                     'password' => $password
                 ]);
             } else {

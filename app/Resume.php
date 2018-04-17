@@ -80,7 +80,7 @@ class Resume extends Model implements ResumeTokenInterface
      * @return bool
      */
     public function validateToken(): bool {
-        if (! $this->token->exists()) {
+        if (! $this->token()->exists()) {
             return false;
         }
 

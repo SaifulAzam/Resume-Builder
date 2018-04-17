@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -63,11 +64,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
             'username' => User::generateUsername()
         ]);
+
+        // Fire an event for the new registration of the user so the
+        // listeners can perform their task such as assigning role or
+        // mailing the user.
+        event(new UserRegistered($user));
+
+        return $user;
     }
 }

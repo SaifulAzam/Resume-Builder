@@ -18,47 +18,6 @@ use Illuminate\Support\Facades\Hash;
 class ResumeController extends Controller implements ResumeInterface
 {
     /**
-     * Displays a form to create a new resume.
-     *
-     * @param  Request $request
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
-     *
-     * @throws NoPermissionException
-     */
-    public function createResume(Request $request) {
-        $author = '';
-
-        // Determine whether the authenticated user is trying to create a resume
-        // or an unauthenticated user since we need to restrict the
-        // authenticated user from creating the resume if they have no
-        // permission.
-        if (Auth::check()) {
-            $author = Auth::user();
-            $user   = $author;
-
-            if (! $user->hasPermissionTo('create resumes')) {
-                throw new NoPermissionException( ResumePermissionError::CREATE );
-            }
-
-            // Next, we'll check whether the user is a person with super
-            // privileges and is trying to create a resume for some other user.
-            // And if so, then we'll change author of the resume.
-            if ($user->hasAnyRole(['administrator', 'moderator'])) {
-                if ($request->has('author_id')) {
-                    $author = User::findOrFail($request->input('author_id'));
-                }
-            }
-        }
-
-        return view('pages.resumes-single', [
-            'author'          => $author,
-            'form_action_url' => route('resumes.store'),
-            'title'           => 'New Resume'
-        ]);
-    }
-
-    /**
      * Deletes the resume with supplied resume id.
      *
      * @param  int $resume_id
@@ -175,6 +134,47 @@ class ResumeController extends Controller implements ResumeInterface
             'form_action_url' => route('resumes.update'),
             'template'        => $resume->template,
             'title'           => $resume->title
+        ]);
+    }
+
+    /**
+     * Displays a form to create a new resume.
+     *
+     * @param  Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     *
+     * @throws NoPermissionException
+     */
+    public function showResumeForm(Request $request) {
+        $author = '';
+
+        // Determine whether the authenticated user is trying to create a resume
+        // or an unauthenticated user since we need to restrict the
+        // authenticated user from creating the resume if they have no
+        // permission.
+        if (Auth::check()) {
+            $author = Auth::user();
+            $user   = $author;
+
+            if (! $user->hasPermissionTo('create resumes')) {
+                throw new NoPermissionException( ResumePermissionError::CREATE );
+            }
+
+            // Next, we'll check whether the user is a person with super
+            // privileges and is trying to create a resume for some other user.
+            // And if so, then we'll change author of the resume.
+            if ($user->hasAnyRole(['administrator', 'moderator'])) {
+                if ($request->has('author_id')) {
+                    $author = User::findOrFail($request->input('author_id'));
+                }
+            }
+        }
+
+        return view('pages.resumes-single', [
+            'author'          => $author,
+            'form_action_url' => route('resumes.store'),
+            'title'           => 'New Resume'
         ]);
     }
 

@@ -14,7 +14,7 @@
 Auth::routes();
 
 Route::name('resumes.')->prefix('resumes')->group(function () {
-    Route::get('/new', 'ResumeController@createResume')->name('create');
+    Route::get('/new', 'ResumeController@showResumeForm')->name('create');
     Route::post('/new', 'ResumeController@storeResume')->name('store');
 
     Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');

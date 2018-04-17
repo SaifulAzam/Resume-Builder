@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ResumeInterface;
+use App\Exceptions\NoPermissionException;
 use App\Resume;
 use App\User;
 use Illuminate\Http\Request;
@@ -18,9 +19,13 @@ class ResumeController extends Controller implements ResumeInterface
     /**
      * Displays a form to create a new resume.
      *
+     * @param  Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     *
+     * @throws NoPermissionException
      */
-    public function createResume() {
+    public function createResume(Request $request) {
         $author = '';
 
         // Determine whether the authenticated user is trying to create a resume
@@ -32,18 +37,11 @@ class ResumeController extends Controller implements ResumeInterface
             $user   = $author;
 
             if (! $user->hasPermissionTo('create resumes')) {
-                return redirect()->route('resumes.error')
-                    ->withErrors("message", "Sorry! You don't have permission to create a resume.")
-                    ->with([
-                        'author_id' => $request->input('author_id'),
-                        'data'      => $request->input('data'),
-                        'template'  => $request->input('template'),
-                        'title'     => $request->input('title'),
-                    ]);
+                throw new NoPermissionException("Sorry! You don't have permission to create a resume.");
             }
 
             // Next, we'll check whether the user is a person with super
-            // privillages and is trying to create a resume for some other user.
+            // privileges and is trying to create a resume for some other user.
             // And if so, then we'll change author of the resume.
             if ($user->hasAnyRole(['administrator', 'moderator'])) {
                 if ($request->has('author_id')) {
@@ -65,6 +63,8 @@ class ResumeController extends Controller implements ResumeInterface
      * @param  int $resume_id
      *
      * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws NoPermissionException
      * @throws \Exception
      */
     public function deleteResume($resume_id) {
@@ -73,21 +73,21 @@ class ResumeController extends Controller implements ResumeInterface
 
         // To delete a resume either the user should be authenticated or they
         // should hold the token with them to enjoy the resume owner
-        // privillages.
+        // privileges.
         if (Auth::check()) {
             $user = Auth::user();
 
             // Next, we'll determine whether the authenticated user has not
             // been restricted from deleting the resume. Or the user should be
-            // a person with super privillage if they are not the owner of the
+            // a person with super privilege if they are not the owner of the
             // resume.
             if (! $user->hasPermissionTo('delete resumes')) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+                throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
             } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+                throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
             }
         } elseif (! $resume->validateToken()) {
-          return redirect()->back()->withErrors("message", "Sorry! You don't have permission to delete a resume.");
+            throw new NoPermissionException("Sorry! You don't have permission to delete a resume.");
         }
 
         $resume->delete();
@@ -100,11 +100,12 @@ class ResumeController extends Controller implements ResumeInterface
      * @param  int $user_id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     *
+     * @throws NoPermissionException
      */
     public function showAllResumes($user_id = null) {
         if (! Auth::check()) {
-            return redirect()->route('resumes.error')
-                ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
         }
 
         $resumes = new Resume;
@@ -114,15 +115,13 @@ class ResumeController extends Controller implements ResumeInterface
         // user or all and then display the resumes accordingly.
         if (! empty($user_id)) {
             if ((int) $user->id !== (int) $user_id && ! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->route('resumes.error')
-                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
             }
 
             $resumes = $user->resumes;
         } else {
             if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->route('resumes.error')
-                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
             }
 
             $resumes = $resumes->all();
@@ -137,6 +136,8 @@ class ResumeController extends Controller implements ResumeInterface
      * @param  int $resume_id
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     *
+     * @throws NoPermissionException
      */
     public function showResume($resume_id) {
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
@@ -148,20 +149,17 @@ class ResumeController extends Controller implements ResumeInterface
             $user = Auth::user();
 
             // Next, we'll check whether the authenticated user is the owner of
-            // the resume or holds any super privillage and if none of the case
+            // the resume or holds any super privilege and if none of the case
             // apply then we'll restrict the user from accessing the resume and
             // redirect him with error messages to explain him better about the
             // issue.
             if ((int) $user->id !== (int) $author->id) {
-                return redirect()->route('resumes.error')
-                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
             } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->route('resumes.error')
-                    ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+                throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
             }
         } elseif (! $resume->validateToken()) {
-            return redirect()->route('resumes.error')
-                ->withErrors("message", "Sorry! You don't have permission to view the resumes.");
+            throw new NoPermissionException("Sorry! You don't have permission to view the resumes.");
         }
 
         return view('pages.resumes-single', [
@@ -179,6 +177,8 @@ class ResumeController extends Controller implements ResumeInterface
      * @param  \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws NoPermissionException
      */
     public function storeResume(Request $request) {
         $request->validate([
@@ -200,18 +200,11 @@ class ResumeController extends Controller implements ResumeInterface
             $user   = $author;
 
             if (! $user->hasPermissionTo('create resumes')) {
-                return redirect()->back()
-                    ->withErrors("message", "Sorry! You don't have permission to create a resume.")
-                    ->with([
-                        'author_id' => $request->input('author_id'),
-                        'data'      => $request->input('data'),
-                        'template'  => $request->input('template'),
-                        'title'     => $request->input('title'),
-                    ]);
+                throw new NoPermissionException("Sorry! You don't have permission to create a resume.");
             }
 
             // Next, we'll check whether the user is a person with super
-            // privillages and is trying to create a resume for some other user.
+            // privileges and is trying to create a resume for some other user.
             // And if so, then we'll change author of the resume.
             if ($user->hasAnyRole(['administrator', 'moderator'])) {
                 if ($request->has('author_id')) {
@@ -270,6 +263,8 @@ class ResumeController extends Controller implements ResumeInterface
      * @param  int $resume_id
      *
      * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws NoPermissionException
      */
     public function updateResume(Request $request, $resume_id) {
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
@@ -289,15 +284,15 @@ class ResumeController extends Controller implements ResumeInterface
 
             // Next, we'll determine whether the authenticated user has not
             // been restricted from updating the resume. Or the user should be
-            // a person with super privillage if they are not the owner of the
+            // a person with super privilege if they are not the owner of the
             // resume.
             if (! $user->hasPermissionTo('update resumes')) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to update a resume.");
+                throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
             } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                return redirect()->back()->withErrors("message", "Sorry! You don't have permission to update a resume.");
+                throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
             }
         } elseif (! $resume->validateToken()) {
-            return redirect()->back()->withErrors("message", "Sorry! You don't have permission to update a resume.");
+            throw new NoPermissionException("Sorry! You don't have permission to update a resume.");
         }
 
         // Finally, we'll save the properties of the resume in the database and

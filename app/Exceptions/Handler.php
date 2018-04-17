@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+/**
+ * @package Resume Builder
+ * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
+ */
 class Handler extends ExceptionHandler
 {
     /**

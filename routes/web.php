@@ -12,10 +12,6 @@
 */
 
 Route::name('resumes.')->prefix('resumes')->group(function () {
-    Route::get('/error', function () {
-        return view('pages.resumes-error');
-    })->name('error');
-
     Route::get('/new', 'ResumeController@createResume')->name('create');
     Route::post('/new', 'ResumeController@storeResume')->name('store');
 

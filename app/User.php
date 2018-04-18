@@ -53,14 +53,14 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function createRandomUser() {
-        $faker = new Faker();
-        $user  = self::generateUsername();
+        $faker    = new Faker();
+        $username = self::generateUsername();
 
-        return User::create([
+        return app('\App\Http\Controllers\Auth\RegisterController')->create([
             'email'    => self::generateEmail(),
-            'name'     => $user,
-            'username' => $user,
-            'password' => Hash::make($faker->sha256)
+            'name'     => $username,
+            'password' => $faker->sha256,
+            'username' => $username,
         ]);
     }
 

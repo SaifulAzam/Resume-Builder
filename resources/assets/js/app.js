@@ -18,8 +18,8 @@ import VuexStore from "./store";
  */
 
 Vue.component(
-	"example-component",
-	require("./components/ExampleComponent.vue")
+	"resume-form-component",
+	require("./components/ResumeFormComponent.vue")
 );
 
 const app = new Vue({

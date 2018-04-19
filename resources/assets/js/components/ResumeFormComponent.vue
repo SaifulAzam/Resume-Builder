@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form name="resume-new" :action="form_action_url" method="POST">
-            <input name="_token" type="hidden" :value="CSRF_TOKEN" />
+            <input name="_token" type="hidden" :value="$CSRF_TOKEN" />
 
             <div class="py-5 text-center">
                 <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
@@ -213,12 +213,6 @@
 
 <script>
 export default {
-	data() {
-		return {
-			CSRF_TOKEN: window.CSRF_TOKEN
-		};
-	},
-
 	props: {
 		form_action_url: String
 	}

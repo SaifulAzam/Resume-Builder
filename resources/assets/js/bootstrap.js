@@ -41,7 +41,8 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
 	window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
 
-	// Set the CSRF-Token to use it in the vue application.
+	// Set the CSRF-Token in the window to later bind it to Vue prototype in
+	// the application..
 	window.CSRF_TOKEN = token.content;
 } else {
 	console.error(

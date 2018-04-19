@@ -11,6 +11,11 @@ window.Vue = require("vue");
 // Import the packages required to keep the application running.
 import VuexStore from "./store";
 
+// Set the prototype properties to make them accessible by default to all
+// the components without having to import them explicitly.
+Vue.prototype.$CSRF_TOKEN = window.CSRF_TOKEN;
+Vue.prototype.$http = window.axios;
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

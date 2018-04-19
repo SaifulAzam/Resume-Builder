@@ -5,7 +5,6 @@ namespace App;
 use Faker\Generator as Faker;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
 /**

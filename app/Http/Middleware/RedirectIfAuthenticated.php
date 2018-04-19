@@ -5,6 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @package Resume Builder
+ * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
+ */
 class RedirectIfAuthenticated
 {
     /**
@@ -18,7 +22,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect()->route('users.resumes', ['username' => Auth::user()->username]);
         }
 
         return $next($request);

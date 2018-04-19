@@ -1,3 +1,10 @@
+/**
+ * Polyfills are required to make some of the functionalities work on the
+ * old browsers. This should be the first line of code to import than any
+ * other thing.
+ */
+import "es6-promise/auto";
+
 window._ = require("lodash");
 window.Popper = require("popper.js").default;
 

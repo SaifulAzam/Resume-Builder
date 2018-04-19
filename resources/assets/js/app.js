@@ -1,11 +1,4 @@
 /**
- * Polyfills are required to make some of the functionalities work on the
- * old browsers. This should be the first line of code to import than any
- * other thing.
- */
-import "es6-promise/auto";
-
-/**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
@@ -14,6 +7,9 @@ import "es6-promise/auto";
 require("./bootstrap");
 
 window.Vue = require("vue");
+
+// Import the packages required to keep the application running.
+import VuexStore from "./store";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,5 +23,6 @@ Vue.component(
 );
 
 const app = new Vue({
-	el: "#app"
+	el: "#app",
+	store: VuexStore
 });

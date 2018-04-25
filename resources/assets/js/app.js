@@ -23,11 +23,11 @@ Vue.prototype.$http = window.axios;
  */
 
 Vue.component(
-	"resume-form-component",
-	require("./components/ResumeFormComponent.vue")
+  "resume-form-component",
+  require("./components/ResumeFormComponent.vue")
 );
 
 const app = new Vue({
-	el: "#app",
-	store: VuexStore
+  el: "#app",
+  store: VuexStore
 });

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ResumePermissionError;
-use App\Contracts\ResumeInterface;
 use App\Exceptions\NoPermissionException;
 use App\Resume;
 use App\User;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
  * @package Resume Builder
  * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
  */
-class ResumeController extends Controller implements ResumeInterface
+class ResumeController extends Controller
 {
     /**
      * Deletes the resume with supplied resume id.

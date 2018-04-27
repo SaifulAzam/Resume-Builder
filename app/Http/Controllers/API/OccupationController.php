@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Contracts\OccupationApiInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OccupationResource;
 use App\Http\Resources\ResponsibilityResource;
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
  * @package Resume Builder
  * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
  */
-class OccupationController extends Controller implements OccupationApiInterface
+class OccupationController extends Controller
 {
     /**
      * Returns the list of occupations matching the searched query.

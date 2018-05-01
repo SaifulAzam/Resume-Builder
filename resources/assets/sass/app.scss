@@ -3,3 +3,8 @@
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
+
+[class*="fa-"] {
+    font-family: "fontawesome";
+    font-style: normal;
+}

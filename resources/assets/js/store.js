@@ -8,9 +8,9 @@ const debug = process.env.NODE_ENV !== "production";
 import ResumeStore from "./stores/ResumeStore";
 
 export default new Vuex.Store({
-	modules: {
-		ResumeStore
-	},
+  modules: {
+    ResumeStore
+  },
 
-	strict: debug
+  strict: debug
 });

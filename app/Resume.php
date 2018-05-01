@@ -53,7 +53,7 @@ class Resume extends Model implements ResumeTokenInterface
 
     /**
      * Generates a token that gets stored into the user's browser so they enjoy
-     * the same privillage as of the owner of the resume even when they're not
+     * the same privilege as of the owner of the resume even when they're not
      * authenticated in the application.
      *
      * @return \Illuminate\Database\Eloquent\Model

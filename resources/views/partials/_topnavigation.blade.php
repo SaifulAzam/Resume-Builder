@@ -1,7 +1,7 @@
 <header id="header" class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand font-weight-bold" href="{{ route('index') }}">{{ config('app.name', 'Resume Builder') }}</a>
+            <a class="navbar-brand" href="{{ route('index') }}">{{ config('app.name', 'Resume Builder') }}</a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

@@ -1,17 +1,10 @@
 const state = {
   /**
-   * The id of the resume to make active.
+   * The active resume.
    *
-   * @type {Number}
+   * @type {Object}
    */
-  active: undefined,
-
-  /**
-   * The list of resumes.
-   *
-   * @type {Array}
-   */
-  resumes: [],
+  resume: undefined,
 
   /**
    * Determines which template is active for the resume.
@@ -22,15 +15,32 @@ const state = {
 };
 
 const mutations = {
-  // 
+  /**
+   * Sets the current displayed resume properties.
+   *
+   * @param state
+   * @param resume
+   * @constructor
+   */
+  SET_RESUME: (state, resume) => {
+    state.resume = resume;
+  }
 };
 
 const actions = {
-  // 
+  /**
+   * Sets the current displayed resume properties.
+   *
+   * @param commit
+   * @param resume
+   */
+  setResume: ({commit}, resume) => {
+    commit('SET_RESUME', resume);
+  }
 };
 
 const getters = {
-  // 
+  resume: state => state.resume
 };
 
 export default {

@@ -67,7 +67,7 @@ class ResumeController extends Controller
         }
 
         $resumes = new Resume;
-        $user   = Auth::user();
+        $user    = Auth::user();
 
         $is_super_user = $user->hasAnyRole(['administrator', 'moderator']);
 

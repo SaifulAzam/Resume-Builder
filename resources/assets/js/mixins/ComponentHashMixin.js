@@ -12,7 +12,7 @@ export default {
     methods: {
         /**
          * Generates a unique hash for the component so it stays unique in the
-         * DOM even when the component is repeated under multiple times.
+         * DOM even when the component is repeated multiple times.
          *
          * @returns {Number}
          */

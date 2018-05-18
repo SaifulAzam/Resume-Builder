@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Fixes "Specified key was too long" error.
-	    Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
     }
 
     /**

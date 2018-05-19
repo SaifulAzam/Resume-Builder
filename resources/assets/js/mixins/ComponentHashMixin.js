@@ -1,34 +1,53 @@
 export default {
-    created() {
-        this.componentHash = this.generateComponentHash();
+  created() {
+    this.setSecretHash();
+  },
+
+  data() {
+    return {
+      secretHash: undefined
+    };
+  },
+
+  methods: {
+    /**
+     * Generates a secret hash for the component to make it unique even
+     * when repeated multiple times in other components.
+     * 
+     * @returns {Number}
+     */
+    generateSecretHash() {
+      let number = Math.ceil(Math.random() * 1000000000);
+      return number * number;
     },
 
-    data() {
-        return {
-            componentHash: undefined
-        };
+    /**
+     * Returns the hash version for the supplied element name.
+     * 
+     * @param   {String} element 
+     * @returns {String}
+     */
+    getHashedElementId(element) {
+      return element + "-" + this.getSecretHash();
     },
 
-    methods: {
-        /**
-         * Generates a unique hash for the component so it stays unique in the
-         * DOM even when the component is repeated multiple times.
-         *
-         * @returns {Number}
-         */
-        generateComponentHash() {
-            let randomNumber = Math.ceil(Math.random() * 1000000000);
-            return randomNumber * randomNumber;
-        },
+    /**
+     * Returns the generated secret hash of the component.
+     * 
+     * @returns {String}
+     */
+    getSecretHash() {
+      return this.secretHash;
+    },
 
-        /**
-         * Returns the Hashed ID generated for the element name supplied.
-         * 
-         * @param   {String} element 
-         * @returns {String}
-         */
-        getHashedComponentElementId(element) {
-            return element + '-' + this.componentHash;
-        }
+    /**
+     * Sets the secret hash for the component.
+     * 
+     * @param   {Number}
+     * @returns {void}
+     */
+    setSecretHash(hash = undefined) {
+      this.secretHash = hash === undefined ? this.generateSecretHash() : hash;
     }
+  }
 };

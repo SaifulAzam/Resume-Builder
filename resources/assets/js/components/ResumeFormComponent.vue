@@ -29,42 +29,7 @@
             <resume-navigation-tabs-component></resume-navigation-tabs-component>
 
             <div class="py-4">
-              <div class="tab-content">
-                <div class="tab-pane fade show active" id="nav-contact-info" role="tabpanel" aria-labelledby="nav-contact-info">
-                  <div class="row align-items-center mb-3">
-                    <div class="col-sm text-muted">
-                        <h6 class="font-weight-bold d-inline mr-2" style="border-bottom: 1px dashed;">Contact Info</h6>
-                        <i class="fa-pencil"></i>
-                    </div>
-                  </div>
-
-                  <form-contact-information-component></form-contact-information-component>
-
-                  <div class="form-group row">
-                    <div class="col-sm-4">
-                      <label class="col-form-label font-weight-bold">Register now?</label>
-
-                      <p class="text-muted card-text">Registered users enjoys the lifetime access to their resume.</p>
-                    </div>
-
-                    <div class="col-sm-8">
-                      <span class="custom-control custom-radio d-inline mr-3">
-                        <input id="yes" name="registration" class="custom-control-input" checked="" required="" type="radio">
-                        <label class="custom-control-label" for="yes">Yes</label>
-                      </span>
-
-                      <span class="custom-control custom-radio d-inline">
-                        <input id="no" name="registration" class="custom-control-input" required="" type="radio">
-                        <label class="custom-control-label" for="no">No</label>
-                      </span>
-                    </div>
-                  </div>
-
-                  <form-user-registration-component></form-user-registration-component>
-                </div>
-
-                <div class="tab-pane fade" id="nav-work-experience" role="tabpanel" aria-labelledby="nav-work-experience">...</div>
-              </div>
+              <resume-section-elements-component></resume-section-elements-component>
             </div>
 
             <div class="text-right">
@@ -78,19 +43,53 @@
 </template>
 
 <script>
-import FormContactInformationComponent from "./ResumeForms/ContactInformationComponent.vue";
-import FormUserRegistrationComponent from "./ResumeForms/UserRegistrationComponent.vue";
+import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
+import Resume from "./../classes/Resume.js";
+import Section from "./../classes/Section.js";
+import SectionType from "./../enums/SectionType.js";
+
 import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
+import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
 
 export default {
   components: {
-    FormContactInformationComponent,
-    FormUserRegistrationComponent,
-    ResumeNavigationTabsComponent
+    ResumeNavigationTabsComponent,
+    ResumeSectionElementsComponent
   },
 
-  mounted() {
-    //
+  mixins: [ComponentHashMixin],
+
+  created() {
+    let section1 = new Section({
+      data: [],
+      hash: this.getSecretHash(),
+      name: "Contact Info",
+      type: SectionType.CONTACT_INFORMATION
+    });
+
+    let section2 = new Section({
+      data: [],
+      hash: this.getSecretHash(),
+      name: "Work Experience",
+      type: SectionType.WORK_EXPERIENCE
+    });
+
+    let section3 = new Section({
+      data: [],
+      hash: this.getSecretHash(),
+      name: "Education",
+      type: SectionType.EDUCATION
+    });
+
+    let resume = new Resume({
+      name: "My Resume",
+      sections: [section1, section2, section3],
+      template: "Oxford",
+      created_at: "12-Nov-2017",
+      updated_at: "13-Nov-2017"
+    });
+
+    this.$store.dispatch("setResume", resume);
   },
 
   props: {

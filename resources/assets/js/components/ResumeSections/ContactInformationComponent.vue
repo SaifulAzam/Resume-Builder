@@ -20,16 +20,16 @@
             <div class="col-sm-8">
                 <span class="custom-control custom-radio d-inline mr-3">
                     <input name="registration" class="custom-control-input" checked="" required="" type="radio"
-                        v-bind:id="getHashedElementId('yes')">
+                           v-bind:id="getHashedElementId('yes')">
                     <label class="custom-control-label"
-                        v-bind:for="getHashedElementId('yes')">Yes</label>
+                           v-bind:for="getHashedElementId('yes')">Yes</label>
                 </span>
 
                 <span class="custom-control custom-radio d-inline">
                     <input name="registration" class="custom-control-input" required="" type="radio"
-                        v-bind:id="getHashedElementId('no')">
+                           v-bind:id="getHashedElementId('no')">
                     <label class="custom-control-label"
-                        v-bind:for="getHashedElementId('no')">No</label>
+                           v-bind:for="getHashedElementId('no')">No</label>
                 </span>
             </div>
         </div>
@@ -39,26 +39,26 @@
 </template>
 
 <script>
-import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
-import FormContactInformationComponent from "./../ResumeForms/ContactInformationComponent.vue";
-import FormUserRegistrationComponent from "./../ResumeForms/UserRegistrationComponent.vue";
+    import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import FormContactInformationComponent from "./../ResumeForms/ContactInformationComponent.vue";
+    import FormUserRegistrationComponent from "./../ResumeForms/UserRegistrationComponent.vue";
 
-export default {
-  components: {
-    FormContactInformationComponent,
-    FormUserRegistrationComponent
-  },
+    export default {
+        components: {
+            FormContactInformationComponent,
+            FormUserRegistrationComponent
+        },
 
-  created() {
-    if (this.section.getHash() !== undefined) {
-      this.setSecretHash(this.section.getHash());
-    }
-  },
+        created() {
+            if (this.section.getHash() !== undefined) {
+                this.setSecretHash(this.section.getHash());
+            }
+        },
 
-  mixins: [ComponentHashMixin],
+        mixins: [ComponentHashMixin],
 
-  props: {
-    section: Object
-  }
-};
+        props: {
+            section: Object
+        }
+    };
 </script>

@@ -59,7 +59,7 @@ export default class Section {
 
     /**
      * Returns the type of section.
-     * 
+     *
      * @returns  {String}
      * @memberof Section
      */

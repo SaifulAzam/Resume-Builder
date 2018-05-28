@@ -15,10 +15,11 @@ window.Popper = require("popper.js").default;
  */
 
 try {
-	window.$ = window.jQuery = require("jquery");
+    window.$ = window.jQuery = require("jquery");
 
-	require("bootstrap");
-} catch (e) {}
+    require("bootstrap");
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -39,15 +40,15 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-	window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
+    window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
 
-	// Set the CSRF-Token in the window to later bind it to Vue prototype in
-	// the application..
-	window.CSRF_TOKEN = token.content;
+    // Set the CSRF-Token in the window to later bind it to Vue prototype in
+    // the application..
+    window.CSRF_TOKEN = token.content;
 } else {
-	console.error(
-		"CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
-	);
+    console.error(
+        "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
+    );
 }
 
 /**

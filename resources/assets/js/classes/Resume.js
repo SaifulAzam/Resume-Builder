@@ -6,8 +6,8 @@
 export default class Resume {
     /**
      * Creates an instance of Resume.
-     * 
-     * @param    {Object} props 
+     *
+     * @param    {Object} props
      * @memberof Resume
      */
     constructor(props) {
@@ -21,7 +21,7 @@ export default class Resume {
 
     /**
      * Returns the name of the resume.
-     * 
+     *
      * @returns  {String}
      * @memberof Resume
      */
@@ -31,7 +31,7 @@ export default class Resume {
 
     /**
      * Returns the sections being used in the resume.
-     * 
+     *
      * @returns  {Array}
      * @memberof Resume
      */
@@ -41,7 +41,7 @@ export default class Resume {
 
     /**
      * Returns the template being used by the resume.
-     * 
+     *
      * @returns  {String}
      * @memberof Resume
      */

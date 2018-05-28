@@ -20,8 +20,8 @@
 
               <div class="col-sm">
                 <div class="buttons text-right">
-                  <button type="button" class="btn btn-secondary shadow-sm" data-toggle="button" aria-pressed="false" autocomplete="off">Preview</button>
-                  <button type="button" class="btn btn-primary shadow-sm" data-toggle="button" aria-pressed="false" autocomplete="off">Download</button>
+                  <button type="button" class="btn btn-secondary shadow-sm" data-toggle="button" aria-pressed="false">Preview</button>
+                  <button type="button" class="btn btn-primary shadow-sm" data-toggle="button" aria-pressed="false">Download</button>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="text-right">
-              <button type="button" class="btn btn-outline-secondary shadow-sm" data-toggle="button" aria-pressed="false" autocomplete="off">Continue <i class="fa-angle-right ml-1"></i></button>
+              <button type="button" class="btn btn-outline-secondary shadow-sm" data-toggle="button" aria-pressed="false">Continue <i class="fa-angle-right ml-1"></i></button>
             </div>
           </div>
         </div>

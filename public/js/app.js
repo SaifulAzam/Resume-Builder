@@ -51181,12 +51181,12 @@ var render = function() {
             ? _c("section-contact-information-component", {
                 attrs: { section: section }
               })
-            : section.getType() === _vm.SectionType.WORK_EXPERIENCE
-              ? _c("section-work-experience-component", {
+            : section.getType() === _vm.SectionType.EDUCATION
+              ? _c("section-education-component", {
                   attrs: { section: section }
                 })
-              : section.getType() === _vm.SectionType.EDUCATION
-                ? _c("section-education-component", {
+              : section.getType() === _vm.SectionType.WORK_EXPERIENCE
+                ? _c("section-work-experience-component", {
                     attrs: { section: section }
                   })
                 : _vm._e()

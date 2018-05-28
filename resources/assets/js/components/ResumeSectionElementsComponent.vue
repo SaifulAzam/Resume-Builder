@@ -13,13 +13,13 @@
                     v-bind:section="section"
                     v-if="section.getType() === SectionType.CONTACT_INFORMATION"></section-contact-information-component>
 
-            <section-work-experience-component
-                    v-bind:section="section"
-                    v-else-if="section.getType() === SectionType.WORK_EXPERIENCE"></section-work-experience-component>
-
             <section-education-component
                     v-bind:section="section"
                     v-else-if="section.getType() === SectionType.EDUCATION"></section-education-component>
+
+            <section-work-experience-component
+                    v-bind:section="section"
+                    v-else-if="section.getType() === SectionType.WORK_EXPERIENCE"></section-work-experience-component>
 
         </div>
     </div>

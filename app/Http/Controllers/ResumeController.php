@@ -41,8 +41,10 @@ class ResumeController extends Controller
             // resume.
             if (! $user->hasPermissionTo('delete resumes')) {
                 throw new NoPermissionException( ResumePermissionError::DELETE );
-            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException( ResumePermissionError::DELETE );
+            } elseif ((int) $user->id !== (int) $author->id) {
+                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                    throw new NoPermissionException( ResumePermissionError::UPDATE );
+                }
             }
         } elseif (! $resume->validateToken()) {
             throw new NoPermissionException( ResumePermissionError::DELETE );
@@ -118,9 +120,9 @@ class ResumeController extends Controller
             // redirect him with error messages to explain him better about the
             // issue.
             if ((int) $user->id !== (int) $author->id) {
-                throw new NoPermissionException( ResumePermissionError::VIEW );
-            } elseif (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException( ResumePermissionError::VIEW );
+                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                    throw new NoPermissionException( ResumePermissionError::VIEW );
+                }
             }
         } elseif (! $resume->validateToken()) {
             throw new NoPermissionException( ResumePermissionError::VIEW );
@@ -291,8 +293,10 @@ class ResumeController extends Controller
             // resume.
             if (! $user->hasPermissionTo('update resumes')) {
                 throw new NoPermissionException( ResumePermissionError::UPDATE );
-            } elseif ((int) $user->id !== (int) $author->id && $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException( ResumePermissionError::UPDATE );
+            } elseif ((int) $user->id !== (int) $author->id) {
+                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                    throw new NoPermissionException( ResumePermissionError::UPDATE );
+                }
             }
         } elseif (! $resume->validateToken()) {
             throw new NoPermissionException( ResumePermissionError::UPDATE );

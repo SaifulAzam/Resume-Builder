@@ -38,6 +38,16 @@ const mutations = {
     },
 
     /**
+     * Updates the name of the resume.
+     *
+     * @param state
+     * @param name
+     */
+    UPDATE_RESUME_NAME: (state, name) => {
+        state.resume.setName(name);
+    },
+
+    /**
      * Updates the name of the section of the index.
      *
      * @param state
@@ -74,6 +84,16 @@ const actions = {
      */
     setResume: ({commit}, resume) => {
         commit('SET_RESUME', resume);
+    },
+
+    /**
+     * Updates the name of the resume.
+     *
+     * @param commit
+     * @param name
+     */
+    updateResumeName: ({commit}, name) => {
+        commit('UPDATE_RESUME_NAME', name);
     },
 
     /**

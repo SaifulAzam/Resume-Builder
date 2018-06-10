@@ -8,12 +8,10 @@
                     <div class="card-body p-4">
                         <div class="row align-items-center">
                             <div class="col-sm">
-                                <h5 class="font-weight-bold d-inline my-0 mr-2" style="border-bottom: 1px dashed;">My
-                                    Resume</h5>
-
-                                <a class="btn btn-light" href="#" role="button">
-                                    <i class="fa-pencil"></i>
-                                </a>
+                                <resume-title-component
+                                        v-bind:isHighlighted="true"
+                                        v-bind:title="resume.getName()"
+                                        v-on:title-updated="updateResumeName"></resume-title-component>
                             </div>
 
                             <div class="col-sm-4">
@@ -53,21 +51,30 @@
 </template>
 
 <script>
-    import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
+    import {mapGetters} from "vuex";
+
     import Resume from "./../classes/Resume.js";
     import Section from "./../classes/Section.js";
     import SectionType from "./../enums/SectionType.js";
 
+    import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
+    import UpdateResumeNameMixin from "./../mixins/UpdateResumeNameMixin.js";
     import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
     import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
+    import ResumeTitleComponent from "./ResumeTitleComponent.vue";
 
     export default {
         components: {
             ResumeNavigationTabsComponent,
-            ResumeSectionElementsComponent
+            ResumeSectionElementsComponent,
+            ResumeTitleComponent
         },
 
-        mixins: [ComponentHashMixin],
+        computed: {
+            ...mapGetters(["resume"])
+        },
+
+        mixins: [ComponentHashMixin, UpdateResumeNameMixin],
 
         created() {
             let section1 = new Section({

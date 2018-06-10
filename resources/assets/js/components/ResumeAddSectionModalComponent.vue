@@ -54,6 +54,7 @@
                     new Section({
                         data: [],
                         hash: this.generateSecretHash(),
+                        is_default: false,
                         name: "New Section",
                         type: SectionType.EDUCATION
                     })

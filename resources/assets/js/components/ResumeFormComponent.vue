@@ -70,6 +70,7 @@
             let section1 = new Section({
                 data: [],
                 hash: this.generateSecretHash(),
+                is_default: true,
                 name: "Contact Info",
                 type: SectionType.CONTACT_INFORMATION
             });
@@ -77,6 +78,7 @@
             let section2 = new Section({
                 data: [],
                 hash: this.generateSecretHash(),
+                is_default: true,
                 name: "Work Experience",
                 type: SectionType.WORK_EXPERIENCE
             });
@@ -84,6 +86,7 @@
             let section3 = new Section({
                 data: [],
                 hash: this.generateSecretHash(),
+                is_default: true,
                 name: "Education",
                 type: SectionType.EDUCATION
             });
@@ -91,6 +94,7 @@
             let section4 = new Section({
                 data: [],
                 hash: this.generateSecretHash(),
+                is_default: true,
                 name: "Additional Skills",
                 type: SectionType.ADDITIONAL_SKILLS
             });

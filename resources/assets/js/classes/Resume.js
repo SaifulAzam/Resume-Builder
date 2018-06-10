@@ -10,12 +10,12 @@ export default class Resume {
      * @param props
      */
     constructor(props) {
-        this.name = props.name;
-        this.sections = props.sections;
-        this.template = props.template;
+        this.setName(props.name);
+        this.setSections(props.sections);
+        this.setTemplate(props.template);
 
-        this.created_at = props.created_at;
-        this.updated_at = props.updated_at;
+        this.setCreatedAt(props.created_at);
+        this.setUpdatedAt(props.updated_at);
     }
 
     /**
@@ -52,5 +52,50 @@ export default class Resume {
      */
     getTemplate() {
         return this.template;
+    }
+
+    /**
+     * Sets the created_at timestamp of the resume.
+     *
+     * @param created_at
+     */
+    setCreatedAt(created_at) {
+        this.created_at = created_at;
+    }
+
+    /**
+     * Sets the name of the resume.
+     *
+     * @param name
+     */
+    setName(name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the sections of the resume.
+     *
+     * @param sections
+     */
+    setSections(sections) {
+        this.sections = sections;
+    }
+
+    /**
+     * Sets the template of the resume.
+     *
+     * @param template
+     */
+    setTemplate(template) {
+        this.template = template;
+    }
+
+    /**
+     * Sets the updated_at timestamp of the resume.
+     *
+     * @param updated_at
+     */
+    setUpdatedAt(updated_at) {
+        this.updated_at = updated_at;
     }
 };

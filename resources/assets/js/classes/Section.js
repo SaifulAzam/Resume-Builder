@@ -9,10 +9,11 @@ export default class Section {
      * @param props
      */
     constructor(props) {
-        this.data = props.data;
-        this.hash = props.hash;
-        this.name = props.name;
-        this.type = props.type;
+        this.setData(props.data);
+        this.setHash(props.hash);
+        this.setIsDefault(props.is_default);
+        this.setName(props.name);
+        this.setType(props.type);
     }
 
     /**
@@ -31,6 +32,15 @@ export default class Section {
      */
     getData() {
         return this.data;
+    }
+
+    /**
+     * Returns the is_default property of the section.
+     *
+     * @returns {boolean|*}
+     */
+    getIsDefault() {
+        return this.is_default;
     }
 
     /**
@@ -58,5 +68,50 @@ export default class Section {
      */
     getType() {
         return this.type;
+    }
+
+    /**
+     * Sets the data of the section.
+     *
+     * @param data
+     */
+    setData(data) {
+        this.data = data;
+    }
+
+    /**
+     * Sets the is_default property of the section.
+     *
+     * @param is_default
+     */
+    setIsDefault(is_default) {
+        this.is_default = (is_default === true);
+    }
+
+    /**
+     * Sets the hash for the section.
+     *
+     * @param hash
+     */
+    setHash(hash) {
+        this.hash = hash;
+    }
+
+    /**
+     * Sets the name for the section.
+     *
+     * @param name
+     */
+    setName(name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the type of the section.
+     *
+     * @param type
+     */
+    setType(type) {
+        this.type = type;
     }
 }

@@ -576,7 +576,8 @@ module.exports = {
         module.exports = g;
 
 
-        /***/ }),
+        /***/
+    }),
 /* 4 */
     /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
@@ -26086,25 +26087,23 @@ module.exports = Vue;
          */
         var Section = function () {
             /**
-             * Creates an instance of Section.
-             *
-             * @param    {Object} props
-             * @memberof Section
+             * Creates a new instance of Section.
+             * @param props
              */
             function Section(props) {
                 _classCallCheck(this, Section);
 
-                this.data = props.data;
-                this.hash = props.hash;
-                this.name = props.name;
-                this.type = props.type;
+                this.setData(props.data);
+                this.setHash(props.hash);
+                this.setIsDefault(props.is_default);
+                this.setName(props.name);
+                this.setType(props.type);
             }
 
             /**
-             * Returns the hash generated for the section.
+             * Returns the hash set for the component.
              *
-             * @returns  {String}
-             * @memberof Section
+             * @returns {string}
              */
 
 
@@ -26115,10 +26114,9 @@ module.exports = Vue;
                 }
 
                 /**
-                 * Returns the data stored by the section.
+                 * Returns the data of the section.
                  *
-                 * @returns  {Object}
-                 * @memberof Section
+                 * @returns {Object}
                  */
 
             }, {
@@ -26128,10 +26126,21 @@ module.exports = Vue;
                 }
 
                 /**
-                 * Returns the secret hash generated for the section.
+                 * Returns the is_default property of the section.
                  *
-                 * @returns  {String}
-                 * @memberof Section
+                 * @returns {boolean|*}
+                 */
+
+            }, {
+                key: "getIsDefault",
+                value: function getIsDefault() {
+                    return this.is_default;
+                }
+
+                /**
+                 * Returns the hash set for the section.
+                 *
+                 * @returns {string}
                  */
 
             }, {
@@ -26143,8 +26152,7 @@ module.exports = Vue;
                 /**
                  * Returns the name of the section.
                  *
-                 * @returns  {String}
-                 * @memberof Section
+                 * @returns {string}
                  */
 
             }, {
@@ -26154,16 +26162,75 @@ module.exports = Vue;
                 }
 
                 /**
-                 * Returns the type of section.
+                 * Returns the type of the section.
                  *
-                 * @returns  {String}
-                 * @memberof Section
+                 * @returns {string}
                  */
 
             }, {
                 key: "getType",
                 value: function getType() {
                     return this.type;
+                }
+
+                /**
+                 * Sets the data of the section.
+                 *
+                 * @param data
+                 */
+
+            }, {
+                key: "setData",
+                value: function setData(data) {
+                    this.data = data;
+                }
+
+                /**
+                 * Sets the is_default property of the section.
+                 *
+                 * @param is_default
+                 */
+
+            }, {
+                key: "setIsDefault",
+                value: function setIsDefault(is_default) {
+                    this.is_default = is_default === true;
+                }
+
+                /**
+                 * Sets the hash for the section.
+                 *
+                 * @param hash
+                 */
+
+            }, {
+                key: "setHash",
+                value: function setHash(hash) {
+                    this.hash = hash;
+                }
+
+                /**
+                 * Sets the name for the section.
+                 *
+                 * @param name
+                 */
+
+            }, {
+                key: "setName",
+                value: function setName(name) {
+                    this.name = name;
+                }
+
+                /**
+                 * Sets the type of the section.
+                 *
+                 * @param type
+                 */
+
+            }, {
+                key: "setType",
+                value: function setType(type) {
+                    this.type = type;
                 }
             }]);
 
@@ -49941,6 +50008,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -49951,57 +50025,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    ResumeNavigationTabsComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeNavigationTabsComponent_vue___default.a,
-    ResumeSectionElementsComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeSectionElementsComponent_vue___default.a
-  },
+            components: {
+                ResumeNavigationTabsComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeNavigationTabsComponent_vue___default.a,
+                ResumeSectionElementsComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeSectionElementsComponent_vue___default.a
+            },
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */]],
+            mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */]],
 
-  created: function created() {
-    var section1 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
-      data: [],
-        hash: this.generateSecretHash(),
-      name: "Contact Info",
-      type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].CONTACT_INFORMATION
-    });
+            created: function created() {
+                var section1 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Contact Info",
+                    type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].CONTACT_INFORMATION
+                });
 
-    var section2 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
-      data: [],
-        hash: this.generateSecretHash(),
-      name: "Work Experience",
-      type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].WORK_EXPERIENCE
-    });
+                var section2 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Work Experience",
+                    type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].WORK_EXPERIENCE
+                });
 
-    var section3 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
-      data: [],
-        hash: this.generateSecretHash(),
-      name: "Education",
-      type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].EDUCATION
-    });
+                var section3 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Education",
+                    type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].EDUCATION
+                });
 
-      var section4 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
-          data: [],
-          hash: this.generateSecretHash(),
-          name: "Additional Skills",
-          type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].ADDITIONAL_SKILLS
-      });
+                var section4 = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Additional Skills",
+                    type: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].ADDITIONAL_SKILLS
+                });
 
-    var resume = new __WEBPACK_IMPORTED_MODULE_1__classes_Resume_js__["a" /* default */]({
-      name: "My Resume",
-        sections: [section1, section2, section3, section4],
-      template: "Oxford",
-      created_at: "12-Nov-2017",
-      updated_at: "13-Nov-2017"
-    });
+                var resume = new __WEBPACK_IMPORTED_MODULE_1__classes_Resume_js__["a" /* default */]({
+                    name: "My Resume",
+                    sections: [section1, section2, section3, section4],
+                    template: "Oxford",
+                    created_at: "12-Nov-2017",
+                    updated_at: "13-Nov-2017"
+                });
 
-    this.$store.dispatch("setResume", resume);
-  },
+                this.$store.dispatch("setResume", resume);
+            },
 
 
-  props: {
-    form_action_url: String
-  }
+            props: {
+                form_action_url: String
+            }
 });
 
 /***/ }),
@@ -50020,29 +50098,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var Resume = function () {
     /**
-     * Creates an instance of Resume.
+     * Creates a new instance of Resume.
      *
-     * @param    {Object} props
-     * @memberof Resume
+     * @param props
      */
     function Resume(props) {
         _classCallCheck(this, Resume);
 
-        this.name = props.name;
-        this.sections = props.sections;
-        this.template = props.template;
+        this.setName(props.name);
+        this.setSections(props.sections);
+        this.setTemplate(props.template);
 
-        this.created_at = props.created_at;
-        this.updated_at = props.updated_at;
+        this.setCreatedAt(props.created_at);
+        this.setUpdatedAt(props.updated_at);
     }
 
     /**
-     * Adds a new section to the resume.
+     * Adds a new section in the resume.
      *
-     * @param    {Section} section
-     *
-     * @returns  {Void}
-     * @memberof Resume
+     * @param section
      */
 
 
@@ -50053,10 +50127,9 @@ var Resume = function () {
         }
 
         /**
-         * Returns the name of the resume.
+         * Returns the name set for the resume.
          *
-         * @returns  {String}
-         * @memberof Resume
+         * @returns {string}
          */
 
     }, {
@@ -50066,10 +50139,9 @@ var Resume = function () {
         }
 
         /**
-         * Returns the sections being used in the resume.
+         * Returns the sections of the resume.
          *
-         * @returns  {Array}
-         * @memberof Resume
+         * @returns {Array}
          */
 
     }, {
@@ -50079,16 +50151,75 @@ var Resume = function () {
         }
 
         /**
-         * Returns the template being used by the resume.
+         * Returns the template of the resume.
          *
-         * @returns  {String}
-         * @memberof Resume
+         * @returns {string}
          */
 
     }, {
         key: "getTemplate",
         value: function getTemplate() {
             return this.template;
+        }
+
+        /**
+         * Sets the created_at timestamp of the resume.
+         *
+         * @param created_at
+         */
+
+    }, {
+        key: "setCreatedAt",
+        value: function setCreatedAt(created_at) {
+            this.created_at = created_at;
+        }
+
+        /**
+         * Sets the name of the resume.
+         *
+         * @param name
+         */
+
+    }, {
+        key: "setName",
+        value: function setName(name) {
+            this.name = name;
+        }
+
+        /**
+         * Sets the sections of the resume.
+         *
+         * @param sections
+         */
+
+    }, {
+        key: "setSections",
+        value: function setSections(sections) {
+            this.sections = sections;
+        }
+
+        /**
+         * Sets the template of the resume.
+         *
+         * @param template
+         */
+
+    }, {
+        key: "setTemplate",
+        value: function setTemplate(template) {
+            this.template = template;
+        }
+
+        /**
+         * Sets the updated_at timestamp of the resume.
+         *
+         * @param updated_at
+         */
+
+    }, {
+        key: "setUpdatedAt",
+        value: function setUpdatedAt(updated_at) {
+            this.updated_at = updated_at;
         }
     }]);
 
@@ -50154,6 +50285,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(7);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
 //
 //
 //
@@ -50539,6 +50671,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
 
 
         /* harmony default export */
@@ -50591,7 +50726,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         _vm._v(" "),
                         _c("p", {staticClass: "text-muted card-text"}, [
                             _vm._v(
-                                'Write each individual bullet point, then click the "Save and Add Another" button.'
+                                'Write each individual bullet point, then click the "Save and Add\n                Another" button.'
                             )
                         ])
                     ]),
@@ -50638,7 +50773,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                         }
                                     }
                                 },
-                                [_vm._v("Save and Add Another")]
+                                [_vm._v("Save and Add Another\n                ")]
                             )
                         ])
                     ])
@@ -50702,7 +50837,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                     "\n                No option is added yet. Please type something and click on"
                                 ),
                                 _c("br"),
-                                _c("strong", [_vm._v('"Save and Add Another"')]),
+                                _c("strong", [
+                                    _vm._v('"Save and Add\n                Another"')
+                                ]),
                                 _vm._v(" button to add one.\n            ")
                             ]
                             )
@@ -52217,6 +52354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -52869,7 +53007,7 @@ var render = function() {
                               },
                               [
                                   _vm._v(
-                                      "Enter job keyword to add pre-written responsibilities"
+                                      "Enter job keyword to add pre-written\n                        responsibilities"
                                   )
                               ]
                           )
@@ -53023,7 +53161,7 @@ var staticRenderFns = [
             staticClass: "font-weight-bold d-inline my-0 mr-2",
             staticStyle: { "border-bottom": "1px dashed" }
           },
-          [_vm._v("My Resume")]
+            [_vm._v("My\n                                Resume")]
         ),
         _vm._v(" "),
         _c("i", { staticClass: "fa-pencil" })
@@ -53060,7 +53198,7 @@ var staticRenderFns = [
                 "aria-pressed": "false"
               }
             },
-            [_vm._v("Preview")]
+              [_vm._v("Preview\n                                ")]
           ),
           _vm._v(" "),
           _c(
@@ -53073,7 +53211,7 @@ var staticRenderFns = [
                 "aria-pressed": "false"
               }
             },
-            [_vm._v("Download")]
+              [_vm._v("Download\n                                ")]
           )
         ])
       ])
@@ -53205,6 +53343,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -53216,6 +53359,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.$store.dispatch('addSection', new __WEBPACK_IMPORTED_MODULE_1__classes_Section_js__["a" /* default */]({
                         data: [],
                         hash: this.generateSecretHash(),
+                        is_default: false,
                         name: "New Section",
                         type: __WEBPACK_IMPORTED_MODULE_2__enums_SectionType_js__["a" /* default */].EDUCATION
                     }));
@@ -53272,7 +53416,7 @@ var render = function() {
                                                 }
                                             }
                                         },
-                                        [_vm._v("Add Section")]
+                                        [_vm._v("Add Section\n                        ")]
                                     )
                                 ])
                             ])
@@ -53338,7 +53482,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("p", {staticClass: "text-muted"}, [
                         _vm._v(
-                            "Add a copy of the professional experience section. This is helpful for job candidates who want to have two professional experience sections, such as students with internship and work experience."
+                            "Add a copy of the professional experience section. This is helpful for\n                            job candidates who want to have two professional experience sections, such as students\n                            with internship and work experience."
                         )
                     ])
                 ])
@@ -53360,5 +53504,6 @@ if (false) {
 
 // removed by extract-text-webpack-plugin
 
-        /***/ })
+        /***/
+    })
 /******/ ]);

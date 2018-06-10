@@ -2,9 +2,9 @@
     <div>
         <div class="row align-items-center mb-3">
             <div class="col-sm-12 text-muted">
-                <h6 class="font-weight-bold d-inline mr-2" style="border-bottom: 1px dashed;"
-                    v-text="section.getName()"></h6>
-                <i class="fa-pencil"></i>
+                <resume-title-component
+                        v-bind:title="section.getName()"
+                        v-on:title-updated="updateSectionName"></resume-title-component>
             </div>
         </div>
 
@@ -19,16 +19,20 @@
 <script>
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
+    import UpdateSectionNameMixin from "./../../mixins/UpdateSectionNameMixin.js";
+    import ResumeTitleComponent from "./../ResumeTitleComponent.vue";
     import FormBulletListComponent from "./../ResumeForms/BulletListComponent.vue";
 
     export default {
         components: {
-            FormBulletListComponent
+            FormBulletListComponent,
+            ResumeTitleComponent
         },
 
-        mixins: [ComponentHashMixin, ResetSectionHashMixin],
+        mixins: [ComponentHashMixin, ResetSectionHashMixin, UpdateSectionNameMixin],
 
         props: {
+            index: Number,
             section: Object
         }
     };

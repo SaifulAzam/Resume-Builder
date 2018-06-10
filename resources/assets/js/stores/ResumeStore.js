@@ -35,6 +35,23 @@ const mutations = {
      */
     SET_RESUME: (state, resume) => {
         state.resume = resume;
+    },
+
+    /**
+     * Updates the name of the section of the index.
+     *
+     * @param state
+     * @param data
+     * @constructor
+     */
+    UPDATE_SECTION_NAME: (state, data) => {
+        let index = data.index;
+        let name = data.name;
+
+        let sections = state.resume.getSections();
+        let section = sections[index];
+
+        section.setName(name);
     }
 };
 
@@ -57,6 +74,16 @@ const actions = {
      */
     setResume: ({commit}, resume) => {
         commit('SET_RESUME', resume);
+    },
+
+    /**
+     * Updates the name of the section of the index.
+     *
+     * @param commit
+     * @param data
+     */
+    updateSectionName: ({commit}, data) => {
+        commit('UPDATE_SECTION_NAME', data);
     }
 };
 

@@ -10,7 +10,10 @@
                             <div class="col-sm">
                                 <h5 class="font-weight-bold d-inline my-0 mr-2" style="border-bottom: 1px dashed;">My
                                     Resume</h5>
-                                <i class="fa-pencil"></i>
+
+                                <a class="btn btn-light" href="#" role="button">
+                                    <i class="fa-pencil"></i>
+                                </a>
                             </div>
 
                             <div class="col-sm-4">

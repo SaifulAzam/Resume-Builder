@@ -10,18 +10,22 @@
                 v-bind:class="{'show': index === 0, 'active': index === 0}">
 
             <section-additional-skills-component
+                    v-bind:index="index"
                     v-bind:section="section"
                     v-if="section.getType() === SectionType.ADDITIONAL_SKILLS"></section-additional-skills-component>
 
             <section-contact-information-component
+                    v-bind:index="index"
                     v-bind:section="section"
                     v-else-if="section.getType() === SectionType.CONTACT_INFORMATION"></section-contact-information-component>
 
             <section-education-component
+                    v-bind:index="index"
                     v-bind:section="section"
                     v-else-if="section.getType() === SectionType.EDUCATION"></section-education-component>
 
             <section-work-experience-component
+                    v-bind:index="index"
                     v-bind:section="section"
                     v-else-if="section.getType() === SectionType.WORK_EXPERIENCE"></section-work-experience-component>
 

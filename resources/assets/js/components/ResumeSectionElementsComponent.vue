@@ -2,16 +2,20 @@
     <div class="tab-content">
         <div
                 class="tab-pane fade" role="tabpanel"
-                v-for="(section, index) in resume.sections"
+                v-for="(section, index) in resume.getSections()"
                 v-bind:index="index"
                 v-bind:key="index"
                 v-bind:aria-labelledby="section.getComponentHash()"
                 v-bind:id="section.getComponentHash()"
                 v-bind:class="{'show': index === 0, 'active': index === 0}">
 
+            <section-additional-skills-component
+                    v-bind:section="section"
+                    v-if="section.getType() === SectionType.ADDITIONAL_SKILLS"></section-additional-skills-component>
+
             <section-contact-information-component
                     v-bind:section="section"
-                    v-if="section.getType() === SectionType.CONTACT_INFORMATION"></section-contact-information-component>
+                    v-else-if="section.getType() === SectionType.CONTACT_INFORMATION"></section-contact-information-component>
 
             <section-education-component
                     v-bind:section="section"
@@ -30,12 +34,14 @@
 
     import SectionType from "./../enums/SectionType.js";
 
+    import SectionAdditionalSkillsComponent from "./ResumeSections/AdditionalSkillsComponent.vue";
     import SectionContactInformationComponent from "./ResumeSections/ContactInformationComponent.vue";
     import SectionEducationComponent from "./ResumeSections/EducationComponent.vue";
     import SectionWorkExperienceComponent from "./ResumeSections/WorkExperienceComponent.vue";
 
     export default {
         components: {
+            SectionAdditionalSkillsComponent,
             SectionContactInformationComponent,
             SectionEducationComponent,
             SectionWorkExperienceComponent

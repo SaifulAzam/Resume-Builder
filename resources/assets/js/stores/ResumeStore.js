@@ -16,6 +16,17 @@ const state = {
 
 const mutations = {
     /**
+     * Adds a new section to the resume.
+     *
+     * @param state
+     * @param section
+     * @constructor
+     */
+    ADD_SECTION: (state, section) => {
+        state.resume.addSection(section);
+    },
+
+    /**
      * Sets the current displayed resume properties.
      *
      * @param state
@@ -28,6 +39,16 @@ const mutations = {
 };
 
 const actions = {
+    /**
+     * Adds a new section to the resume.
+     *
+     * @param commit
+     * @param section
+     */
+    addSection: ({commit}, section) => {
+        commit('ADD_SECTION', section);
+    },
+
     /**
      * Sets the current displayed resume properties.
      *

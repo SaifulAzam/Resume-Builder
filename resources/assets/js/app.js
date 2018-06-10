@@ -27,6 +27,11 @@ Vue.component(
     require("./components/ResumeFormComponent.vue")
 );
 
+Vue.component(
+    "resume-add-section-modal-component",
+    require("./components/ResumeAddSectionModalComponent.vue")
+);
+
 const app = new Vue({
     el: "#app",
     store: VuexStore

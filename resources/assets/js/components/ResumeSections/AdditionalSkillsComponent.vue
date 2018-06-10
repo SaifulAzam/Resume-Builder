@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row align-items-center mb-3">
-            <div class="col-sm text-muted">
+            <div class="col-sm-12 text-muted">
                 <h6 class="font-weight-bold d-inline mr-2" style="border-bottom: 1px dashed;"
                     v-text="section.getName()"></h6>
                 <i class="fa-pencil"></i>
@@ -10,7 +10,6 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form-school-information-component></form-school-information-component>
                 <form-bullet-list-component></form-bullet-list-component>
             </div>
         </div>
@@ -21,12 +20,10 @@
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
     import FormBulletListComponent from "./../ResumeForms/BulletListComponent.vue";
-    import FormSchoolInformationComponent from "./../ResumeForms/SchoolInformationComponent.vue";
 
     export default {
         components: {
-            FormBulletListComponent,
-            FormSchoolInformationComponent
+            FormBulletListComponent
         },
 
         mixins: [ComponentHashMixin, ResetSectionHashMixin],

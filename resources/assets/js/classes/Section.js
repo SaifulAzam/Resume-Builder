@@ -5,10 +5,8 @@
  */
 export default class Section {
     /**
-     * Creates an instance of Section.
-     *
-     * @param    {Object} props
-     * @memberof Section
+     * Creates a new instance of Section.
+     * @param props
      */
     constructor(props) {
         this.data = props.data;
@@ -18,30 +16,27 @@ export default class Section {
     }
 
     /**
-     * Returns the hash generated for the section.
+     * Returns the hash set for the component.
      *
-     * @returns  {String}
-     * @memberof Section
+     * @returns {string}
      */
     getComponentHash() {
         return this.getType() + "-" + this.getHash();
     }
 
     /**
-     * Returns the data stored by the section.
+     * Returns the data of the section.
      *
-     * @returns  {Object}
-     * @memberof Section
+     * @returns {Object}
      */
     getData() {
         return this.data;
     }
 
     /**
-     * Returns the secret hash generated for the section.
+     * Returns the hash set for the section.
      *
-     * @returns  {String}
-     * @memberof Section
+     * @returns {string}
      */
     getHash() {
         return this.hash;
@@ -50,18 +45,16 @@ export default class Section {
     /**
      * Returns the name of the section.
      *
-     * @returns  {String}
-     * @memberof Section
+     * @returns {string}
      */
     getName() {
         return this.name;
     }
 
     /**
-     * Returns the type of section.
+     * Returns the type of the section.
      *
-     * @returns  {String}
-     * @memberof Section
+     * @returns {string}
      */
     getType() {
         return this.type;

@@ -5,10 +5,9 @@
  */
 export default class Resume {
     /**
-     * Creates an instance of Resume.
+     * Creates a new instance of Resume.
      *
-     * @param    {Object} props
-     * @memberof Resume
+     * @param props
      */
     constructor(props) {
         this.name = props.name;
@@ -20,30 +19,36 @@ export default class Resume {
     }
 
     /**
-     * Returns the name of the resume.
+     * Adds a new section in the resume.
      *
-     * @returns  {String}
-     * @memberof Resume
+     * @param section
+     */
+    addSection(section) {
+        this.sections.push(section);
+    }
+
+    /**
+     * Returns the name set for the resume.
+     *
+     * @returns {string}
      */
     getName() {
         return this.name;
     }
 
     /**
-     * Returns the sections being used in the resume.
+     * Returns the sections of the resume.
      *
-     * @returns  {Array}
-     * @memberof Resume
+     * @returns {Array}
      */
     getSections() {
         return this.sections;
     }
 
     /**
-     * Returns the template being used by the resume.
+     * Returns the template of the resume.
      *
-     * @returns  {String}
-     * @memberof Resume
+     * @returns {string}
      */
     getTemplate() {
         return this.template;

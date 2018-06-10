@@ -17,5 +17,7 @@
                 </div>
             </div>
         </div>
+
+        <resume-add-section-modal-component></resume-add-section-modal-component>
     </section>
 @endsection

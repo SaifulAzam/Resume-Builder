@@ -5,6 +5,7 @@
             v-bind:index="index"
             v-bind:key="index">
             <a class="nav-link" data-toggle="tab" role="tab" aria-selected="true"
+               v-bind:class="{'active': index === 0, 'show': index === 0}"
                v-bind:href="'#' + section.getComponentHash()"
                v-bind:aria-controls="section.getComponentHash()"
                v-text="section.getName()"></a>

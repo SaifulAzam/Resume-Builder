@@ -50382,6 +50382,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -50408,6 +50409,7 @@ var render = function() {
           [
             _c("a", {
               staticClass: "nav-link",
+              class: { active: index === 0, show: index === 0 },
               attrs: {
                 "data-toggle": "tab",
                 role: "tab",

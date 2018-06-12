@@ -86,7 +86,7 @@ export default class Section {
      * @param is_default
      */
     setIsDefault(is_default) {
-        this.is_default = (is_default === true);
+        this.is_default = is_default === true;
     }
 
     /**

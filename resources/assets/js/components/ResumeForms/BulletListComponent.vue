@@ -61,7 +61,7 @@
         data() {
             return {
                 items: [],
-                text: ''
+                text: ""
             };
         },
 
@@ -72,7 +72,7 @@
                 }
 
                 this.items.push(this.text);
-                this.text = '';
+                this.text = "";
             },
 
             removeItem(index) {

@@ -54,22 +54,21 @@
                     hash: this.generateSecretHash(),
                     is_default: false,
                     name: "New Section",
-                    type: SectionType.EDUCATION
+                    type: SectionType.CUSTOM_INFORMATION
                 });
 
-                this.$store.dispatch('addSection', section)
-                    .then(() => {
-                        // We need to wait for the section to be rendered
-                        // on the screen. Once, the section is added we
-                        // can safely switch to it so user can fill in
-                        // their information on the newly added section.
-                        this.$nextTick(() => {
-                            let sectionHash = "#" + section.getComponentHash();
-                            let navItem     = 'li.nav-item a[href="' + sectionHash + '"]';
+                this.$store.dispatch("addSection", section).then(() => {
+                    // We need to wait for the section to be rendered
+                    // on the screen. Once, the section is added we
+                    // can safely switch to it so user can fill in
+                    // their information on the newly added section.
+                    this.$nextTick(() => {
+                        let sectionHash = "#" + section.getComponentHash();
+                        let navItem = 'li.nav-item a[href="' + sectionHash + '"]';
 
-                            $(navItem).tab('show');
-                        });
+                        $(navItem).tab("show");
                     });
+                });
             }
         },
 

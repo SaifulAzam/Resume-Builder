@@ -12,7 +12,6 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form-school-information-component></form-school-information-component>
                 <form-bullet-list-component></form-bullet-list-component>
             </div>
         </div>
@@ -26,12 +25,10 @@
     import HandleSectionNameMixin from "./../../mixins/HandleSectionNameMixin.js";
     import ResumeTitleComponent from "./../ResumeTitleComponent.vue";
     import FormBulletListComponent from "./../ResumeForms/BulletListComponent.vue";
-    import FormSchoolInformationComponent from "./../ResumeForms/SchoolInformationComponent.vue";
 
     export default {
         components: {
             FormBulletListComponent,
-            FormSchoolInformationComponent,
             ResumeTitleComponent
         },
 

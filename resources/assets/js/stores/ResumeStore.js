@@ -27,6 +27,19 @@ const mutations = {
     },
 
     /**
+     * Deletes the section from the resume.
+     *
+     * @param state
+     * @param index
+     * @constructor
+     */
+    DELETE_SECTION: (state, index) => {
+        let sections = state.resume.getSections();
+
+        sections.splice(index, 1);
+    },
+
+    /**
      * Sets the current displayed resume properties.
      *
      * @param state
@@ -72,8 +85,18 @@ const actions = {
      * @param commit
      * @param section
      */
-    addSection: ({commit}, section) => {
-        commit('ADD_SECTION', section);
+    addSection: ({ commit }, section) => {
+        commit("ADD_SECTION", section);
+    },
+
+    /**
+     * Deletes the section from the resume.
+     *
+     * @param commit
+     * @param index
+     */
+    deleteSection: ({ commit }, index) => {
+        commit("DELETE_SECTION", index);
     },
 
     /**
@@ -82,8 +105,8 @@ const actions = {
      * @param commit
      * @param resume
      */
-    setResume: ({commit}, resume) => {
-        commit('SET_RESUME', resume);
+    setResume: ({ commit }, resume) => {
+        commit("SET_RESUME", resume);
     },
 
     /**
@@ -92,8 +115,8 @@ const actions = {
      * @param commit
      * @param name
      */
-    updateResumeName: ({commit}, name) => {
-        commit('UPDATE_RESUME_NAME', name);
+    updateResumeName: ({ commit }, name) => {
+        commit("UPDATE_RESUME_NAME", name);
     },
 
     /**
@@ -102,8 +125,8 @@ const actions = {
      * @param commit
      * @param data
      */
-    updateSectionName: ({commit}, data) => {
-        commit('UPDATE_SECTION_NAME', data);
+    updateSectionName: ({ commit }, data) => {
+        commit("UPDATE_SECTION_NAME", data);
     }
 };
 

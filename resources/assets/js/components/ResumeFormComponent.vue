@@ -9,6 +9,7 @@
                         <div class="row align-items-center">
                             <div class="col-sm">
                                 <resume-title-component
+                                        v-bind:isDeletable="false"
                                         v-bind:isHighlighted="true"
                                         v-bind:title="resume.getName()"
                                         v-on:title-updated="updateResumeName"></resume-title-component>
@@ -51,14 +52,14 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import { mapGetters } from "vuex";
 
     import Resume from "./../classes/Resume.js";
     import Section from "./../classes/Section.js";
     import SectionType from "./../enums/SectionType.js";
 
     import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
-    import UpdateResumeNameMixin from "./../mixins/UpdateResumeNameMixin.js";
+    import HandleResumeNameMixin from "./../mixins/HandleResumeNameMixin.js";
     import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
     import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
     import ResumeTitleComponent from "./ResumeTitleComponent.vue";
@@ -74,7 +75,7 @@
             ...mapGetters(["resume"])
         },
 
-        mixins: [ComponentHashMixin, UpdateResumeNameMixin],
+        mixins: [ComponentHashMixin, HandleResumeNameMixin],
 
         created() {
             let section1 = new Section({

@@ -47,7 +47,8 @@ export default {
          * @returns {void}
          */
         setSecretHash(hash = undefined) {
-            this.secretHash = hash === undefined ? this.generateSecretHash() : hash;
+            this.secretHash =
+                hash === undefined ? this.generateSecretHash() : hash;
         }
     }
 };

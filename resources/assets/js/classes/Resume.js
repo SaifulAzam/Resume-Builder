@@ -98,4 +98,4 @@ export default class Resume {
     setUpdatedAt(updated_at) {
         this.updated_at = updated_at;
     }
-};
+}

@@ -19,6 +19,11 @@
                     v-bind:section="section"
                     v-else-if="section.getType() === SectionType.CONTACT_INFORMATION"></section-contact-information-component>
 
+            <section-custom-information-component
+                    v-bind:index="index"
+                    v-bind:section="section"
+                    v-else-if="section.getType() === SectionType.CUSTOM_INFORMATION"></section-custom-information-component>
+
             <section-education-component
                     v-bind:index="index"
                     v-bind:section="section"
@@ -34,12 +39,13 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import { mapGetters } from "vuex";
 
     import SectionType from "./../enums/SectionType.js";
 
     import SectionAdditionalSkillsComponent from "./ResumeSections/AdditionalSkillsComponent.vue";
     import SectionContactInformationComponent from "./ResumeSections/ContactInformationComponent.vue";
+    import SectionCustomInformationComponent from "./ResumeSections/CustomInformationComponent.vue";
     import SectionEducationComponent from "./ResumeSections/EducationComponent.vue";
     import SectionWorkExperienceComponent from "./ResumeSections/WorkExperienceComponent.vue";
 
@@ -47,6 +53,7 @@
         components: {
             SectionAdditionalSkillsComponent,
             SectionContactInformationComponent,
+            SectionCustomInformationComponent,
             SectionEducationComponent,
             SectionWorkExperienceComponent
         },

@@ -6,6 +6,7 @@
 export default class Section {
     /**
      * Creates a new instance of Section.
+     *
      * @param props
      */
     constructor(props) {

@@ -63,10 +63,7 @@
                     // can safely switch to it so user can fill in
                     // their information on the newly added section.
                     this.$nextTick(() => {
-                        let sectionHash = "#" + section.getComponentHash();
-                        let navItem = 'li.nav-item a[href="' + sectionHash + '"]';
-
-                        $(navItem).tab("show");
+                        this.$store.dispatch('setActiveSection', section);
                     });
                 });
             }

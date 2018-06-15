@@ -28,6 +28,33 @@ export default class Resume {
     }
 
     /**
+     * Returns the active section of the resume.
+     *
+     * @param getIndex  Determines whether to return the whole section or its index.
+     *
+     * @returns {*}
+     */
+    getActiveSection(getIndex = false) {
+        const sections = this.getSections();
+        const index = sections.findIndex(section => {
+            const sectionHash = "#" + section.getComponentHash();
+            const navItem = '#resume-sections-tabs li.nav-item a[href="' + sectionHash + '"]';
+
+            if ($(navItem).hasClass('active')) {
+                return true;
+            }
+
+            return false;
+        });
+
+        if (index === -1) {
+            return "undefined";
+        }
+
+        return getIndex ? index : sections[index];
+    }
+
+    /**
      * Returns the name set for the resume.
      *
      * @returns {string}
@@ -52,6 +79,18 @@ export default class Resume {
      */
     getTemplate() {
         return this.template;
+    }
+
+    /**
+     * Makes the section active in the resume.
+     *
+     * @param section
+     */
+    setActiveSection(section) {
+        const sectionHash = "#" + section.getComponentHash();
+        const navItem = '#resume-sections-tabs li.nav-item a[href="' + sectionHash + '"]';
+
+        $(navItem).tab("show");
     }
 
     /**

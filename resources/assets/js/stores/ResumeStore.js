@@ -51,6 +51,16 @@ const mutations = {
     },
 
     /**
+     * Sets the supplied section as active for the resume.
+     *
+     * @param state
+     * @param section
+     */
+    SET_ACTIVE_SECTION: (state, section) => {
+        state.resume.setActiveSection(section);
+    },
+
+    /**
      * Updates the name of the resume.
      *
      * @param state
@@ -107,6 +117,16 @@ const actions = {
      */
     setResume: ({ commit }, resume) => {
         commit("SET_RESUME", resume);
+    },
+
+    /**
+     * Sets the supplied section as active for the resume.
+     *
+     * @param commit
+     * @param section
+     */
+    setActiveSection: ({ commit }, section) => {
+        commit("SET_ACTIVE_SECTION", section);
     },
 
     /**

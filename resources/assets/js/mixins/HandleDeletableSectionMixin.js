@@ -25,21 +25,12 @@ export default {
                             const sections = this.resume.getSections();
 
                             let section = sections[index];
-                            let sectionHash = undefined;
-                            let navItem = undefined;
 
                             if ("undefined" !== typeof section) {
-                                sectionHash = "#" + section.getComponentHash();
-                                navItem =
-                                    'li.nav-item a[href="' + sectionHash + '"]';
+                                this.$store.dispatch('setActiveSection', section);
                             } else {
-                                section = sections[--index];
-                                sectionHash = "#" + section.getComponentHash();
-                                navItem =
-                                    'li.nav-item a[href="' + sectionHash + '"]';
+                                this.$store.dispatch('setActiveSection', sections[--index]);
                             }
-
-                            $(navItem).tab("show");
                         });
                     });
                 }

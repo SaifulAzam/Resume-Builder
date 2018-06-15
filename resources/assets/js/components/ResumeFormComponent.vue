@@ -16,9 +16,8 @@
                             </div>
 
                             <div class="col-sm-4">
-                                <div class="progress" style="height: 10px;">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%"
-                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div id="resume-completion-progress" class="progress" style="height: 10px;">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%;"></div>
                                 </div>
                             </div>
 
@@ -59,6 +58,7 @@
     import SectionType from "./../enums/SectionType.js";
 
     import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
+    import HandleProgressBarMixin from "./../mixins/HandleProgressBarMixin.js";
     import HandleResumeNameMixin from "./../mixins/HandleResumeNameMixin.js";
     import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
     import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
@@ -75,7 +75,7 @@
             ...mapGetters(["resume"])
         },
 
-        mixins: [ComponentHashMixin, HandleResumeNameMixin],
+        mixins: [ComponentHashMixin, HandleProgressBarMixin, HandleResumeNameMixin],
 
         created() {
             let section1 = new Section({
@@ -119,6 +119,10 @@
             });
 
             this.$store.dispatch("setResume", resume);
+
+            this.$nextTick(() => {
+                this.$store.dispatch("setActiveSection", section1);
+            });
         },
 
         props: {

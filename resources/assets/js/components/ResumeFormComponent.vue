@@ -23,12 +23,9 @@
 
                             <div class="col-sm">
                                 <div class="buttons text-right">
-                                    <button type="button" class="btn btn-secondary shadow-sm" data-toggle="button"
-                                            aria-pressed="false">Preview
-                                    </button>
-                                    <button type="button" class="btn btn-primary shadow-sm" data-toggle="button"
-                                            aria-pressed="false">Download
-                                    </button>
+                                    <button type="button" class="btn btn-secondary shadow-sm" aria-pressed="false">Preview</button>
+
+                                    <button type="button" class="btn btn-primary shadow-sm" aria-pressed="false">Download</button>
                                 </div>
                             </div>
                         </div>
@@ -39,9 +36,14 @@
                             <resume-section-elements-component></resume-section-elements-component>
                         </div>
 
-                        <div class="text-right">
-                            <button type="button" class="btn btn-outline-secondary shadow-sm" data-toggle="button"
-                                    aria-pressed="false">Continue <i class="fa-angle-right ml-1"></i></button>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary shadow-sm" aria-pressed="false"
+                                v-on:click="handlePreviousSectionButton"
+                                v-bind:disabled="isBackButtonDisabled"><i class="fa-angle-left mr-1"></i> Back</button>
+
+                            <button type="button" class="btn btn-outline-secondary shadow-sm" aria-pressed="false"
+                                v-on:click="handleNextSectionButton"
+                                v-bind:disabled="isNextButtonDisabled">Next <i class="fa-angle-right ml-1"></i></button>
                         </div>
                     </div>
                 </div>
@@ -58,7 +60,7 @@
     import SectionType from "./../enums/SectionType.js";
 
     import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
-    import HandleProgressBarMixin from "./../mixins/HandleProgressBarMixin.js";
+    import HandleBootstrapElementsMixin from "./../mixins/HandleBootstrapElementsMixin.js";
     import HandleResumeNameMixin from "./../mixins/HandleResumeNameMixin.js";
     import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
     import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
@@ -75,7 +77,11 @@
             ...mapGetters(["resume"])
         },
 
-        mixins: [ComponentHashMixin, HandleProgressBarMixin, HandleResumeNameMixin],
+        mixins: [
+            ComponentHashMixin,
+            HandleBootstrapElementsMixin,
+            HandleResumeNameMixin
+        ],
 
         created() {
             let section1 = new Section({
@@ -120,6 +126,8 @@
 
             this.$store.dispatch("setResume", resume);
 
+            // We can mark the first section as active for the resume
+            // after it has been successfully rendered on the screen.
             this.$nextTick(() => {
                 this.$store.dispatch("setActiveSection", section1);
             });

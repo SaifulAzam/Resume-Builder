@@ -15,7 +15,7 @@
                           v-model="text"></textarea>
 
                 <div class="text-right py-3">
-                    <button type="button" class="btn btn-light shadow-sm" data-toggle="button" aria-pressed="false"
+                    <button type="button" class="btn btn-light shadow-sm" aria-pressed="false"
                             v-on:click="addItem()">Save and Add Another
                     </button>
                 </div>

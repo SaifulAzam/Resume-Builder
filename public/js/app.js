@@ -50106,7 +50106,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_HandleProgressBarMixin_js__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue__);
@@ -50116,6 +50116,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
 //
 //
 //
@@ -50191,7 +50193,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_HandleProgressBarMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__["a" /* default */]],
 
     created: function created() {
         var _this = this;
@@ -50238,6 +50240,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         this.$store.dispatch("setResume", resume);
 
+        // We can mark the first section as active for the resume
+        // after it has been successfully rendered on the screen.
         this.$nextTick(function () {
             _this.$store.dispatch("setActiveSection", section1);
         });
@@ -50443,40 +50447,7 @@ var Resume = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Resume);
 
 /***/ }),
-/* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(4);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
-
-    mounted: function mounted() {
-        var _this = this;
-
-        !function ($) {
-            "use strict";
-
-            var progressbar = $("#resume-completion-progress").find("div");
-            var tabs = $("#resume-sections-tabs");
-
-            tabs.on("shown.bs.tab", '.nav-item a[data-toggle="tab"]', function () {
-                var activeSectionIndex = _this.resume.getActiveSection(true);
-                var totalSections = _this.resume.getSections().length;
-                var completion = Math.floor((activeSectionIndex + 1) / totalSections * 100);
-
-                progressbar.attr("aria-valuenow", completion);
-                progressbar.css({ width: completion + "%" });
-            });
-        }(window.jQuery);
-    }
-});
-
-/***/ }),
+/* 56 */,
 /* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -51325,11 +51296,7 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-light shadow-sm",
-              attrs: {
-                type: "button",
-                "data-toggle": "button",
-                "aria-pressed": "false"
-              },
+              attrs: { type: "button", "aria-pressed": "false" },
               on: {
                 click: function($event) {
                   _vm.addItem()
@@ -53898,7 +53865,41 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm._m(2)
+                _c("div", { staticClass: "d-flex justify-content-between" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-secondary shadow-sm",
+                      attrs: {
+                        type: "button",
+                        "aria-pressed": "false",
+                        disabled: _vm.isBackButtonDisabled
+                      },
+                      on: { click: _vm.handlePreviousSectionButton }
+                    },
+                    [
+                      _c("i", { staticClass: "fa-angle-left mr-1" }),
+                      _vm._v(" Back")
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-secondary shadow-sm",
+                      attrs: {
+                        type: "button",
+                        "aria-pressed": "false",
+                        disabled: _vm.isNextButtonDisabled
+                      },
+                      on: { click: _vm.handleNextSectionButton }
+                    },
+                    [
+                      _vm._v("Next "),
+                      _c("i", { staticClass: "fa-angle-right ml-1" })
+                    ]
+                  )
+                ])
               ],
               1
             )
@@ -53946,47 +53947,20 @@ var staticRenderFns = [
           "button",
           {
             staticClass: "btn btn-secondary shadow-sm",
-            attrs: {
-              type: "button",
-              "data-toggle": "button",
-              "aria-pressed": "false"
-            }
+            attrs: { type: "button", "aria-pressed": "false" }
           },
-          [_vm._v("Preview\n                                ")]
+          [_vm._v("Preview")]
         ),
         _vm._v(" "),
         _c(
           "button",
           {
             staticClass: "btn btn-primary shadow-sm",
-            attrs: {
-              type: "button",
-              "data-toggle": "button",
-              "aria-pressed": "false"
-            }
+            attrs: { type: "button", "aria-pressed": "false" }
           },
-          [_vm._v("Download\n                                ")]
+          [_vm._v("Download")]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-right" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-secondary shadow-sm",
-          attrs: {
-            type: "button",
-            "data-toggle": "button",
-            "aria-pressed": "false"
-          }
-        },
-        [_vm._v("Continue "), _c("i", { staticClass: "fa-angle-right ml-1" })]
-      )
     ])
   }
 ]
@@ -54264,6 +54238,110 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(4);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
+
+    data: function data() {
+        return {
+            isBackButtonDisabled: false,
+            isNextButtonDisabled: false
+        };
+    },
+
+
+    methods: {
+        /**
+         * Makes the next section active of the resume.
+         *
+         * @returns {void}
+         */
+        handleNextSectionButton: function handleNextSectionButton() {
+            var sections = this.resume.getSections();
+            var index = this.resume.getActiveSection(true);
+
+            this.$store.dispatch("setActiveSection", sections[++index]);
+        },
+
+
+        /**
+         * Makes the previous section active of the resume.
+         *
+         * @returns {void}
+         */
+        handlePreviousSectionButton: function handlePreviousSectionButton() {
+            var sections = this.resume.getSections();
+            var index = this.resume.getActiveSection(true);
+
+            this.$store.dispatch("setActiveSection", sections[--index]);
+        },
+
+
+        /**
+         * Mutates the state of the section navigation buttons according
+         * to the currently active section.
+         *
+         * @returns {void}
+         */
+        mutateNavigationButtonsState: function mutateNavigationButtonsState() {
+            var activeSectionIndex = this.resume.getActiveSection(true);
+            var totalSections = this.resume.getSections().length - 1;
+
+            this.isBackButtonDisabled = activeSectionIndex <= 0 ? true : false;
+            this.isNextButtonDisabled = activeSectionIndex >= totalSections ? true : false;
+        },
+
+
+        /**
+         * Mutates the completion percentage of the progress bar according
+         * to the currently active section.
+         *
+         * @returns {void}
+         */
+        mutateProgressBar: function mutateProgressBar() {
+            var progressbar = $("#resume-completion-progress").find("div");
+
+            var activeSectionIndex = this.resume.getActiveSection(true);
+            var totalSections = this.resume.getSections().length;
+            var completion = Math.floor((activeSectionIndex + 1) / totalSections * 100);
+
+            progressbar.attr("aria-valuenow", completion);
+            progressbar.css({ width: completion + "%" });
+        }
+    },
+
+    mounted: function mounted() {
+        var _this = this;
+
+        !function ($) {
+            "use strict";
+
+            var tabs = $("#resume-sections-tabs");
+
+            // We'll wait for the section to render on the screen and then
+            // mutate the progress bar and navigation buttons accordingly.
+            tabs.on("shown.bs.tab", '.nav-item a[data-toggle="tab"]', function () {
+                _this.mutateNavigationButtonsState();
+                _this.mutateProgressBar();
+            });
+        }(window.jQuery);
+    }
+});
 
 /***/ })
 /******/ ]);

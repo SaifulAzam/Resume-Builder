@@ -55299,11 +55299,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         addSection: function addSection() {
             var _this = this;
 
+            var sectionName = this.normalizedSectionName(this.selectedSectionType);
+
             var section = new __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__["a" /* default */]({
                 data: [],
                 hash: this.generateSecretHash(),
                 is_default: false,
-                name: "New Section",
+                name: sectionName,
                 type: this.selectedSectionType
             });
 

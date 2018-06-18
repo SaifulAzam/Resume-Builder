@@ -84,11 +84,15 @@
 
         methods: {
             addSection() {
+                const sectionName = this.normalizedSectionName(
+                    this.selectedSectionType
+                );
+
                 let section = new Section({
                     data: [],
                     hash: this.generateSecretHash(),
                     is_default: false,
-                    name: "New Section",
+                    name: sectionName,
                     type: this.selectedSectionType
                 });
 

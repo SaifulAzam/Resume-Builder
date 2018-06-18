@@ -4,6 +4,7 @@
             <div class="col-sm text-muted">
                 <resume-title-component
                         v-bind:isDeletable="section.getIsDefault() === false"
+                        v-bind:isEditable="section.getHasNameEditable()"
                         v-bind:title="section.getName()"
                         v-on:handle-delete="handleDeleteSection"
                         v-on:title-updated="updateSectionName"></resume-title-component>

@@ -13,6 +13,7 @@ export default class Section {
         this.setData(props.data);
         this.setHash(props.hash);
         this.setIsDefault(props.is_default);
+        this.setHasNameEditable(props.has_name_editable);
         this.setName(props.name);
         this.setType(props.type);
     }
@@ -36,7 +37,17 @@ export default class Section {
     }
 
     /**
-     * Returns the is_default property of the section.
+     * Returns the hash set for the section.
+     *
+     * @returns {string}
+     */
+    getHash() {
+        return this.hash;
+    }
+
+    /**
+     * Determines whether the section is default and should be loaded for
+     * the fresh resume.
      *
      * @returns {boolean|*}
      */
@@ -45,12 +56,12 @@ export default class Section {
     }
 
     /**
-     * Returns the hash set for the section.
+     * Determines whether the name of the section is editable.
      *
-     * @returns {string}
+     * @returns {boolean|*}
      */
-    getHash() {
-        return this.hash;
+    getHasNameEditable() {
+        return this.has_name_editable;
     }
 
     /**
@@ -81,12 +92,22 @@ export default class Section {
     }
 
     /**
-     * Sets the is_default property of the section.
+     * Determines whether the section is default and should be loaded for
+     * the fresh resume.
      *
      * @param is_default
      */
     setIsDefault(is_default) {
-        this.is_default = is_default === true;
+        this.is_default = is_default ? true : false;
+    }
+
+    /**
+     * Determines whether the name of the section is editable.
+     *
+     * @param is_editable
+     */
+    setHasNameEditable(is_editable) {
+        this.has_name_editable = is_editable === false ? false : true;
     }
 
     /**

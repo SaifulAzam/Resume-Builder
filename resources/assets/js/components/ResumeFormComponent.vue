@@ -86,6 +86,7 @@
         created() {
             let section1 = new Section({
                 data: [],
+                has_name_editable: false,
                 hash: this.generateSecretHash(),
                 is_default: true,
                 name: "Contact Info",

@@ -12,7 +12,8 @@
 
             <div class="d-inline">
                 <a class="btn btn-sm btn-light" href="#" role="button"
-                   v-on:click="showTitleInputField = true">
+                   v-on:click="showTitleInputField = true"
+                   v-if="isEditable === true">
                     <i class="fa-pencil"></i>
                 </a>
 
@@ -104,6 +105,11 @@
 
         props: {
             isDeletable: {
+                default: true,
+                type: Boolean
+            },
+
+            isEditable: {
                 default: true,
                 type: Boolean
             },

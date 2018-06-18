@@ -49958,14 +49958,7 @@ var state = {
      *
      * @type {Object}
      */
-    resume: undefined,
-
-    /**
-     * Determines which template is active for the resume.
-     *
-     * @type {String}
-     */
-    template: undefined
+    resume: undefined
 };
 
 var mutations = {

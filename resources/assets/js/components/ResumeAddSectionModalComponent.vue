@@ -77,7 +77,7 @@
 
         data() {
             return {
-                selectedSectionType: SectionType.WORK_EXPERIENCE,
+                selectedSectionType: SectionType.AFFILIATIONS,
                 SectionType: SectionType
             };
         },

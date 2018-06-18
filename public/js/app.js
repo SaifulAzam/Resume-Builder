@@ -55655,7 +55655,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     data: function data() {
         return {
-            selectedSectionType: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].WORK_EXPERIENCE,
+            selectedSectionType: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].AFFILIATIONS,
             SectionType: __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */]
         };
     },

@@ -548,6 +548,174 @@ module.exports = {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(66)
+/* template */
+var __vue_template__ = __webpack_require__(67)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeTitleComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f9ef609", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f9ef609", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    created: function created() {
+        if (this.section.getHash() !== undefined) {
+            this.setSecretHash(this.section.getHash());
+        }
+    }
+});
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
+
+    methods: {
+        handleDeleteSection: function handleDeleteSection(value) {
+            var _this = this;
+
+            if (true === value) {
+                var confirmation = confirm('Are you sure, you want to delete "' + this.section.getName() + '" section? This action can not be undone!');
+
+                if (true === confirmation) {
+                    var index = this.index;
+
+                    this.$store.dispatch("deleteSection", index).then(function () {
+                        // We need to wait for the DOM to update. Once,
+                        // the DOM is updated, We can proceed and activate
+                        // the new section to display on the screen.
+                        _this.$nextTick(function () {
+                            var sections = _this.resume.getSections();
+
+                            var section = sections[index];
+
+                            if ("undefined" !== typeof section) {
+                                _this.$store.dispatch('setActiveSection', section);
+                            } else {
+                                _this.$store.dispatch('setActiveSection', sections[--index]);
+                            }
+                        });
+                    });
+                }
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    methods: {
+        updateSectionName: function updateSectionName(name) {
+            this.$store.dispatch("updateSectionName", {
+                index: this.index,
+                name: name
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(68)
+/* template */
+var __vue_template__ = __webpack_require__(69)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeForms\\BulletListComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-74ef8b7c", Component.options)
+  } else {
+    hotAPI.reload("data-v-74ef8b7c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1492,7 +1660,7 @@ var index_esm = {
 
 
 /***/ }),
-/* 4 */
+/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1519,185 +1687,25 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(66)
-/* template */
-var __vue_template__ = __webpack_require__(67)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\ResumeTitleComponent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f9ef609", Component.options)
-  } else {
-    hotAPI.reload("data-v-1f9ef609", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    created: function created() {
-        if (this.section.getHash() !== undefined) {
-            this.setSecretHash(this.section.getHash());
-        }
-    }
-});
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
-
-    methods: {
-        handleDeleteSection: function handleDeleteSection(value) {
-            var _this = this;
-
-            if (true === value) {
-                var confirmation = confirm('Are you sure, you want to delete "' + this.section.getName() + '" section? This action can not be undone!');
-
-                if (true === confirmation) {
-                    var index = this.index;
-
-                    this.$store.dispatch("deleteSection", index).then(function () {
-                        // We need to wait for the DOM to update. Once,
-                        // the DOM is updated, We can proceed and activate
-                        // the new section to display on the screen.
-                        _this.$nextTick(function () {
-                            var sections = _this.resume.getSections();
-
-                            var section = sections[index];
-
-                            if ("undefined" !== typeof section) {
-                                _this.$store.dispatch('setActiveSection', section);
-                            } else {
-                                _this.$store.dispatch('setActiveSection', sections[--index]);
-                            }
-                        });
-                    });
-                }
-            }
-        }
-    }
-});
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-    methods: {
-        updateSectionName: function updateSectionName(name) {
-            this.$store.dispatch("updateSectionName", {
-                index: this.index,
-                name: name
-            });
-        }
-    }
-});
-
-/***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     ADDITIONAL_SKILLS: "additional-skills",
+    AFFILIATIONS: "affiliations",
+    AWARDS_AND_HONORS: "awards-and-honors",
+    CAREER_OBJECTIVE: "career-objective",
     CONTACT_INFORMATION: "contact-information",
+    CREDENTIALS_AND_LICENSES: "credentials-and-licenses",
     CUSTOM_INFORMATION: "custom-information",
     EDUCATION: "education",
+    ENDORSEMENTS: "endorsements",
+    HOBBIES: "hobbies",
+    PUBLICATIONS_AND_PRESENTATIONS: "publications-and-presentations",
+    QUALIFICATIONS_SUMMARY: "qualifications-summary",
     WORK_EXPERIENCE: "work-experience"
 });
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(68)
-/* template */
-var __vue_template__ = __webpack_require__(69)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\ResumeForms\\BulletListComponent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-74ef8b7c", Component.options)
-  } else {
-    hotAPI.reload("data-v-74ef8b7c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ }),
 /* 11 */
@@ -4520,7 +4528,7 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(9)))
 
 /***/ }),
 /* 14 */
@@ -26125,7 +26133,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(49).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(49).setImmediate))
 
 /***/ }),
 /* 21 */
@@ -26301,7 +26309,7 @@ var Section = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(23);
-module.exports = __webpack_require__(103);
+module.exports = __webpack_require__(121);
 
 
 /***/ }),
@@ -26337,7 +26345,7 @@ Vue.prototype.$http = window.axios;
 
 Vue.component("resume-form-component", __webpack_require__(54));
 
-Vue.component("resume-add-section-modal-component", __webpack_require__(100));
+Vue.component("resume-add-section-modal-component", __webpack_require__(118));
 
 var app = new Vue({
     el: "#app",
@@ -27614,7 +27622,7 @@ return Promise$1;
 
 //# sourceMappingURL=es6-promise.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(9)))
 
 /***/ }),
 /* 27 */
@@ -44727,7 +44735,7 @@ return Promise$1;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(28)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(28)(module)))
 
 /***/ }),
 /* 28 */
@@ -49646,7 +49654,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 50 */
@@ -49839,7 +49847,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(11)))
 
 /***/ }),
 /* 51 */
@@ -49848,7 +49856,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__stores_OptionStore__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__stores_ResumeStore__ = __webpack_require__(53);
 
@@ -49874,7 +49882,7 @@ var debug = "development" !== "production";
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__ = __webpack_require__(10);
 var _section_types_introd;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -49894,7 +49902,7 @@ var state = {
      *
      * @type {Object}
      */
-    section_types_introduction_messages: (_section_types_introd = {}, _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].CUSTOM_INFORMATION, ""), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].WORK_EXPERIENCE, "Add a copy of the professional experience section. This is helpful for job candidates who want to have two professional experience sections, such as students with internship and work experience."), _section_types_introd)
+    section_types_introduction_messages: (_section_types_introd = {}, _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].AFFILIATIONS, "There are essentially two primary types of affiliations ‐ professional and civic. It is beneficial to highlight both either together or separately, depending on the number of your affiliations and your occupation."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].AWARDS_AND_HONORS, "Awards and Honors may include awards relating to your academic achievements (especially important for entry level job candidates), professional accomplishments, and community contributions."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].CAREER_OBJECTIVE, "Today's career objective is quite different from the vague and canned career objectives common to so many malformed CVs from the past. A well worded career objective focuses on the employer's needs. It should be no longer than 1‐2 sentences."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].CREDENTIALS_AND_LICENSES, "A variety of occupations require specific academic credentials and licenses. These are typically in addition to a traditional college education. The importance of credentials and licenses depends on your occupation."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].ENDORSEMENTS, "Endorsements are snippets from a letter of recommendation. They are an effective way to add credibility to your resume and are especially suitable for career changers or those re‐entering the workforce after an extended hiatus."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].HOBBIES, "Hobbies describes what and how the person is and what he's most passionate about."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].PUBLICATIONS_AND_PRESENTATIONS, "If you have produced any professional writings or spoken publically, you should consider including a publications and presentations section. Only include this if it adds to your qualifications as a thought leader and expert in your field."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].QUALIFICATIONS_SUMMARY, "The qualifications summary section is a concise synopsis of your qualifications and achievements. It is for experienced professionals with sufficient experience, typically five or more years in one particular field."), _defineProperty(_section_types_introd, __WEBPACK_IMPORTED_MODULE_0__enums_SectionType_js__["a" /* default */].WORK_EXPERIENCE, "Add a copy of the professional experience section. This is helpful for job candidates who want to have two professional experience sections, such as students with internship and work experience."), _section_types_introd)
 };
 
 var getters = {
@@ -50103,7 +50111,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(55)
 /* template */
-var __vue_template__ = __webpack_require__(99)
+var __vue_template__ = __webpack_require__(117)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50147,10 +50155,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_Resume_js__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__ = __webpack_require__(58);
@@ -50158,7 +50166,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -50497,7 +50505,7 @@ var Resume = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -50657,7 +50665,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -50766,7 +50774,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(63)
 /* template */
-var __vue_template__ = __webpack_require__(98)
+var __vue_template__ = __webpack_require__(116)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50810,18 +50818,34 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums_SectionType_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums_SectionType_js__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ResumeSections_AdditionalSkillsComponent_vue__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ResumeSections_AdditionalSkillsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ResumeSections_AdditionalSkillsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ResumeSections_ContactInformationComponent_vue__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ResumeSections_ContactInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ResumeSections_ContactInformationComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeSections_CustomInformationComponent_vue__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeSections_CustomInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeSections_CustomInformationComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeSections_EducationComponent_vue__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeSections_EducationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeSections_EducationComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeSections_WorkExperienceComponent_vue__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeSections_WorkExperienceComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ResumeSections_WorkExperienceComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ResumeSections_AffiliationsComponent_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ResumeSections_AffiliationsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ResumeSections_AffiliationsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeSections_AwardsAndHonorsComponent_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeSections_AwardsAndHonorsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeSections_AwardsAndHonorsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeSections_CareerObjectiveComponent_vue__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeSections_CareerObjectiveComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeSections_CareerObjectiveComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeSections_ContactInformationComponent_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeSections_ContactInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ResumeSections_ContactInformationComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeSections_CredentialsAndLicensesComponent_vue__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeSections_CredentialsAndLicensesComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ResumeSections_CredentialsAndLicensesComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSections_CustomInformationComponent_vue__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSections_CustomInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ResumeSections_CustomInformationComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeSections_EducationComponent_vue__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeSections_EducationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ResumeSections_EducationComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ResumeSections_EndorsementsComponent_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ResumeSections_EndorsementsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__ResumeSections_EndorsementsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ResumeSections_HobbiesComponent_vue__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ResumeSections_HobbiesComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__ResumeSections_HobbiesComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ResumeSections_PublicationsAndPresentationsComponent_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ResumeSections_PublicationsAndPresentationsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__ResumeSections_PublicationsAndPresentationsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ResumeSections_QualificationsSummaryComponent_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ResumeSections_QualificationsSummaryComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__ResumeSections_QualificationsSummaryComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ResumeSections_WorkExperienceComponent_vue__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ResumeSections_WorkExperienceComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__ResumeSections_WorkExperienceComponent_vue__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -50864,6 +50888,53 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
 
 
 
@@ -50878,10 +50949,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
         SectionAdditionalSkillsComponent: __WEBPACK_IMPORTED_MODULE_2__ResumeSections_AdditionalSkillsComponent_vue___default.a,
-        SectionContactInformationComponent: __WEBPACK_IMPORTED_MODULE_3__ResumeSections_ContactInformationComponent_vue___default.a,
-        SectionCustomInformationComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeSections_CustomInformationComponent_vue___default.a,
-        SectionEducationComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeSections_EducationComponent_vue___default.a,
-        SectionWorkExperienceComponent: __WEBPACK_IMPORTED_MODULE_6__ResumeSections_WorkExperienceComponent_vue___default.a
+        SectionAffiliationsComponent: __WEBPACK_IMPORTED_MODULE_3__ResumeSections_AffiliationsComponent_vue___default.a,
+        SectionAwardsAndHonorsComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeSections_AwardsAndHonorsComponent_vue___default.a,
+        SectionCareerObjectiveComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeSections_CareerObjectiveComponent_vue___default.a,
+        SectionContactInformationComponent: __WEBPACK_IMPORTED_MODULE_6__ResumeSections_ContactInformationComponent_vue___default.a,
+        SectionCredentialsAndLicensesComponent: __WEBPACK_IMPORTED_MODULE_7__ResumeSections_CredentialsAndLicensesComponent_vue___default.a,
+        SectionCustomInformationComponent: __WEBPACK_IMPORTED_MODULE_8__ResumeSections_CustomInformationComponent_vue___default.a,
+        SectionEducationComponent: __WEBPACK_IMPORTED_MODULE_9__ResumeSections_EducationComponent_vue___default.a,
+        SectionEndorsementsComponent: __WEBPACK_IMPORTED_MODULE_10__ResumeSections_EndorsementsComponent_vue___default.a,
+        SectionHobbiesComponent: __WEBPACK_IMPORTED_MODULE_11__ResumeSections_HobbiesComponent_vue___default.a,
+        SectionPublicationsAndPresentationsComponent: __WEBPACK_IMPORTED_MODULE_12__ResumeSections_PublicationsAndPresentationsComponent_vue___default.a,
+        SectionQualificationsSummaryComponent: __WEBPACK_IMPORTED_MODULE_13__ResumeSections_QualificationsSummaryComponent_vue___default.a,
+        SectionWorkExperienceComponent: __WEBPACK_IMPORTED_MODULE_14__ResumeSections_WorkExperienceComponent_vue___default.a
     },
 
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
@@ -50947,12 +51026,12 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
 //
 //
@@ -51589,7 +51668,463 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(72)
 /* template */
+var __vue_template__ = __webpack_require__(73)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\AffiliationsComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-16ef8270", Component.options)
+  } else {
+    hotAPI.reload("data-v-16ef8270", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-16ef8270", module.exports)
+  }
+}
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(75)
+/* template */
+var __vue_template__ = __webpack_require__(76)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\AwardsAndHonorsComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-44456b6d", Component.options)
+  } else {
+    hotAPI.reload("data-v-44456b6d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-44456b6d", module.exports)
+  }
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(78)
+/* template */
 var __vue_template__ = __webpack_require__(79)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\CareerObjectiveComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-42fd709c", Component.options)
+  } else {
+    hotAPI.reload("data-v-42fd709c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-42fd709c", module.exports)
+  }
+}
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(81)
+/* template */
+var __vue_template__ = __webpack_require__(88)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51628,20 +52163,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 72 */
+/* 81 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_ContactInformationComponent_vue__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_ContactInformationComponent_vue__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_ContactInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_ContactInformationComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_UserRegistrationComponent_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_UserRegistrationComponent_vue__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_UserRegistrationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ResumeForms_UserRegistrationComponent_vue__);
 //
 //
@@ -51714,15 +52249,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 73 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(74)
+var __vue_script__ = __webpack_require__(83)
 /* template */
-var __vue_template__ = __webpack_require__(75)
+var __vue_template__ = __webpack_require__(84)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51761,7 +52296,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 74 */
+/* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51904,7 +52439,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 75 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52172,15 +52707,15 @@ if (false) {
 }
 
 /***/ }),
-/* 76 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(77)
+var __vue_script__ = __webpack_require__(86)
 /* template */
-var __vue_template__ = __webpack_require__(78)
+var __vue_template__ = __webpack_require__(87)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52219,7 +52754,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 77 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52263,7 +52798,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 78 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52335,7 +52870,7 @@ if (false) {
 }
 
 /***/ }),
-/* 79 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52460,15 +52995,15 @@ if (false) {
 }
 
 /***/ }),
-/* 80 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(81)
+var __vue_script__ = __webpack_require__(90)
 /* template */
-var __vue_template__ = __webpack_require__(82)
+var __vue_template__ = __webpack_require__(91)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52485,7 +53020,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\CustomInformationComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\CredentialsAndLicensesComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52494,9 +53029,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6abc827c", Component.options)
+    hotAPI.createRecord("data-v-62729a06", Component.options)
   } else {
-    hotAPI.reload("data-v-6abc827c", Component.options)
+    hotAPI.reload("data-v-62729a06", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52507,18 +53042,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 81 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
 //
 //
@@ -52563,7 +53098,159 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 82 */
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-62729a06", module.exports)
+  }
+}
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(93)
+/* template */
+var __vue_template__ = __webpack_require__(94)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\CustomInformationComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6abc827c", Component.options)
+  } else {
+    hotAPI.reload("data-v-6abc827c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52612,15 +53299,15 @@ if (false) {
 }
 
 /***/ }),
-/* 83 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(84)
+var __vue_script__ = __webpack_require__(96)
 /* template */
-var __vue_template__ = __webpack_require__(88)
+var __vue_template__ = __webpack_require__(100)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52659,20 +53346,20 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 84 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_SchoolInformationComponent_vue__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_SchoolInformationComponent_vue__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_SchoolInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ResumeForms_SchoolInformationComponent_vue__);
 //
 //
@@ -52720,15 +53407,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 85 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(86)
+var __vue_script__ = __webpack_require__(98)
 /* template */
-var __vue_template__ = __webpack_require__(87)
+var __vue_template__ = __webpack_require__(99)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -52767,7 +53454,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 86 */
+/* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52868,7 +53555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 87 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53048,7 +53735,7 @@ if (false) {
 }
 
 /***/ }),
-/* 88 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53101,15 +53788,319 @@ if (false) {
 }
 
 /***/ }),
-/* 89 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(90)
+var __vue_script__ = __webpack_require__(102)
 /* template */
-var __vue_template__ = __webpack_require__(97)
+var __vue_template__ = __webpack_require__(103)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\PublicationsAndPresentationsComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2835246c", Component.options)
+  } else {
+    hotAPI.reload("data-v-2835246c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2835246c", module.exports)
+  }
+}
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(105)
+/* template */
+var __vue_template__ = __webpack_require__(106)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\QualificationsSummaryComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e3a1335", Component.options)
+  } else {
+    hotAPI.reload("data-v-5e3a1335", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5e3a1335", module.exports)
+  }
+}
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(108)
+/* template */
+var __vue_template__ = __webpack_require__(115)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53148,22 +54139,22 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 90 */
+/* 108 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_EmployerInformationComponent_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_EmployerInformationComponent_vue__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ResumeForms_EmployerInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__ResumeForms_EmployerInformationComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeForms_PositionInformationComponent_vue__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeForms_PositionInformationComponent_vue__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeForms_PositionInformationComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ResumeForms_PositionInformationComponent_vue__);
 //
 //
@@ -53228,15 +54219,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 91 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(92)
+var __vue_script__ = __webpack_require__(110)
 /* template */
-var __vue_template__ = __webpack_require__(93)
+var __vue_template__ = __webpack_require__(111)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53275,7 +54266,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 92 */
+/* 110 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53361,7 +54352,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 93 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53513,15 +54504,15 @@ if (false) {
 }
 
 /***/ }),
-/* 94 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(95)
+var __vue_script__ = __webpack_require__(113)
 /* template */
-var __vue_template__ = __webpack_require__(96)
+var __vue_template__ = __webpack_require__(114)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -53560,7 +54551,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 95 */
+/* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53641,7 +54632,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 96 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53807,7 +54798,7 @@ if (false) {
 }
 
 /***/ }),
-/* 97 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53890,7 +54881,7 @@ if (false) {
 }
 
 /***/ }),
-/* 98 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -53906,7 +54897,6 @@ var render = function() {
         {
           key: index,
           staticClass: "tab-pane fade",
-          class: { show: index === 0, active: index === 0 },
           attrs: {
             role: "tabpanel",
             index: index,
@@ -53919,23 +54909,71 @@ var render = function() {
             ? _c("section-additional-skills-component", {
                 attrs: { index: index, section: section }
               })
-            : section.getType() === _vm.SectionType.CONTACT_INFORMATION
-              ? _c("section-contact-information-component", {
+            : section.getType() === _vm.SectionType.AFFILIATIONS
+              ? _c("section-additional-skills-component", {
                   attrs: { index: index, section: section }
                 })
-              : section.getType() === _vm.SectionType.CUSTOM_INFORMATION
-                ? _c("section-custom-information-component", {
+              : section.getType() === _vm.SectionType.AWARDS_AND_HONORS
+                ? _c("section-awards-and-honors-component", {
                     attrs: { index: index, section: section }
                   })
-                : section.getType() === _vm.SectionType.EDUCATION
-                  ? _c("section-education-component", {
+                : section.getType() === _vm.SectionType.CAREER_OBJECTIVE
+                  ? _c("section-career-objective-component", {
                       attrs: { index: index, section: section }
                     })
-                  : section.getType() === _vm.SectionType.WORK_EXPERIENCE
-                    ? _c("section-work-experience-component", {
+                  : section.getType() === _vm.SectionType.CONTACT_INFORMATION
+                    ? _c("section-contact-information-component", {
                         attrs: { index: index, section: section }
                       })
-                    : _vm._e()
+                    : section.getType() ===
+                      _vm.SectionType.CREDENTIALS_AND_LICENSES
+                      ? _c("section-credentials-and-licenses-component", {
+                          attrs: { index: index, section: section }
+                        })
+                      : section.getType() === _vm.SectionType.CUSTOM_INFORMATION
+                        ? _c("section-custom-information-component", {
+                            attrs: { index: index, section: section }
+                          })
+                        : section.getType() === _vm.SectionType.EDUCATION
+                          ? _c("section-education-component", {
+                              attrs: { index: index, section: section }
+                            })
+                          : section.getType() === _vm.SectionType.ENDORSEMENTS
+                            ? _c("section-endorsements-component", {
+                                attrs: { index: index, section: section }
+                              })
+                            : section.getType() === _vm.SectionType.HOBBIES
+                              ? _c("section-hobbies-component", {
+                                  attrs: { index: index, section: section }
+                                })
+                              : section.getType() ===
+                                _vm.SectionType.PUBLICATIONS_AND_PRESENTATIONS
+                                ? _c(
+                                    "section-publications-and-presentations-component",
+                                    {
+                                      attrs: { index: index, section: section }
+                                    }
+                                  )
+                                : section.getType() ===
+                                  _vm.SectionType.QUALIFICATIONS_SUMMARY
+                                  ? _c(
+                                      "section-qualifications-summary-component",
+                                      {
+                                        attrs: {
+                                          index: index,
+                                          section: section
+                                        }
+                                      }
+                                    )
+                                  : section.getType() ===
+                                    _vm.SectionType.WORK_EXPERIENCE
+                                    ? _c("section-work-experience-component", {
+                                        attrs: {
+                                          index: index,
+                                          section: section
+                                        }
+                                      })
+                                    : _vm._e()
         ],
         1
       )
@@ -53953,7 +54991,7 @@ if (false) {
 }
 
 /***/ }),
-/* 99 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54118,15 +55156,15 @@ if (false) {
 }
 
 /***/ }),
-/* 100 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(101)
+var __vue_script__ = __webpack_require__(119)
 /* template */
-var __vue_template__ = __webpack_require__(102)
+var __vue_template__ = __webpack_require__(120)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -54165,15 +55203,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 101 */
+/* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Section_js__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(10);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -54311,7 +55349,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 });
 
 /***/ }),
-/* 102 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -54464,10 +55502,318 @@ if (false) {
 }
 
 /***/ }),
-/* 103 */
+/* 121 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(127)
+/* template */
+var __vue_template__ = __webpack_require__(128)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\EndorsementsComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-800809a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-800809a4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 127 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-800809a4", module.exports)
+  }
+}
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(130)
+/* template */
+var __vue_template__ = __webpack_require__(131)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSections\\HobbiesComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-118a8a27", Component.options)
+  } else {
+    hotAPI.reload("data-v-118a8a27", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        FormBulletListComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeForms_BulletListComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_4__ResumeTitleComponent_vue___default.a
+    },
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */]],
+
+    props: {
+        index: Number,
+        section: Object
+    }
+});
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row align-items-center mb-3" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm text-muted" },
+        [
+          _c("resume-title-component", {
+            attrs: {
+              isDeletable: _vm.section.getIsDefault() === false,
+              title: _vm.section.getName()
+            },
+            on: {
+              "handle-delete": _vm.handleDeleteSection,
+              "title-updated": _vm.updateSectionName
+            }
+          })
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-sm-12" },
+        [_c("form-bullet-list-component")],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-118a8a27", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

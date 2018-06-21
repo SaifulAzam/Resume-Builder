@@ -21,20 +21,25 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('month')">
-                            <option value="">Choose month...</option>
-                            <option>January</option>
-                            <option>February</option>
+                                v-bind:id="getHashedElementId('start-month')">
+                            <option value="" selected disabled>Choose month...</option>
+                            <option v-for="(month, index) in months"
+                                    v-bind:index="index"
+                                    v-bind:key="index"
+                                    v-bind:value="month"
+                                    v-text="month"></option>
                         </select>
                     </div>
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('year')">
-                            <option value="">Choose year...</option>
-                            <option>2017</option>
-                            <option>2016</option>
-                            <option>2015</option>
+                                v-bind:id="getHashedElementId('start-year')">
+                            <option value="" selected disabled>Choose year...</option>
+                            <option v-for="(year, index) in years"
+                                    v-bind:index="index"
+                                    v-bind:key="index"
+                                    v-bind:value="year"
+                                    v-text="year"></option>
                         </select>
                     </div>
                 </div>
@@ -48,27 +53,75 @@
 
             <div class="col-sm-8">
                 <span class="custom-control custom-radio d-inline mr-3">
-                    <input name="still-work" class="custom-control-input" checked="" required="" type="radio"
-                           v-bind:id="getHashedElementId('yes')">
+                    <input name="still-work" class="custom-control-input" checked="" required="" type="radio" value="true"
+                           v-bind:id="getHashedElementId('yes')"
+                           v-model="stillWork">
                     <label class="custom-control-label"
                            v-bind:for="getHashedElementId('yes')">Yes</label>
                 </span>
 
                 <span class="custom-control custom-radio d-inline">
-                    <input name="still-work" class="custom-control-input" required="" type="radio"
-                           v-bind:id="getHashedElementId('no')">
+                    <input name="still-work" class="custom-control-input" required="" type="radio" value="false"
+                           v-bind:id="getHashedElementId('no')"
+                           v-model="stillWork">
                     <label class="custom-control-label"
                            v-bind:for="getHashedElementId('no')">No</label>
                 </span>
+            </div>
+        </div>
+
+        <div class="form-group row" v-if="stillWork === 'false'">
+            <div class="col-sm-4">
+                <label class="col-form-label font-weight-bold">End date</label>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="form-row">
+                    <div class="col">
+                        <select class="custom-select d-block w-100"
+                                v-bind:id="getHashedElementId('end-month')">
+                            <option value="" selected disabled>Choose month...</option>
+                            <option v-for="(month, index) in months"
+                                    v-bind:index="index"
+                                    v-bind:key="index"
+                                    v-bind:value="month"
+                                    v-text="month"></option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="custom-select d-block w-100"
+                                v-bind:id="getHashedElementId('end-year')">
+                            <option value="" selected disabled>Choose year...</option>
+                            <option v-for="(year, index) in years"
+                                    v-bind:index="index"
+                                    v-bind:key="index"
+                                    v-bind:value="year"
+                                    v-text="year"></option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapGetters } from "vuex";
+
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
 
     export default {
+        computed: {
+            ...mapGetters(["months", "years"])
+        },
+
+        data() {
+            return {
+                stillWork: "true"
+            };
+        },
+
         mixins: [ComponentHashMixin]
     };
 </script>

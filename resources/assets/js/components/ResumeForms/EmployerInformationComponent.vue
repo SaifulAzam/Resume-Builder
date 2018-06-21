@@ -21,10 +21,12 @@
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
                         v-bind:id="getHashedElementId('industry')">
-                    <option value="">Choose...</option>
-                    <option>Administrative</option>
-                    <option>Animal</option>
-                    <option>Banking</option>
+                    <option value="" selected disabled>Choose...</option>
+                    <option v-for="(industry, index) in industries"
+                            v-bind:index="index"
+                            v-bind:key="index"
+                            v-bind:value="industry"
+                            v-text="industry"></option>
                 </select>
             </div>
         </div>
@@ -50,8 +52,12 @@
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
                         v-bind:id="getHashedElementId('country')">
-                    <option value="">Choose...</option>
-                    <option>India</option>
+                    <option value="" selected disabled>Choose...</option>
+                    <option v-for="(country, index) in countries"
+                            v-bind:index="index"
+                            v-bind:key="index"
+                            v-bind:value="country"
+                            v-text="country"></option>
                 </select>
             </div>
         </div>
@@ -71,9 +77,15 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex";
+
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
 
     export default {
+        computed: {
+            ...mapGetters(["countries", "industries"])
+        },
+
         mixins: [ComponentHashMixin]
     };
 </script>

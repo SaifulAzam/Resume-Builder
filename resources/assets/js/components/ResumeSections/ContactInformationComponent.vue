@@ -24,22 +24,24 @@
 
                     <div class="col-sm-8">
                         <span class="custom-control custom-radio d-inline mr-3">
-                            <input name="registration" class="custom-control-input" checked="" required="" type="radio"
-                                   v-bind:id="getHashedElementId('yes')">
+                            <input name="registration" class="custom-control-input" checked="" required="" type="radio" value="true"
+                                   v-bind:id="getHashedElementId('yes')"
+                                   v-model="registerUser">
                             <label class="custom-control-label"
                                    v-bind:for="getHashedElementId('yes')">Yes</label>
                         </span>
 
                         <span class="custom-control custom-radio d-inline">
-                            <input name="registration" class="custom-control-input" required="" type="radio"
-                                   v-bind:id="getHashedElementId('no')">
+                            <input name="registration" class="custom-control-input" required="" type="radio" value="false"
+                                   v-bind:id="getHashedElementId('no')"
+                                   v-model="registerUser">
                             <label class="custom-control-label"
                                    v-bind:for="getHashedElementId('no')">No</label>
                         </span>
                     </div>
                 </div>
 
-                <form-user-registration-component></form-user-registration-component>
+                <form-user-registration-component v-if="registerUser == 'true'"></form-user-registration-component>
             </div>
         </div>
     </div>
@@ -59,6 +61,12 @@
             FormContactInformationComponent,
             FormUserRegistrationComponent,
             ResumeTitleComponent
+        },
+
+        data() {
+            return {
+                registerUser: "true"
+            };
         },
 
         mixins: [

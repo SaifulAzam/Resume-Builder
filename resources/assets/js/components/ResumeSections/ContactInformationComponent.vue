@@ -13,7 +13,9 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form-contact-information-component></form-contact-information-component>
+                <form-contact-information-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"></form-contact-information-component>
 
                 <div class="form-group row">
                     <div class="col-sm-4">
@@ -41,7 +43,10 @@
                     </div>
                 </div>
 
-                <form-user-registration-component v-if="registerUser == 'true'"></form-user-registration-component>
+                <form-user-registration-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"
+                        v-if="registerUser == 'true'"></form-user-registration-component>
             </div>
         </div>
     </div>
@@ -52,6 +57,7 @@
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
     import HandleDeletableSectionMixin from "./../../mixins/HandleDeletableSectionMixin.js";
     import HandleSectionNameMixin from "./../../mixins/HandleSectionNameMixin.js";
+    import HandleSectionFormMixin from "./../../mixins/HandleSectionFormMixin.js";
     import ResumeTitleComponent from "./../ResumeTitleComponent.vue";
     import FormContactInformationComponent from "./../ResumeForms/ContactInformationComponent.vue";
     import FormUserRegistrationComponent from "./../ResumeForms/UserRegistrationComponent.vue";
@@ -73,7 +79,8 @@
             ComponentHashMixin,
             ResetSectionHashMixin,
             HandleDeletableSectionMixin,
-            HandleSectionNameMixin
+            HandleSectionNameMixin,
+            HandleSectionFormMixin
         ],
 
         props: {

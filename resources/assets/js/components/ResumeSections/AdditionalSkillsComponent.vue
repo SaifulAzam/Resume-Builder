@@ -13,7 +13,9 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form-bullet-list-component></form-bullet-list-component>
+                <form-bullet-list-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"></form-bullet-list-component>
             </div>
         </div>
     </div>
@@ -24,6 +26,7 @@
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
     import HandleDeletableSectionMixin from "./../../mixins/HandleDeletableSectionMixin.js";
     import HandleSectionNameMixin from "./../../mixins/HandleSectionNameMixin.js";
+    import HandleSectionFormMixin from "./../../mixins/HandleSectionFormMixin.js";
     import ResumeTitleComponent from "./../ResumeTitleComponent.vue";
     import FormBulletListComponent from "./../ResumeForms/BulletListComponent.vue";
 
@@ -37,7 +40,8 @@
             ComponentHashMixin,
             ResetSectionHashMixin,
             HandleDeletableSectionMixin,
-            HandleSectionNameMixin
+            HandleSectionNameMixin,
+            HandleSectionFormMixin
         ],
 
         props: {

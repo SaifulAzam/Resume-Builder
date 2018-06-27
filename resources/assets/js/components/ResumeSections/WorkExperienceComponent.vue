@@ -13,8 +13,12 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form-employer-information-component></form-employer-information-component>
-                <form-position-information-component></form-position-information-component>
+                <form-employer-information-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"></form-employer-information-component>
+                <form-position-information-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"></form-position-information-component>
 
                 <div class="form-group row">
                     <div class="col-sm-4">
@@ -29,7 +33,9 @@
                     </div>
                 </div>
 
-                <form-bullet-list-component></form-bullet-list-component>
+                <form-bullet-list-component
+                        v-bind:form-index="getFormIndex()"
+                        v-on:form-data-updated="updateSectionFormData"></form-bullet-list-component>
             </div>
         </div>
     </div>
@@ -40,6 +46,7 @@
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
     import HandleDeletableSectionMixin from "./../../mixins/HandleDeletableSectionMixin.js";
     import HandleSectionNameMixin from "./../../mixins/HandleSectionNameMixin.js";
+    import HandleSectionFormMixin from "./../../mixins/HandleSectionFormMixin.js";
     import ResumeTitleComponent from "./../ResumeTitleComponent.vue";
     import FormBulletListComponent from "./../ResumeForms/BulletListComponent.vue";
     import FormEmployerInformationComponent from "./../ResumeForms/EmployerInformationComponent.vue";
@@ -57,7 +64,8 @@
             ComponentHashMixin,
             ResetSectionHashMixin,
             HandleDeletableSectionMixin,
-            HandleSectionNameMixin
+            HandleSectionNameMixin,
+            HandleSectionFormMixin
         ],
 
         props: {

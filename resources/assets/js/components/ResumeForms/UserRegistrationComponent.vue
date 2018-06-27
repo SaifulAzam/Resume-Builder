@@ -10,7 +10,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="email@example.com"
-                       v-bind:id="getHashedElementId('email')">
+                       v-bind:id="getHashedElementId('email')"
+                       v-model="formData.registrationEmail">
             </div>
         </div>
 
@@ -22,7 +23,8 @@
 
             <div class="col-sm-8">
                 <input type="password" class="form-control" placeholder="Password"
-                       v-bind:id="getHashedElementId('password')">
+                       v-bind:id="getHashedElementId('password')"
+                       v-model="formData.registrationPassword">
             </div>
         </div>
     </div>
@@ -30,8 +32,21 @@
 
 <script>
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
-        mixins: [ComponentHashMixin]
+        data () {
+            return {
+                formData: {
+                    registrationEmail: '',
+                    registrationPassword: ''
+                }
+            };
+        },
+
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

@@ -8,7 +8,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Enter position title"
-                       v-bind:id="getHashedElementId('position-title')">
+                       v-bind:id="getHashedElementId('position-title')"
+                       v-model="formData.positionTitle">
             </div>
         </div>
 
@@ -21,7 +22,8 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('start-month')">
+                                v-bind:id="getHashedElementId('start-month')"
+                                v-model="formData.startMonth">
                             <option value="" selected disabled>Choose month...</option>
                             <option v-for="(month, index) in months"
                                     v-bind:index="index"
@@ -33,7 +35,8 @@
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('start-year')">
+                                v-bind:id="getHashedElementId('start-year')"
+                                v-model="formData.startYear">
                             <option value="" selected disabled>Choose year...</option>
                             <option v-for="(year, index) in years"
                                     v-bind:index="index"
@@ -55,7 +58,7 @@
                 <span class="custom-control custom-radio d-inline mr-3">
                     <input name="still-work" class="custom-control-input" checked="" required="" type="radio" value="true"
                            v-bind:id="getHashedElementId('yes')"
-                           v-model="stillWork">
+                           v-model="formData.stillWork">
                     <label class="custom-control-label"
                            v-bind:for="getHashedElementId('yes')">Yes</label>
                 </span>
@@ -63,14 +66,14 @@
                 <span class="custom-control custom-radio d-inline">
                     <input name="still-work" class="custom-control-input" required="" type="radio" value="false"
                            v-bind:id="getHashedElementId('no')"
-                           v-model="stillWork">
+                           v-model="formData.stillWork">
                     <label class="custom-control-label"
                            v-bind:for="getHashedElementId('no')">No</label>
                 </span>
             </div>
         </div>
 
-        <div class="form-group row" v-if="stillWork === 'false'">
+        <div class="form-group row" v-if="formData.stillWork === 'false'">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold">End date</label>
             </div>
@@ -79,7 +82,8 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('end-month')">
+                                v-bind:id="getHashedElementId('end-month')"
+                                v-model="formData.endMonth">
                             <option value="" selected disabled>Choose month...</option>
                             <option v-for="(month, index) in months"
                                     v-bind:index="index"
@@ -91,7 +95,8 @@
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('end-year')">
+                                v-bind:id="getHashedElementId('end-year')"
+                                v-model="formData.endYear">
                             <option value="" selected disabled>Choose year...</option>
                             <option v-for="(year, index) in years"
                                     v-bind:index="index"
@@ -110,6 +115,7 @@
     import { mapGetters } from "vuex";
 
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
         computed: {
@@ -118,10 +124,20 @@
 
         data() {
             return {
-                stillWork: "true"
+                formData: {
+                    endMonth: "",
+                    endYear: "",
+                    positionTitle: "",
+                    startMonth: "",
+                    startYear: "",
+                    stillWork: "true"
+                }
             };
         },
 
-        mixins: [ComponentHashMixin]
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

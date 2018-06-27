@@ -64,17 +64,34 @@ const mutations = {
     },
 
     /**
+     * Updates the data of the section of the index.
+     *
+     * @param state
+     * @param props
+     * @constructor
+     */
+    UPDATE_SECTION_DATA: (state, props) => {
+        const index = props.index;
+        const sectionData  = props.data;
+
+        const sections = state.resume.getSections();
+        let section = sections[index];
+
+        section.setData(sectionData);
+    },
+
+    /**
      * Updates the name of the section of the index.
      *
      * @param state
-     * @param data
+     * @param props
      * @constructor
      */
-    UPDATE_SECTION_NAME: (state, data) => {
-        let index = data.index;
-        let name = data.name;
+    UPDATE_SECTION_NAME: (state, props) => {
+        const index = props.index;
+        const name = props.name;
 
-        let sections = state.resume.getSections();
+        const sections = state.resume.getSections();
         let section = sections[index];
 
         section.setName(name);
@@ -130,6 +147,16 @@ const actions = {
      */
     updateResumeName: ({ commit }, name) => {
         commit("UPDATE_RESUME_NAME", name);
+    },
+
+    /**
+     * Updates the data of the section of the index.
+     *
+     * @param commit
+     * @param data
+     */
+    updateSectionData: ({ commit }, data) => {
+        commit("UPDATE_SECTION_DATA", data);
     },
 
     /**

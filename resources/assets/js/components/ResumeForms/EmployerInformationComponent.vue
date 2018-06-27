@@ -8,7 +8,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Enter employer name"
-                       v-bind:id="getHashedElementId('employer-name')">
+                       v-bind:id="getHashedElementId('employer-name')"
+                       v-model="formData.employerName">
             </div>
         </div>
 
@@ -20,7 +21,8 @@
 
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
-                        v-bind:id="getHashedElementId('industry')">
+                        v-bind:id="getHashedElementId('industry')"
+                        v-model="formData.industry">
                     <option value="" selected disabled>Choose...</option>
                     <option v-for="(industry, index) in industries"
                             v-bind:index="index"
@@ -39,7 +41,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Kashipur"
-                       v-bind:id="getHashedElementId('city')">
+                       v-bind:id="getHashedElementId('city')"
+                       v-model="formData.city">
             </div>
         </div>
 
@@ -51,7 +54,8 @@
 
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
-                        v-bind:id="getHashedElementId('country')">
+                        v-bind:id="getHashedElementId('country')"
+                        v-model="formData.country">
                     <option value="" selected disabled>Choose...</option>
                     <option v-for="(country, index) in countries"
                             v-bind:index="index"
@@ -70,7 +74,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="County"
-                       v-bind:id="getHashedElementId('county')">
+                       v-bind:id="getHashedElementId('county')"
+                       v-model="formData.county">
             </div>
         </div>
     </div>
@@ -80,12 +85,28 @@
     import { mapGetters } from "vuex";
 
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
         computed: {
             ...mapGetters(["countries", "industries"])
         },
 
-        mixins: [ComponentHashMixin]
+        data() {
+            return {
+                formData: {
+                    city: "",
+                    country: "",
+                    county: "",
+                    employerName: "",
+                    industry: ""
+                }
+            };
+        },
+
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

@@ -8,7 +8,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="John"
-                       v-bind:id="getHashedElementId('first-name')">
+                       v-bind:id="getHashedElementId('first-name')"
+                       v-model="formData.firstName">
             </div>
         </div>
 
@@ -20,7 +21,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Smith"
-                       v-bind:id="getHashedElementId('last-name')">
+                       v-bind:id="getHashedElementId('last-name')"
+                       v-model="formData.lastName">
             </div>
         </div>
 
@@ -32,7 +34,8 @@
 
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
-                        v-bind:id="getHashedElementId('country')">
+                        v-bind:id="getHashedElementId('country')"
+                        v-model="formData.country">
                     <option value="" selected disabled>Choose...</option>
                     <option v-for="(country, index) in countries"
                             v-bind:index="index"
@@ -51,7 +54,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="244713"
-                       v-bind:id="getHashedElementId('post-code')">
+                       v-bind:id="getHashedElementId('post-code')"
+                       v-model="formData.postCode">
             </div>
         </div>
 
@@ -63,7 +67,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Kashipur"
-                       v-bind:id="getHashedElementId('city')">
+                       v-bind:id="getHashedElementId('city')"
+                       v-model="formData.city">
             </div>
         </div>
 
@@ -75,7 +80,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="County"
-                       v-bind:id="getHashedElementId('county')">
+                       v-bind:id="getHashedElementId('county')"
+                       v-model="formData.county">
             </div>
         </div>
 
@@ -87,7 +93,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Address Line 1"
-                       v-bind:id="getHashedElementId('address-1')">
+                       v-bind:id="getHashedElementId('address-1')"
+                       v-model="formData.address1">
             </div>
         </div>
 
@@ -101,7 +108,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Address Line 2"
-                       v-bind:id="getHashedElementId('address-2')">
+                       v-bind:id="getHashedElementId('address-2')"
+                       v-model="formData.address2">
             </div>
         </div>
 
@@ -113,7 +121,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="+353 20 911 2769"
-                       v-bind:id="getHashedElementId('phone')">
+                       v-bind:id="getHashedElementId('phone')"
+                       v-model="formData.phone">
             </div>
         </div>
 
@@ -125,7 +134,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="email@example.com"
-                       v-bind:id="getHashedElementId('email')">
+                       v-bind:id="getHashedElementId('email')"
+                       v-model="formData.email">
             </div>
         </div>
     </div>
@@ -135,12 +145,33 @@
     import { mapGetters } from "vuex";
 
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
         computed: {
             ...mapGetters(["countries"])
         },
 
-        mixins: [ComponentHashMixin]
+        data () {
+            return {
+                formData: {
+                    address1: '',
+                    address2: '',
+                    city: '',
+                    country: '',
+                    county: '',
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    postCode: ''
+                }
+            };
+        },
+
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

@@ -30,9 +30,9 @@
 
             <div class="col-sm-8">
                 <ul class="list-group"
-                    v-if="items.length > 0">
+                    v-if="formData.items.length > 0">
                     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                        v-for="(item, index) in items"
+                        v-for="(item, index) in formData.items"
                         v-bind:index="index"
                         v-bind:key="index">
                         <span v-text="item"></span>
@@ -56,30 +56,48 @@
 
 <script>
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
         data() {
             return {
-                items: [],
+                formData: {
+                    items: []
+                },
                 text: ""
             };
         },
 
         methods: {
+            /**
+             * Adds a new item to the list.
+             * 
+             * @returns {void}
+             */
             addItem() {
                 if (this.text.length === 0) {
                     return;
                 }
 
-                this.items.push(this.text);
+                this.formData.items.push(this.text);
                 this.text = "";
             },
 
+            /**
+             * Removes the item from the list by the supplied index.
+             *
+             * @param   {Number} index
+             *
+             * @returns {void}
+             */
             removeItem(index) {
-                this.items.splice(index, 1);
+                this.formData.items.splice(index, 1);
             }
         },
 
-        mixins: [ComponentHashMixin]
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

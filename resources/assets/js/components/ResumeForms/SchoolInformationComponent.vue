@@ -9,7 +9,7 @@
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
                         v-bind:id="getHashedElementId('education-type')"
-                        v-model="selectedEducationType">
+                        v-model="formData.educationType">
                         <option v-for="(education_type, index) in EducationType"
                                 v-bind:index="index"
                                 v-bind:key="index"
@@ -29,7 +29,8 @@
             <div class="col-sm-8">
                 <input type="text" class="form-control"
                        v-bind:id="getHashedElementId('school-name')"
-                       v-bind:placeholder="schoolNamePlaceholder">
+                       v-bind:placeholder="schoolNamePlaceholder"
+                       v-model="formData.schoolName">
             </div>
         </div>
 
@@ -41,12 +42,13 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Kashipur"
-                       v-bind:id="getHashedElementId('city')">
+                       v-bind:id="getHashedElementId('city')"
+                       v-model="formData.city">
             </div>
         </div>
 
         <div class="form-group row"
-            v-if="selectedEducationType !== EducationType.SECONDARY_SCHOOL">
+            v-if="formData.educationType !== EducationType.SECONDARY_SCHOOL">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold"
                        v-bind:for="getHashedElementId('program-name')">Degree/Program</label>
@@ -55,7 +57,8 @@
             <div class="col-sm-8">
                 <input type="text" class="form-control"
                        v-bind:id="getHashedElementId('program-name')"
-                       v-bind:placeholder="programNamePlaceholder">
+                       v-bind:placeholder="programNamePlaceholder"
+                       v-model="formData.programName">
             </div>
         </div>
 
@@ -67,7 +70,8 @@
 
             <div class="col-sm-8">
                 <select class="custom-select d-block w-100"
-                        v-bind:id="getHashedElementId('country')">
+                        v-bind:id="getHashedElementId('country')"
+                        v-model="formData.country">
                     <option value="" selected disabled>Choose...</option>
                     <option v-for="(country, index) in countries"
                             v-bind:index="index"
@@ -86,7 +90,8 @@
 
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="County"
-                       v-bind:id="getHashedElementId('county')">
+                       v-bind:id="getHashedElementId('county')"
+                       v-model="formData.county">
             </div>
         </div>
 
@@ -99,7 +104,7 @@
             <div class="col-sm-8">
                 <select class="custom-select d-block w-25"
                         v-bind:id="getHashedElementId('is-enrolled')"
-                        v-model="isEnrolled">
+                        v-model="formData.isEnrolled">
                     <option value="N/A">N/A</option>
                     <option value="true">Yes</option>
                     <option value="false">No</option>
@@ -107,7 +112,7 @@
             </div>
         </div>
 
-        <div class="form-group row" v-if="isEnrolled === 'true'">
+        <div class="form-group row" v-if="formData.isEnrolled === 'true'">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold">Expected completion date</label>
             </div>
@@ -116,7 +121,8 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('expected-completed-month')">
+                                v-bind:id="getHashedElementId('expected-completion-month')"
+                                v-model="formData.expectedCompletionMonth">
                             <option value="" selected disabled>Choose month...</option>
                             <option v-for="(month, index) in months"
                                     v-bind:index="index"
@@ -128,7 +134,8 @@
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('expected-completion-year')">
+                                v-bind:id="getHashedElementId('expected-completion-year')"
+                                v-model="formData.expectedCompletionYear">
                             <option value="" selected disabled>Choose year...</option>
                             <option v-for="(year, index) in years"
                                     v-bind:index="index"
@@ -141,7 +148,7 @@
             </div>
         </div>
 
-        <div class="form-group row" v-if="isEnrolled === 'false'">
+        <div class="form-group row" v-if="formData.isEnrolled === 'false'">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold"
                        v-bind:for="getHashedElementId('is-completed')">Completed?</label>
@@ -150,7 +157,7 @@
             <div class="col-sm-8">
                 <select class="custom-select d-block w-25"
                         v-bind:id="getHashedElementId('is-completed')"
-                        v-model="isCompleted">
+                        v-model="formData.isCompleted">
                     <option value="N/A">N/A</option>
                     <option value="true">Yes</option>
                     <option value="false">No</option>
@@ -158,7 +165,7 @@
             </div>
         </div>
 
-        <div class="form-group row" v-if="isEnrolled === 'false' && isCompleted === 'true'">
+        <div class="form-group row" v-if="formData.isEnrolled === 'false' && formData.isCompleted === 'true'">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold">Completion date</label>
             </div>
@@ -167,7 +174,8 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('completion-month')">
+                                v-bind:id="getHashedElementId('completion-month')"
+                                v-model="formData.completionMonth">
                             <option value="" selected disabled>Choose month...</option>
                             <option v-for="(month, index) in months"
                                     v-bind:index="index"
@@ -179,7 +187,8 @@
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('completion-year')">
+                                v-bind:id="getHashedElementId('completion-year')"
+                                v-model="formData.completionYear">
                             <option value="" selected disabled>Choose year...</option>
                             <option v-for="(year, index) in years"
                                     v-bind:index="index"
@@ -192,7 +201,7 @@
             </div>
         </div>
 
-        <div class="form-group row" v-if="isEnrolled === 'false' && isCompleted === 'false'">
+        <div class="form-group row" v-if="formData.isEnrolled === 'false' && formData.isCompleted === 'false'">
             <div class="col-sm-4">
                 <label class="col-form-label font-weight-bold">Last year of enrollment</label>
             </div>
@@ -201,7 +210,8 @@
                 <div class="form-row">
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('last-year-of-enrollment-month')">
+                                v-bind:id="getHashedElementId('last-year-of-enrollment-month')"
+                                v-model="formData.lastYearOfEnrollmentMonth">
                             <option value="" selected disabled>Choose month...</option>
                             <option v-for="(month, index) in months"
                                     v-bind:index="index"
@@ -213,7 +223,8 @@
 
                     <div class="col">
                         <select class="custom-select d-block w-100"
-                                v-bind:id="getHashedElementId('last-year-of-enrollment-year')">
+                                v-bind:id="getHashedElementId('last-year-of-enrollment-year')"
+                                v-model="formData.lastYearOfEnrollmentYear">
                             <option value="" selected disabled>Choose year...</option>
                             <option v-for="(year, index) in years"
                                     v-bind:index="index"
@@ -233,13 +244,14 @@
 
     import EducationType from "./../../enums/EducationType.js";
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
+    import HandleFormDataMixin from "./../../mixins/HandleFormDataMixin.js";
 
     export default {
         computed: {
             ...mapGetters(["countries", "months", "years"]),
 
             programNamePlaceholder() {
-                switch (this.selectedEducationType) {
+                switch (this.formData.educationType) {
                     case EducationType.UNIVERSITY:
                         return "E.g.: B.Sc. Biology";
                     case EducationType.BTEC:
@@ -250,7 +262,7 @@
             },
 
             schoolNameLabel() {
-                switch (this.selectedEducationType) {
+                switch (this.formData.educationType) {
                     case EducationType.SECONDARY_SCHOOL:
                         return "School name";
                     case EducationType.UNIVERSITY:
@@ -268,12 +280,28 @@
         data() {
             return {
                 EducationType: EducationType,
-                isCompleted: "N/A",
-                isEnrolled: "N/A",
-                selectedEducationType: EducationType.SECONDARY_SCHOOL
+                formData: {
+                    city: "",
+                    completionMonth: "",
+                    completionYear: "",
+                    country: "",
+                    county: "",
+                    educationType: EducationType.SECONDARY_SCHOOL,
+                    expectedCompletionMonth: "",
+                    expectedCompletionYear: "",
+                    isCompleted: "N/A",
+                    isEnrolled: "N/A",
+                    lastYearOfEnrollmentMonth: "",
+                    lastYearOfEnrollmentYear: "",
+                    programName: "",
+                    schoolName: ""
+                }
             };
         },
 
-        mixins: [ComponentHashMixin]
+        mixins: [
+            ComponentHashMixin,
+            HandleFormDataMixin
+        ]
     };
 </script>

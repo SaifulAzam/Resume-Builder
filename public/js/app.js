@@ -366,14 +366,31 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     created: function created() {
+        // The property is set this way to make it non-reactive, so Vue
+        // does not perform an infinite loop when the getFormIndex method
+        // is called.
         this.formIndex = -1;
     },
 
 
     methods: {
+        /**
+         * Returns a new index to bind form data in vuex store.
+         * 
+         * @returns {Number}
+         */
         getFormIndex: function getFormIndex() {
             return ++this.formIndex;
         },
+
+
+        /**
+         * Updates the form data in the vuex store.
+         * 
+         * @param   {Array} props
+         * 
+         * @returns {void} 
+         */
         updateSectionFormData: function updateSectionFormData(props) {
             var _props = _slicedToArray(props, 2),
                 formData = _props[0],
@@ -1727,7 +1744,8 @@ module.exports = g;
 /* harmony default export */ __webpack_exports__["a"] = ({
     props: {
         formIndex: {
-            default: 0
+            default: 0,
+            type: Number
         }
     },
 
@@ -50351,6 +50369,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -51590,6 +51609,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
+        /**
+         * Adds a new item to the list.
+         * 
+         * @returns {void}
+         */
         addItem: function addItem() {
             if (this.text.length === 0) {
                 return;
@@ -51598,6 +51622,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.formData.items.push(this.text);
             this.text = "";
         },
+
+
+        /**
+         * Removes the item from the list by the supplied index.
+         *
+         * @param   {Number} index
+         *
+         * @returns {void}
+         */
         removeItem: function removeItem(index) {
             this.formData.items.splice(index, 1);
         }
@@ -57232,6 +57265,11 @@ var render = function() {
       _c("input", {
         attrs: { name: "_token", type: "hidden" },
         domProps: { value: _vm.$CSRF_TOKEN }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { name: "resume", type: "hidden" },
+        domProps: { value: JSON.stringify(_vm.resume) }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [

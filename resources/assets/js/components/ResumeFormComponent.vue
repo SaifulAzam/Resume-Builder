@@ -1,6 +1,7 @@
 <template>
     <form name="resume-new" :action="form_action_url" method="POST">
         <input name="_token" type="hidden" :value="$CSRF_TOKEN"/>
+        <input name="resume" type="hidden" :value="JSON.stringify(resume)"/>
 
         <div class="row">
             <div class="col-sm">

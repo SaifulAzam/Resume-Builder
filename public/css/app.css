@@ -10416,3 +10416,7 @@ a.text-dark:focus {
   font-style: normal;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+

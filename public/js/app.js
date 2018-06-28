@@ -26511,6 +26511,9 @@ if (token) {
   console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token");
 }
 
+// Set the API URL for the Application to use them all over the front-end.
+window.APP_API = "http://www.resumebuilder.test/api";
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -51612,15 +51615,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /**
          * Adds a new item to the list.
          * 
+         * @param   {String} item
+         * 
          * @returns {void}
          */
-        addItem: function addItem() {
-            if (this.text.length === 0) {
+        addItem: function addItem(item) {
+            if (item.length === 0) {
                 return;
             }
 
-            this.formData.items.push(this.text);
-            this.text = "";
+            this.formData.items.push(item);
         },
 
 
@@ -51700,7 +51704,8 @@ var render = function() {
               attrs: { type: "button", "aria-pressed": "false" },
               on: {
                 click: function($event) {
-                  _vm.addItem()
+                  _vm.addItem(_vm.text)
+                  _vm.text = ""
                 }
               }
             },
@@ -55987,6 +55992,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -56006,11 +56055,122 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_5__ResumeTitleComponent_vue___default.a
     },
 
+    data: function data() {
+        return {
+            occupations: [],
+            responsibilities: [],
+            selectedOccupation: "",
+            requestError: ""
+        };
+    },
+
+
+    methods: {
+        /**
+         * Adds a new responsibility in the list of reponsibilities.
+         * 
+         * @param   {Object} item
+         * @param   {Number} index
+         * 
+         * @returns {void}
+         */
+        addResponsibility: function addResponsibility(item, index) {
+            this.responsibilities.splice(index, 1);
+            this.$refs.formBulletListComponent.addItem(item.name);
+        },
+
+
+        /**
+         * Fetches the occupations based on the typed term.
+         * 
+         * @returns {void}
+         */
+        fetchOccupations: _.debounce(function () {
+            var _this = this;
+
+            if (this.selectedOccupation.length < 1) {
+                return;
+            }
+
+            // Clear all the error and responsibilities to hide them
+            // from screen for each new request.
+            this.requestError = "";
+            this.responsibilities = [];
+
+            var OCCUPATIONS_URL = APP_API + '/occupations';
+
+            axios.get(OCCUPATIONS_URL, {
+                params: {
+                    term: this.selectedOccupation
+                }
+            }).then(function (response) {
+                var data = response.data.data;
+
+                _this.occupations = [];
+
+                if (data.length > 0) {
+                    _this.occupations = data;
+                } else {
+                    _this.requestError = 'Sorry, no occupation was found for term: <span class="font-weight-bold">' + _this.selectedOccupation + "</span>";
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }, 500),
+
+        /**
+         * Fetches the responsibilities for the supplied occupation.
+         * 
+         * @param   {Object} occupation
+         * 
+         * @returns {void}
+         */
+        fetchResponsibilities: function fetchResponsibilities(occupation) {
+            var _this2 = this;
+
+            this.selectedOccupation = occupation.name;
+
+            // Clear all the error and occupations to hide them from
+            // screen for each new request.
+            this.occupations = [];
+            this.requestError = "";
+
+            var RESPONSIBILITIES_URL = APP_API + '/occupations/' + occupation.id + '/responsibilities';
+
+            axios.get(RESPONSIBILITIES_URL).then(function (response) {
+                var data = response.data.data;
+
+                _this2.responsibilities = [];
+
+                if (data.length > 0) {
+                    _this2.responsibilities = data;
+                } else {
+                    _this2.requestError = 'Sorry, no responsibility was found for occupation: <span class="font-weight-bold">' + _this2.selectedOccupation + "</span>";
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_ResetSectionHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_HandleDeletableSectionMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_HandleSectionNameMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__mixins_HandleSectionFormMixin_js__["a" /* default */]],
 
     props: {
         index: Number,
         section: Object
+    },
+
+    watch: {
+        selectedOccupation: function selectedOccupation(value) {
+            // Reset all occupations, responsibilities and error to
+            // hide them from screen whenever the user clears
+            // occupation in the input field.
+            if (value.length < 1) {
+                this.occupations = [];
+                this.responsibilities = [];
+                this.requestError = "";
+            }
+        }
     }
 });
 
@@ -57108,17 +57268,152 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-8" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedOccupation,
+                    expression: "selectedOccupation"
+                  }
+                ],
                 staticClass: "form-control",
                 attrs: {
                   type: "text",
                   placeholder: 'For example, "Manager", or "Sales"',
                   id: _vm.getHashedElementId("job-keyword")
+                },
+                domProps: { value: _vm.selectedOccupation },
+                on: {
+                  input: [
+                    function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.selectedOccupation = $event.target.value
+                    },
+                    _vm.fetchOccupations
+                  ],
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.fetchOccupations($event)
+                  }
                 }
               })
             ])
           ]),
           _vm._v(" "),
+          _vm.requestError.length > 0
+            ? _c("div", { staticClass: "form-group row" }, [
+                _c("div", { staticClass: "col-sm-8 offset-sm-4" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "alert alert-warning",
+                      attrs: { role: "alert" }
+                    },
+                    [
+                      _c("p", {
+                        staticClass: "mb-0",
+                        domProps: { innerHTML: _vm._s(_vm.requestError) }
+                      })
+                    ]
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.responsibilities.length > 0
+            ? _c("div", { staticClass: "form-group row" }, [
+                _c("div", { staticClass: "col-sm-8 offset-sm-4" }, [
+                  _c("p", [
+                    _vm._v("Showing responsibilities for occupation: "),
+                    _c("span", {
+                      staticClass: "font-weight-bold",
+                      domProps: { textContent: _vm._s(_vm.selectedOccupation) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    { staticClass: "list-group" },
+                    _vm._l(_vm.responsibilities, function(item, index) {
+                      return _c(
+                        "li",
+                        {
+                          key: index,
+                          staticClass:
+                            "list-group-item list-group-item-action cursor-pointer",
+                          attrs: { index: index },
+                          on: {
+                            click: function($event) {
+                              _vm.addResponsibility(item, index)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            domProps: { textContent: _vm._s(item.name) }
+                          })
+                        ]
+                      )
+                    })
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.occupations.length > 0
+            ? _c("div", { staticClass: "form-group row" }, [
+                _c("div", { staticClass: "col-sm-8 offset-sm-4" }, [
+                  _c("p", [
+                    _vm._v("Showing "),
+                    _c("span", {
+                      staticClass: "badge badge-primary",
+                      domProps: { textContent: _vm._s(_vm.occupations.length) }
+                    }),
+                    _vm._v(" occupations for term: "),
+                    _c("span", {
+                      staticClass: "font-weight-bold",
+                      domProps: { textContent: _vm._s(_vm.selectedOccupation) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    { staticClass: "list-group" },
+                    _vm._l(_vm.occupations, function(item, index) {
+                      return _c(
+                        "li",
+                        {
+                          key: index,
+                          staticClass:
+                            "list-group-item list-group-item-action cursor-pointer",
+                          attrs: { index: index },
+                          on: {
+                            click: function($event) {
+                              _vm.fetchResponsibilities(item)
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            domProps: { textContent: _vm._s(item.name) }
+                          })
+                        ]
+                      )
+                    })
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c("form-bullet-list-component", {
+            ref: "formBulletListComponent",
             attrs: { "form-index": _vm.getFormIndex() },
             on: { "form-data-updated": _vm.updateSectionFormData }
           })

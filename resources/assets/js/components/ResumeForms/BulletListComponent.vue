@@ -16,7 +16,7 @@
 
                 <div class="text-right py-3">
                     <button type="button" class="btn btn-light shadow-sm" aria-pressed="false"
-                            v-on:click="addItem()">Save and Add Another
+                            v-on:click="addItem(text); text = ''">Save and Add Another
                     </button>
                 </div>
             </div>
@@ -72,15 +72,16 @@
             /**
              * Adds a new item to the list.
              * 
+             * @param   {String} item
+             * 
              * @returns {void}
              */
-            addItem() {
-                if (this.text.length === 0) {
+            addItem(item) {
+                if (item.length === 0) {
                     return;
                 }
 
-                this.formData.items.push(this.text);
-                this.text = "";
+                this.formData.items.push(item);
             },
 
             /**

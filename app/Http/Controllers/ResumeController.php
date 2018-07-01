@@ -130,10 +130,12 @@ class ResumeController extends Controller
 
         return view('pages.resumes-single', [
             'author'          => $resume->author,
+            'created_at'      => $resume->created_at->toDateTimeString(),
             'data'            => $resume->data,
-            'form_action_url' => route('resumes.update'),
+            'form_action_url' => route('resumes.update', ['resume_id' => $resume->id]),
             'template'        => $resume->template,
-            'title'           => $resume->title
+            'title'           => $resume->title,
+            'updated_at'      => $resume->updated_at->toDateTimeString(),
         ]);
     }
 
@@ -147,7 +149,7 @@ class ResumeController extends Controller
      * @throws NoPermissionException
      */
     public function showResumeForm(Request $request) {
-        $author = '';
+        $author = null;
 
         // Determine whether the authenticated user is trying to create a resume
         // or an unauthenticated user since we need to restrict the
@@ -174,6 +176,7 @@ class ResumeController extends Controller
         return view('pages.resumes-single', [
             'author'          => $author,
             'form_action_url' => route('resumes.store'),
+            'template'        => 'Oxford',
             'title'           => 'New Resume'
         ]);
     }
@@ -190,10 +193,10 @@ class ResumeController extends Controller
     public function storeResume(Request $request) {
         $request->validate([
             'author_id'          => 'exists:users,id',
-            'data'               => 'required|array',
-            'registration_email' => 'email|unique:users,email',
-            'registration_name'  => 'required_if:registration_email|string',
-            'registration_pass'  => 'required_if:registration_email|string|min:6|max:16',
+            'data'               => 'required',
+            'registration_email' => 'required_if:registration,true|email|unique:users,email',
+            'registration_name'  => 'required_if:registration,true|string',
+            'registration_pass'  => 'required_if:registration,true|string|min:6|max:16',
             'template'           => 'required|string',
             'title'              => 'required|string',
         ]);
@@ -223,7 +226,7 @@ class ResumeController extends Controller
             // whether they're trying to register or otherwise we'll create a
             // random user and assign it the resume since we always need to
             // assign a user to the resume and hence we're restricted to it.
-            if ($request->has('registration_email') && $request->has('registration_pass')) {
+            if ($request->has('registration') && (bool) $request->input('registration') === true) {
                 $password = $request->input('registration_pass');
 
                 $author = app('\App\Http\Controllers\Auth\RegisterController')->create([
@@ -241,7 +244,7 @@ class ResumeController extends Controller
             }
         }
 
-        $data     = serialize($request->input('data'));
+        $data     = $request->input('data');
         $template = $request->input('template');
         $title    = $request->input('title');
 
@@ -277,7 +280,7 @@ class ResumeController extends Controller
 
         $props = $request->validate([
             'author_id' => 'exists:users,id',
-            'data'      => 'required|array',
+            'data'      => 'required',
             'title'     => 'required|string',
             'template'  => 'required|string',
         ]);

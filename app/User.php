@@ -43,7 +43,7 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function resumes() {
-        return $this->hasMany(Resume::class);
+        return $this->hasMany(Resume::class, 'author_id');
     }
 
     /**

@@ -18,10 +18,10 @@ class CreateResumesTable extends Migration
             $table->string('template');
             $table->string('title');
             $table->text('data');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('author_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('author_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
@@ -36,7 +36,7 @@ class CreateResumesTable extends Migration
     public function down()
     {
         Schema::table('resumes', function (Blueprint $table) {
-            $table->dropForeign('resumes_user_id_foreign');
+            $table->dropForeign('resumes_author_id_foreign');
         });
 
         Schema::dropIfExists('resumes');

@@ -14,10 +14,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <form-employer-information-component
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="employerInformationIndex"
+                        v-bind:initial-data="getInitialFormData(employerInformationIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-employer-information-component>
                 <form-position-information-component
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="positionInformationIndex"
+                        v-bind:initial-data="getInitialFormData(positionInformationIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-position-information-component>
 
                 <div class="form-group row">
@@ -78,7 +80,8 @@
 
                 <form-bullet-list-component
                         ref="formBulletListComponent"
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="bulletListIndex"
+                        v-bind:initial-data="getInitialFormData(bulletListIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-bullet-list-component>
             </div>
         </div>
@@ -102,6 +105,12 @@
             FormEmployerInformationComponent,
             FormPositionInformationComponent,
             ResumeTitleComponent
+        },
+
+        created() {
+            this.employerInformationIndex = this.getFormIndex();
+            this.positionInformationIndex = this.getFormIndex();
+            this.bulletListIndex          = this.getFormIndex();
         },
 
         data() {

@@ -17,6 +17,19 @@ export default {
         },
 
         /**
+         * Returns the initial data from sections provided by the server.
+         * 
+         * @param   {Number} formIndex 
+         * 
+         * @returns {Object}
+         */
+        getInitialFormData(formIndex) {
+            const data = this.section.getData();
+
+            return formIndex < data.length ? data[formIndex] : undefined;
+        },
+
+        /**
          * Updates the form data in the vuex store.
          * 
          * @param   {Array} props

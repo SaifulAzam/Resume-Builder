@@ -14,10 +14,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <form-school-information-component
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="schoolInformationIndex"
+                        v-bind:initial-data="getInitialFormData(schoolInformationIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-school-information-component>
                 <form-bullet-list-component
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="bulletListIndex"
+                        v-bind:initial-data="getInitialFormData(bulletListIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-bullet-list-component>
             </div>
         </div>
@@ -39,6 +41,11 @@
             FormBulletListComponent,
             FormSchoolInformationComponent,
             ResumeTitleComponent
+        },
+
+        created() {
+            this.schoolInformationIndex = this.getFormIndex();
+            this.bulletListIndex        = this.getFormIndex();
         },
 
         mixins: [

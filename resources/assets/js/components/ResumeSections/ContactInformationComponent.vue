@@ -14,7 +14,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <form-contact-information-component
-                        v-bind:form-index="getFormIndex()"
+                        v-bind:form-index="contactInformationIndex"
+                        v-bind:initial-data="getInitialFormData(contactInformationIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-contact-information-component>
 
                 <div class="form-group row">
@@ -44,8 +45,7 @@
                 </div>
 
                 <form-user-registration-component
-                        v-bind:form-index="getFormIndex()"
-                        v-on:form-data-updated="updateSectionFormData"
+                        v-on:form-data-updated="updateRegistrationInformation"
                         v-if="registerUser == 'true'"></form-user-registration-component>
             </div>
         </div>
@@ -69,10 +69,23 @@
             ResumeTitleComponent
         },
 
+        created() {
+            this.contactInformationIndex = this.getFormIndex();
+        },
+
         data() {
             return {
                 registerUser: "true"
             };
+        },
+
+        methods: {
+            updateRegistrationInformation(props) {
+                const [formData, formIndex] = props;
+
+                this.$store.dispatch('updateRegistrationEmail', formData.registrationEmail);
+                this.$store.dispatch('updateRegistrationPassword', formData.registrationPassword);
+            }
         },
 
         mixins: [

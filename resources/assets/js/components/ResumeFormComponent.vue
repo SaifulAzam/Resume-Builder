@@ -1,7 +1,12 @@
 <template>
     <form name="resume-new" :action="form_action_url" method="POST">
         <input name="_token" type="hidden" :value="$CSRF_TOKEN"/>
-        <input name="resume" type="hidden" :value="JSON.stringify(resume)"/>
+        <input name="data" type="hidden" :value="JSON.stringify(resume.getSections())"/>
+        <input name="registration_email" type="hidden" :value="registration_info.email"/>
+        <input name="registration_name" type="hidden" value="Abhishek Prakash"/>
+        <input name="registration_pass" type="hidden" :value="registration_info.password"/>
+        <input name="template" type="hidden" :value="resume.getTemplate()"/>
+        <input name="title" type="hidden" :value="resume.getName()"/>
 
         <div class="row">
             <div class="col-sm">
@@ -26,7 +31,7 @@
                                 <div class="buttons text-right">
                                     <button type="button" class="btn btn-secondary shadow-sm" aria-pressed="false">Preview</button>
 
-                                    <button type="button" class="btn btn-primary shadow-sm" aria-pressed="false">Download</button>
+                                    <button type="submit" class="btn btn-primary shadow-sm" aria-pressed="false">Download</button>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +80,10 @@
         },
 
         computed: {
-            ...mapGetters(["resume"])
+            ...mapGetters([
+                "registration_info",
+                "resume"
+            ])
         },
 
         mixins: [
@@ -85,45 +93,64 @@
         ],
 
         created() {
-            let section1 = new Section({
-                data: [],
-                has_name_editable: false,
-                hash: this.generateSecretHash(),
-                is_default: true,
-                name: "Contact Info",
-                type: SectionType.CONTACT_INFORMATION
-            });
+            let author     = undefined;
+            let created_at = undefined;
+            let data       = undefined;
+            let updated_at = undefined;
+            let sections   = [];
 
-            let section2 = new Section({
-                data: [],
-                hash: this.generateSecretHash(),
-                is_default: true,
-                name: "Work Experience",
-                type: SectionType.WORK_EXPERIENCE
-            });
+            if (this.data !== undefined) {
+                author     = this.author;
+                created_at = this.created_at;
+                data       = JSON.parse(this.data);
+                updated_at = this.updated_at;
 
-            let section3 = new Section({
-                data: [],
-                hash: this.generateSecretHash(),
-                is_default: true,
-                name: "Education",
-                type: SectionType.EDUCATION
-            });
+                data.forEach((section, index) => {
+                    sections[index] = new Section(section);
+                });
+            } else {
+                const section1 = new Section({
+                    data: [],
+                    has_name_editable: false,
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Contact Info",
+                    type: SectionType.CONTACT_INFORMATION
+                });
 
-            let section4 = new Section({
-                data: [],
-                hash: this.generateSecretHash(),
-                is_default: true,
-                name: "Additional Skills",
-                type: SectionType.ADDITIONAL_SKILLS
-            });
+                const section2 = new Section({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Work Experience",
+                    type: SectionType.WORK_EXPERIENCE
+                });
 
-            let resume = new Resume({
-                name: "My Resume",
-                sections: [section1, section2, section3, section4],
-                template: "Oxford",
-                created_at: "12-Nov-2017",
-                updated_at: "13-Nov-2017"
+                const section3 = new Section({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Education",
+                    type: SectionType.EDUCATION
+                });
+
+                const section4 = new Section({
+                    data: [],
+                    hash: this.generateSecretHash(),
+                    is_default: true,
+                    name: "Additional Skills",
+                    type: SectionType.ADDITIONAL_SKILLS
+                });
+
+                sections = [section1, section2, section3, section4];
+            }
+
+            const resume = new Resume({
+                name: this.name,
+                sections: sections,
+                template: this.template,
+                created_at: created_at,
+                updated_at: updated_at
             });
 
             this.$store.dispatch("setResume", resume);
@@ -131,12 +158,22 @@
             // We can mark the first section as active for the resume
             // after it has been successfully rendered on the screen.
             this.$nextTick(() => {
-                this.$store.dispatch("setActiveSection", section1);
+                this.$store.dispatch("setActiveSection", sections[0]);
             });
         },
 
         props: {
-            form_action_url: String
+            author: {
+                default: undefined
+            },
+            created_at: undefined,
+            data: {
+                default: undefined
+            },
+            form_action_url: String,
+            name: String,
+            template: String,
+            updated_at: undefined
         }
     };
 </script>

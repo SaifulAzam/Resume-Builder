@@ -45,6 +45,7 @@ const actions = {
 };
 
 const getters = {
+    author: state => state.author,
     registration_info: state => state.registration_info
 };
 

@@ -18,41 +18,45 @@
                         v-bind:initial-data="getInitialFormData(contactInformationIndex)"
                         v-on:form-data-updated="updateSectionFormData"></form-contact-information-component>
 
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <label class="col-form-label font-weight-bold">Register now?</label>
+                <div v-if="'object' !== typeof author">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="col-form-label font-weight-bold">Register now?</label>
 
-                        <p class="text-muted card-text">Registered users enjoys the lifetime access to their resume.</p>
+                            <p class="text-muted card-text">Registered users enjoys the lifetime access to their resume.</p>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <span class="custom-control custom-radio d-inline mr-3">
+                                <input name="registration" class="custom-control-input" checked="" required="" type="radio" value="true"
+                                    v-bind:id="getHashedElementId('yes')"
+                                    v-model="registerUser">
+                                <label class="custom-control-label"
+                                    v-bind:for="getHashedElementId('yes')">Yes</label>
+                            </span>
+
+                            <span class="custom-control custom-radio d-inline">
+                                <input name="registration" class="custom-control-input" required="" type="radio" value="false"
+                                    v-bind:id="getHashedElementId('no')"
+                                    v-model="registerUser">
+                                <label class="custom-control-label"
+                                    v-bind:for="getHashedElementId('no')">No</label>
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="col-sm-8">
-                        <span class="custom-control custom-radio d-inline mr-3">
-                            <input name="registration" class="custom-control-input" checked="" required="" type="radio" value="true"
-                                   v-bind:id="getHashedElementId('yes')"
-                                   v-model="registerUser">
-                            <label class="custom-control-label"
-                                   v-bind:for="getHashedElementId('yes')">Yes</label>
-                        </span>
-
-                        <span class="custom-control custom-radio d-inline">
-                            <input name="registration" class="custom-control-input" required="" type="radio" value="false"
-                                   v-bind:id="getHashedElementId('no')"
-                                   v-model="registerUser">
-                            <label class="custom-control-label"
-                                   v-bind:for="getHashedElementId('no')">No</label>
-                        </span>
-                    </div>
+                    <form-user-registration-component
+                            v-on:form-data-updated="updateRegistrationInformation"
+                            v-if="registerUser == 'true'"></form-user-registration-component>
                 </div>
-
-                <form-user-registration-component
-                        v-on:form-data-updated="updateRegistrationInformation"
-                        v-if="registerUser == 'true'"></form-user-registration-component>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { mapGetters } from "vuex";
+
     import ComponentHashMixin from "./../../mixins/ComponentHashMixin.js";
     import ResetSectionHashMixin from "./../../mixins/ResetSectionHashMixin.js";
     import HandleDeletableSectionMixin from "./../../mixins/HandleDeletableSectionMixin.js";
@@ -67,6 +71,10 @@
             FormContactInformationComponent,
             FormUserRegistrationComponent,
             ResumeTitleComponent
+        },
+
+        computed: {
+            ...mapGetters(["author"])
         },
 
         created() {

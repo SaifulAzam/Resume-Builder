@@ -50287,16 +50287,20 @@ var getters = {
 
 "use strict";
 var state = {
+    author: undefined,
+
     registration_info: {
         email: "",
         name: "",
         password: ""
-    },
-
-    user: undefined
+    }
 };
 
 var mutations = {
+    UPDATE_AUTHOR: function UPDATE_AUTHOR(state, user) {
+        state.author = user;
+    },
+
     UPDATE_REGISTRATION_EMAIL: function UPDATE_REGISTRATION_EMAIL(state, email) {
         state.registration_info.email = email;
     },
@@ -50311,20 +50315,26 @@ var mutations = {
 };
 
 var actions = {
-    updateRegistrationEmail: function updateRegistrationEmail(_ref, email) {
+    updateAuthor: function updateAuthor(_ref, user) {
         var commit = _ref.commit;
+
+        commit("UPDATE_AUTHOR", user);
+    },
+
+    updateRegistrationEmail: function updateRegistrationEmail(_ref2, email) {
+        var commit = _ref2.commit;
 
         commit("UPDATE_REGISTRATION_EMAIL", email);
     },
 
-    updateRegistrationName: function updateRegistrationName(_ref2, name) {
-        var commit = _ref2.commit;
+    updateRegistrationName: function updateRegistrationName(_ref3, name) {
+        var commit = _ref3.commit;
 
         commit("UPDATE_REGISTRATION_NAME", name);
     },
 
-    updateRegistrationPassword: function updateRegistrationPassword(_ref3, password) {
-        var commit = _ref3.commit;
+    updateRegistrationPassword: function updateRegistrationPassword(_ref4, password) {
+        var commit = _ref4.commit;
 
         commit("UPDATE_REGISTRATION_PASSWORD", password);
     }
@@ -50505,8 +50515,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         var updated_at = undefined;
         var sections = [];
 
+        if (this.author.length > 0) {
+            author = JSON.parse(this.author);
+        }
+
         if (this.data !== undefined) {
-            author = this.author;
             created_at = this.created_at;
             data = JSON.parse(this.data);
             updated_at = this.updated_at;
@@ -50559,6 +50572,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             updated_at: updated_at
         });
 
+        this.$store.dispatch("updateAuthor", author);
         this.$store.dispatch("setResume", resume);
 
         // We can mark the first section as active for the resume

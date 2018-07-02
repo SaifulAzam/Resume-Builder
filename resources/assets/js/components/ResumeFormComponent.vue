@@ -99,8 +99,11 @@
             let updated_at = undefined;
             let sections   = [];
 
+            if (this.author.length > 0) {
+                author = JSON.parse(this.author);
+            }
+
             if (this.data !== undefined) {
-                author     = this.author;
                 created_at = this.created_at;
                 data       = JSON.parse(this.data);
                 updated_at = this.updated_at;
@@ -153,6 +156,7 @@
                 updated_at: updated_at
             });
 
+            this.$store.dispatch("updateAuthor", author);
             this.$store.dispatch("setResume", resume);
 
             // We can mark the first section as active for the resume

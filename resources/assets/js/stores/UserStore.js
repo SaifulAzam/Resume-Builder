@@ -1,14 +1,18 @@
 const state = {
+    author: undefined,
+
     registration_info: {
         email: "",
         name: "",
         password: ""
     },
-
-    user: undefined,
 };
 
 const mutations = {
+    UPDATE_AUTHOR: (state, user) => {
+        state.author = user;
+    },
+
     UPDATE_REGISTRATION_EMAIL: (state, email) => {
         state.registration_info.email = email;
     },
@@ -23,6 +27,10 @@ const mutations = {
 };
 
 const actions = {
+    updateAuthor: ({ commit }, user) => {
+        commit("UPDATE_AUTHOR", user);
+    },
+
     updateRegistrationEmail: ({ commit }, email) => {
         commit("UPDATE_REGISTRATION_EMAIL", email);
     },

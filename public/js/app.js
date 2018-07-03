@@ -50505,7 +50505,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue___default.a
     },
 
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["registration_info", "resume"])),
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["registration_info", "resume"]), {
+        getSubmitButtonText: function getSubmitButtonText() {
+            return this.author.length > 0 ? "Save" : "Download";
+        }
+    }),
 
     mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__["a" /* default */]],
 
@@ -57936,7 +57940,26 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(0),
                   _vm._v(" "),
-                  _vm._m(1)
+                  _c("div", { staticClass: "col-sm" }, [
+                    _c("div", { staticClass: "buttons text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary shadow-sm",
+                          attrs: { type: "button", "aria-pressed": "false" }
+                        },
+                        [_vm._v("Preview")]
+                      ),
+                      _vm._v(" "),
+                      _c("button", {
+                        staticClass: "btn btn-primary shadow-sm",
+                        attrs: { type: "submit", "aria-pressed": "false" },
+                        domProps: {
+                          textContent: _vm._s(_vm.getSubmitButtonText)
+                        }
+                      })
+                    ])
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("resume-navigation-tabs-component"),
@@ -58018,32 +58041,6 @@ var staticRenderFns = [
           })
         ]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm" }, [
-      _c("div", { staticClass: "buttons text-right" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary shadow-sm",
-            attrs: { type: "button", "aria-pressed": "false" }
-          },
-          [_vm._v("Preview")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary shadow-sm",
-            attrs: { type: "submit", "aria-pressed": "false" }
-          },
-          [_vm._v("Download")]
-        )
-      ])
     ])
   }
 ]

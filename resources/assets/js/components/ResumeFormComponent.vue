@@ -31,7 +31,7 @@
                                 <div class="buttons text-right">
                                     <button type="button" class="btn btn-secondary shadow-sm" aria-pressed="false">Preview</button>
 
-                                    <button type="submit" class="btn btn-primary shadow-sm" aria-pressed="false">Download</button>
+                                    <button type="submit" class="btn btn-primary shadow-sm" aria-pressed="false" v-text="getSubmitButtonText"></button>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,11 @@
             ...mapGetters([
                 "registration_info",
                 "resume"
-            ])
+            ]),
+
+            getSubmitButtonText() {
+                return this.author.length > 0 ? "Save" : "Download";
+            }
         },
 
         mixins: [

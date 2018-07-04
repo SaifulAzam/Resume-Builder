@@ -50512,6 +50512,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
 
 
 
@@ -57938,24 +57941,6 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("input", {
-        attrs: { name: "registration_email", type: "hidden" },
-        domProps: { value: _vm.registration_info.email }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: {
-          name: "registration_name",
-          type: "hidden",
-          value: "Abhishek Prakash"
-        }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: "registration_pass", type: "hidden" },
-        domProps: { value: _vm.registration_info.password }
-      }),
-      _vm._v(" "),
-      _c("input", {
         attrs: { name: "template", type: "hidden" },
         domProps: { value: _vm.resume.getTemplate() }
       }),
@@ -57964,6 +57949,28 @@ var render = function() {
         attrs: { name: "title", type: "hidden" },
         domProps: { value: _vm.resume.getName() }
       }),
+      _vm._v(" "),
+      _vm.getAuthor === undefined
+        ? _c("div", [
+            _c("input", {
+              attrs: { name: "registration_email", type: "hidden" },
+              domProps: { value: _vm.registration_info.email }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: {
+                name: "registration_name",
+                type: "hidden",
+                value: "Abhishek Prakash"
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              attrs: { name: "registration_pass", type: "hidden" },
+              domProps: { value: _vm.registration_info.password }
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-sm" }, [

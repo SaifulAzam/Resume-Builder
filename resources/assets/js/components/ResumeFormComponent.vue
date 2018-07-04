@@ -4,11 +4,14 @@
         <input name="_method" type="hidden" :value="form_method"/>
         <input name="author_id" type="hidden" :value="getAuthor.id" v-if="getAuthor !== undefined">
         <input name="data" type="hidden" :value="JSON.stringify(resume.getSections())"/>
-        <input name="registration_email" type="hidden" :value="registration_info.email"/>
-        <input name="registration_name" type="hidden" value="Abhishek Prakash"/>
-        <input name="registration_pass" type="hidden" :value="registration_info.password"/>
         <input name="template" type="hidden" :value="resume.getTemplate()"/>
         <input name="title" type="hidden" :value="resume.getName()"/>
+
+        <div v-if="getAuthor === undefined">
+            <input name="registration_email" type="hidden" :value="registration_info.email"/>
+            <input name="registration_name" type="hidden" value="Abhishek Prakash"/>
+            <input name="registration_pass" type="hidden" :value="registration_info.password"/>
+        </div>
 
         <div class="row">
             <div class="col-sm">

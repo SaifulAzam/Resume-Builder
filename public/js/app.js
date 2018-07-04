@@ -26478,6 +26478,8 @@ Vue.component("resume-add-section-modal-component", __webpack_require__(128));
 
 Vue.component("resume-assign-author-component", __webpack_require__(131));
 
+Vue.component("resume-display-template-name-component", __webpack_require__(139));
+
 var app = new Vue({
     el: "#app",
     store: __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */]
@@ -50150,6 +50152,16 @@ var mutations = {
     },
 
     /**
+     * Updates the template of the resume.
+     *
+     * @param state
+     * @param template
+     */
+    UPDATE_RESUME_TEMPLATE: function UPDATE_RESUME_TEMPLATE(state, template) {
+        state.resume.setTemplate(template);
+    },
+
+    /**
      * Updates the data of the section of the index.
      *
      * @param state
@@ -50246,13 +50258,25 @@ var actions = {
     },
 
     /**
+     * Updates the template of the resume.
+     *
+     * @param commit
+     * @param template
+     */
+    updateResumeTemplate: function updateResumeTemplate(_ref6, template) {
+        var commit = _ref6.commit;
+
+        commit("UPDATE_RESUME_TEMPLATE", template);
+    },
+
+    /**
      * Updates the data of the section of the index.
      *
      * @param commit
      * @param data
      */
-    updateSectionData: function updateSectionData(_ref6, data) {
-        var commit = _ref6.commit;
+    updateSectionData: function updateSectionData(_ref7, data) {
+        var commit = _ref7.commit;
 
         commit("UPDATE_SECTION_DATA", data);
     },
@@ -50263,8 +50287,8 @@ var actions = {
      * @param commit
      * @param data
      */
-    updateSectionName: function updateSectionName(_ref7, data) {
-        var commit = _ref7.commit;
+    updateSectionName: function updateSectionName(_ref8, data) {
+        var commit = _ref8.commit;
 
         commit("UPDATE_SECTION_NAME", data);
     }
@@ -58545,6 +58569,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
     methods: {
+        /**
+         * Fetches the authors based on the typed term.
+         * 
+         * @returns {void}
+         */
         fetchUsers: _.debounce(function () {
             var _this = this;
 
@@ -58552,6 +58581,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 return;
             }
 
+            // Clear the author's list before making the new search to
+            // hide the existing list from the screen.
             this.authors = [];
 
             var AUTHORS_URL = APP_API + '/users';
@@ -58567,6 +58598,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         }, 500),
 
+        /**
+         * Sets the supplied user as an author of the resume.
+         *
+         * @param   {Object} author
+         *
+         * @returns {void}
+         */
         setAuthor: function setAuthor(author) {
             this.$store.dispatch("updateAuthor", author);
         }
@@ -58574,6 +58612,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     watch: {
         selectedAuthor: function selectedAuthor(value) {
+            // Reset all the authors list to hide them from screen
+            // whenever the user clears term in the input field.
             if (value.length < 1) {
                 this.authors = [];
             }
@@ -58754,6 +58794,107 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(140)
+/* template */
+var __vue_template__ = __webpack_require__(141)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeDisplayTemplateNameComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6fded08c", Component.options)
+  } else {
+    hotAPI.reload("data-v-6fded08c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 140 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"]))
+});
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("span", { staticClass: "text-muted" }, [_vm._v("Template:")]),
+    _vm._v(" \n    "),
+    _c("span", {
+      staticClass: "badge badge-pill badge-warning",
+      domProps: { textContent: _vm._s(_vm.resume.getTemplate()) }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6fded08c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -37,6 +37,12 @@ Vue.component(
     require("./components/ResumeAssignAuthorComponent.vue")
 );
 
+Vue.component(
+    "resume-display-template-name-component",
+    require("./components/ResumeDisplayTemplateNameComponent.vue")
+);
+
+
 const app = new Vue({
     el: "#app",
     store: VuexStore

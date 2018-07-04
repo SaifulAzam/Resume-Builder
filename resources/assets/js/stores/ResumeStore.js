@@ -64,6 +64,16 @@ const mutations = {
     },
 
     /**
+     * Updates the template of the resume.
+     *
+     * @param state
+     * @param template
+     */
+    UPDATE_RESUME_TEMPLATE: (state, template) => {
+        state.resume.setTemplate(template);
+    },
+
+    /**
      * Updates the data of the section of the index.
      *
      * @param state
@@ -147,6 +157,16 @@ const actions = {
      */
     updateResumeName: ({ commit }, name) => {
         commit("UPDATE_RESUME_NAME", name);
+    },
+
+    /**
+     * Updates the template of the resume.
+     *
+     * @param commit
+     * @param template
+     */
+    updateResumeTemplate: ({ commit }, template) => {
+        commit("UPDATE_RESUME_TEMPLATE", template);
     },
 
     /**

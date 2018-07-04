@@ -2,15 +2,25 @@
     <div class="card-body">
         @auth
             <div>
-                <div class="buttons text-right mb-3">
-                    <div class="btn btn-sm btn-outline-primary">
-                        <i class="fa-download"></i>
+                <div class="row">
+                    <div class="col-sm">
+                        <resume-display-template-name-component></resume-display-template-name-component>
                     </div>
 
-                    <div class="btn btn-sm btn-danger">
-                        <i class="fa-trash"></i>
+                    <div class="col-sm">
+                        <div class="buttons text-right mt-1">
+                            <div class="btn btn-outline-primary">
+                                <i class="fa-download"></i>
+                            </div>
+
+                            <div class="btn btn-danger">
+                                <i class="fa-trash"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <hr>
             </div>
 
             <div>
@@ -31,9 +41,21 @@
                 @endif
             </div>
         @else
-            <p class="font-weight-bold">We can save resume to your cloud automatically.</p>
+            <div>
+                <div class="row">
+                    <div class="col-sm">
+                        <resume-display-template-name-component></resume-display-template-name-component>
+                    </div>
+                </div>
 
-            <a class="btn btn-outline-primary" href="{{ route('register') }}">Get started</a>
+                <hr>
+            </div>
+
+            <div>
+                <p class="lead">We can save resume to your cloud automatically.</p>
+
+                <a class="btn btn-outline-primary" href="{{ route('register') }}">Get started</a>
+            </div>
         @endauth
     </div>
 </div>

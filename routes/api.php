@@ -16,3 +16,4 @@ use Illuminate\Http\Request;
 Route::get('/occupations', 'API\OccupationController@getOccupations');
 Route::get('/occupations/{occupation_id}/responsibilities', 'API\OccupationController@getResponsibilities');
 Route::get('/templates', 'API\ResumeTemplateController@getTemplates');
+Route::get('/users', 'API\UserController@getAuthors');

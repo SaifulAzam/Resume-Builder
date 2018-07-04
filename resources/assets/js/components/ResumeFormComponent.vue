@@ -1,6 +1,8 @@
 <template>
     <form name="resume-new" :action="form_action_url" method="POST">
         <input name="_token" type="hidden" :value="$CSRF_TOKEN"/>
+        <input name="_method" type="hidden" :value="form_method"/>
+        <input name="author_id" type="hidden" :value="getAuthor.id" v-if="getAuthor !== undefined">
         <input name="data" type="hidden" :value="JSON.stringify(resume.getSections())"/>
         <input name="registration_email" type="hidden" :value="registration_info.email"/>
         <input name="registration_name" type="hidden" value="Abhishek Prakash"/>
@@ -80,13 +82,14 @@
         },
 
         computed: {
-            ...mapGetters([
-                "registration_info",
-                "resume"
-            ]),
+            ...mapGetters({
+                getAuthor: "author",
+                registration_info: "registration_info",
+                resume: "resume"
+            }),
 
             getSubmitButtonText() {
-                return this.author.length > 0 ? "Save" : "Download";
+                return this.getAuthor !== undefined ? "Save" : "Download";
             }
         },
 
@@ -174,14 +177,21 @@
             author: {
                 default: undefined
             },
-            created_at: undefined,
+            created_at: {
+                default: undefined
+            },
             data: {
                 default: undefined
             },
             form_action_url: String,
+            form_method: {
+                default: undefined
+            },
             name: String,
             template: String,
-            updated_at: undefined
+            updated_at: {
+                default: undefined
+            }
         }
     };
 </script>

@@ -22,23 +22,21 @@
                             author="{{ $author }}"
                             data="{{ $data }}"
                             form_action_url="{{ $form_action_url }}"
+                            form_method="{{ $form_method }}"
                             name="{{ $title }}"
                             template="{{ $template }}"></resume-form-component>
                     @else
                     <resume-form-component
                             author="{{ $author }}"
                             form_action_url="{{ $form_action_url }}"
+                            form_method="{{ $form_method }}"
                             name="{{ $title }}"
                             template="{{ $template }}"></resume-form-component>
                     @endif
                 </div>
 
                 <div class="col-md">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            {{--  --}}
-                        </div>
-                    </div>
+                    @include('partials._resume-action-card')
                 </div>
             </div>
         </div>

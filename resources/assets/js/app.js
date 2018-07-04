@@ -32,6 +32,11 @@ Vue.component(
     require("./components/ResumeAddSectionModalComponent.vue")
 );
 
+Vue.component(
+    "resume-assign-author-component",
+    require("./components/ResumeAssignAuthorComponent.vue")
+);
+
 const app = new Vue({
     el: "#app",
     store: VuexStore

@@ -108,6 +108,7 @@ class ResumeController extends Controller
     public function showResume($resume_id) {
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
         $author = $resume->author;
+        $user   = null;
 
         // Determine whether the user is authenticated or holds the resume token
         // to access the resume.
@@ -133,9 +134,11 @@ class ResumeController extends Controller
             'created_at'      => $resume->created_at->toDateTimeString(),
             'data'            => $resume->data,
             'form_action_url' => route('resumes.update', ['resume_id' => $resume->id]),
+            'form_method'     => 'PUT',
             'template'        => $resume->template,
             'title'           => $resume->title,
             'updated_at'      => $resume->updated_at->toDateTimeString(),
+            'user'            => $user
         ]);
     }
 
@@ -150,6 +153,7 @@ class ResumeController extends Controller
      */
     public function showResumeForm(Request $request) {
         $author = null;
+        $user   = null;
 
         // Determine whether the authenticated user is trying to create a resume
         // or an unauthenticated user since we need to restrict the
@@ -176,8 +180,10 @@ class ResumeController extends Controller
         return view('pages.resumes-single', [
             'author'          => $author,
             'form_action_url' => route('resumes.store'),
+            'form_method'     => 'POST',
             'template'        => 'Oxford',
-            'title'           => 'New Resume'
+            'title'           => 'New Resume',
+            'user'            => $user
         ]);
     }
 
@@ -294,7 +300,7 @@ class ResumeController extends Controller
             // been restricted from updating the resume. Or the user should be
             // a person with super privilege if they are not the owner of the
             // resume.
-            if (! $user->hasPermissionTo('update resumes')) {
+            if (! $user->hasPermissionTo('edit resumes')) {
                 throw new NoPermissionException( ResumePermissionError::UPDATE );
             } elseif ((int) $user->id !== (int) $author->id) {
                 if (! $user->hasAnyRole(['administrator', 'moderator'])) {

@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UserRegistered;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -25,13 +26,6 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/resumes';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -39,6 +33,15 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Redirects the user to the dashboard after a successful sign in.
+     * 
+     * @return string
+     */
+    protected function redirectTo() {
+        return route('users.dashboard', [ 'username' => Auth::user()->username ]);
     }
 
     /**

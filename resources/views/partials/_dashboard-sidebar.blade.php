@@ -27,23 +27,25 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">Payments</a>
+            <a class="nav-link" href="#">Subscription</a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#">Clouds</a>
         </li>
 
-        @if ($profile->hasAnyRole(['administrator', 'moderator']))
-        <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
-        </li>
-        @endif
+        @if ((int) Auth::id() === (int) $profile->id)
+            @if ($profile->hasAnyRole(['administrator', 'moderator']))
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Users</a>
+                </li>
+            @endif
 
-        @if ($profile->hasRole(['administrator']))
-        <li class="nav-item">
-            <a class="nav-link" href="#">Occupations</a>
-        </li>
+            @if ($profile->hasRole(['administrator']))
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Occupations</a>
+                </li>
+            @endif
         @endif
     </ul>
 </nav>

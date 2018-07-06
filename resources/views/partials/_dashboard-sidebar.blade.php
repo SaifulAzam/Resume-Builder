@@ -37,7 +37,7 @@
         @if ((int) Auth::id() === (int) $profile->id)
             @if ($profile->hasAnyRole(['administrator', 'moderator']))
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Users</a>
+                    <a class="nav-link {{ \Route::currentRouteName() === 'dashboard.users' ? 'active bg-light' : '' }}" href="{{ route('dashboard.users') }}">Users</a>
                 </li>
             @endif
 

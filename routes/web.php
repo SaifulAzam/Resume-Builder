@@ -27,6 +27,7 @@ Route::middleware('auth')
     ->prefix('dashboard')
     ->group(function () {
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
+        Route::get('/users', 'DashboardController@showUsers')->name('users');
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');

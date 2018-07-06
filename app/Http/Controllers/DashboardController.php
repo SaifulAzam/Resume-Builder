@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\ProfilePermissionError;
 use App\Constants\ResumePermissionError;
+use App\Constants\UserPermissionError;
 use App\Exceptions\NoPermissionException;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,7 +24,7 @@ class DashboardController extends Controller
         $user    = Auth::user();
 
         if ((int) $profile->id !== (int) $user->id) {
-            if ($user->hasAnyRole(['administrator', 'moderator'])) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
             }
         }
@@ -37,7 +39,7 @@ class DashboardController extends Controller
         $user    = Auth::user();
 
         if ((int) $profile->id !== (int) $user->id) {
-            if ($user->hasAnyRole(['administrator', 'moderator'])) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
             }
         }
@@ -65,7 +67,7 @@ class DashboardController extends Controller
         ]);
 
         if ((int) $profile->id !== (int) $user->id) {
-            if ($user->hasAnyRole(['administrator', 'moderator'])) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::UPDATE );
             }
         }
@@ -95,5 +97,19 @@ class DashboardController extends Controller
 
         $profile->save();
         return redirect()->route('dashboard.profile', ['username' => $profile->username]);
+    }
+
+    public function showUsers() {
+        $profile = Auth::user();
+        $users   = User::paginate();
+
+        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+            throw new NoPermissionException( UserPermissionError::VIEW );
+        }
+
+        return view('pages.dashboard.users', [
+            'profile' => $profile,
+            'users'   => $users  
+        ]);
     }
 }

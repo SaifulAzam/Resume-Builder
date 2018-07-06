@@ -3,6 +3,7 @@
 /public/hot
 /public/js
 /public/storage
+/public/uploads/avatars/*
 /resources-backup
 /storage/*.key
 /vendor

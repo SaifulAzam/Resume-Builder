@@ -37,6 +37,6 @@ class LoginController extends Controller
      * @return string
      */
     protected function redirectTo() {
-        return route('users.dashboard', [ 'username' => Auth::user()->username ]);
+        return route('dashboard.statistics', [ 'username' => Auth::user()->username ]);
     }
 }

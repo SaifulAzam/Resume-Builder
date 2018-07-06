@@ -20,12 +20,17 @@ Route::name('resumes.')->prefix('resumes')->group(function () {
     Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
     Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');
     Route::delete('/{resume_id}', 'ResumeController@deleteResume')->name('destroy');
-
-    Route::get('/', 'ResumeController@showAllResumes')->name('all');
 });
 
-Route::name('users.')->prefix('profile')->group(function () {
-    Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->where(['username' => '[a-z0-9]+'])->name('resumes');
+Route::middleware('auth')
+    ->name('dashboard.')
+    ->prefix('dashboard')
+    ->group(function () {
+        Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
+        Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
+        Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
+        Route::post('/{username}/profile', 'DashboardController@updateProfile');
+        Route::get('/{username}', 'DashboardController@showStatistics')->name('statistics');
 });
 
 Route::get('/', function () {

@@ -64,19 +64,16 @@ class ResumeController extends Controller
      * @throws NoPermissionException
      */
     public function showAllResumes($username = null) {
-        if (! Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $resumes = new Resume;
         $user    = Auth::user();
+        $profile = $user;
 
         $is_super_user = $user->hasAnyRole(['administrator', 'moderator']);
 
         // We'll determine whether resumes are being requested of a particular
         // user or all and then display the resumes accordingly.
         if (! empty($username)) {
-            $author = User::with('resumes')->where('username', $username)->firstOrFail();
+            $author = User::where('username', $username)->firstOrFail();
 
             // Restrict the user to access the resumes of other users if
             // they are not the users with super privileges.
@@ -84,16 +81,22 @@ class ResumeController extends Controller
                 throw new NoPermissionException( ResumePermissionError::VIEW );
             }
 
-            $resumes = $author->resumes;
+            $profile = $author;
+            $resumes = Resume::where('author_id', $author->id);
         } else {
             if (! $is_super_user) {
-                return redirect()->route('users.resumes', ['username' => $user->username]);
+                return redirect()->route('dashboard.resumes', ['username' => $user->username]);
             }
 
-            $resumes = $resumes->all();
+            $resumes = $resumes->with('author');
         }
 
-        return view('pages.resumes-all', [ 'resumes' => $resumes ]);
+        $resumes = $resumes->paginate();
+
+        return view('pages.dashboard.resumes', [
+            'profile' => $profile,
+            'resumes' => $resumes
+        ]);
     }
 
     /**
@@ -129,7 +132,7 @@ class ResumeController extends Controller
             throw new NoPermissionException( ResumePermissionError::VIEW );
         }
 
-        return view('pages.resumes-single', [
+        return view('pages.resume-form', [
             'author'          => $resume->author,
             'created_at'      => $resume->created_at->toDateTimeString(),
             'data'            => $resume->data,
@@ -177,7 +180,7 @@ class ResumeController extends Controller
             }
         }
 
-        return view('pages.resumes-single', [
+        return view('pages.resume-form', [
             'author'          => $author,
             'form_action_url' => route('resumes.store'),
             'form_method'     => 'POST',

@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect()->route('users.resumes', ['username' => Auth::user()->username]);
+            return redirect()->route('dashboard.statistics', ['username' => Auth::user()->username]);
         }
 
         return $next($request);

@@ -19,8 +19,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdown-profile">
                             <a class="dropdown-item" href="{{ route('resumes.create') }}">New Resume</a>
-                            <a class="dropdown-item" href="{{ route('users.resumes', ['username' => Auth::user()->username]) }}">Resumes</a>
-                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="{{ route('dashboard.statistics', ['username' => Auth::user()->username]) }}">Dashboard</a>
 
                             <form class="dropdown-item px-0 py-0" action="{{ route('logout') }}" method="POST">
                                 {{ csrf_field() }}

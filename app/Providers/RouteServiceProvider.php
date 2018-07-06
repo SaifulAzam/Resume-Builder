@@ -23,10 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Apply a constraint to the resume id so the user can not supply
-        // any other value rather than integer for the resume to break the
-        // application.
+        // Apply a constraint to the resume id and username so the user
+        // can not supply any other value rather than the matching pattern
+        // for the resume to break the application.
         Route::pattern('resume_id', '[0-9]+');
+        Route::pattern('username', '[a-z0-9]+');
 
         parent::boot();
     }

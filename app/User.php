@@ -5,6 +5,7 @@ namespace App;
 use Faker\Generator as Faker;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -13,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use HasRoles, Notifiable;
+    use Billable, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.

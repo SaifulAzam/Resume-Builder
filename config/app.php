@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
         /*
          * Application Service Providers...

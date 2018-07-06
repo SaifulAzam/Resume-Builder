@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.26 on 2018-07-05 23:01:43.
+ * Generated for Laravel 5.6.26 on 2018-07-06 11:27:59.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14859,6 +14859,8 @@ namespace  {
 
     class Hash extends \Illuminate\Support\Facades\Hash {}
 
+    class Image extends \Intervention\Image\Facades\Image {}
+
     class Lang extends \Illuminate\Support\Facades\Lang {}
 
     class Log extends \Illuminate\Support\Facades\Log {}
@@ -14890,8 +14892,6 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
-
-    class Image extends \Intervention\Image\Facades\Image {}
  
 }
 

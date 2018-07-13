@@ -3,7 +3,7 @@
         <input name="_token" type="hidden" :value="$CSRF_TOKEN"/>
         <input name="_method" type="hidden" :value="form_method"/>
         <input name="author_id" type="hidden" :value="getAuthor.id" v-if="getAuthor !== undefined">
-        <input name="data" type="hidden" :value="JSON.stringify(resume.getSections())"/>
+        <input name="data" type="hidden" :value="JSON.stringify(resume_sections)"/>
         <input name="template" type="hidden" :value="resume.getTemplate()"/>
         <input name="title" type="hidden" :value="resume.getName()"/>
 
@@ -176,6 +176,12 @@
             });
         },
 
+        data() {
+            return {
+                resume_sections: {}
+            };
+        },
+
         props: {
             author: {
                 default: undefined
@@ -194,6 +200,18 @@
             template: String,
             updated_at: {
                 default: undefined
+            }
+        },
+
+        watch: {
+            resume: {
+                deep: true,
+                immediate: true,
+                handler: function (resume) {
+                    if (resume !== undefined) {
+                        this.resume_sections = resume.getSections();
+                    }
+                }
             }
         }
     };

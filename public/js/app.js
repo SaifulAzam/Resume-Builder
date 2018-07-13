@@ -50623,6 +50623,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             _this.$store.dispatch("setActiveSection", sections[0]);
         });
     },
+    data: function data() {
+        return {
+            resume_sections: {}
+        };
+    },
 
 
     props: {
@@ -50643,6 +50648,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         template: String,
         updated_at: {
             default: undefined
+        }
+    },
+
+    watch: {
+        resume: {
+            deep: true,
+            immediate: true,
+            handler: function handler(resume) {
+                if (resume !== undefined) {
+                    this.resume_sections = resume.getSections();
+                }
+            }
         }
     }
 });
@@ -57937,7 +57954,7 @@ var render = function() {
       _vm._v(" "),
       _c("input", {
         attrs: { name: "data", type: "hidden" },
-        domProps: { value: JSON.stringify(_vm.resume.getSections()) }
+        domProps: { value: JSON.stringify(_vm.resume_sections) }
       }),
       _vm._v(" "),
       _c("input", {

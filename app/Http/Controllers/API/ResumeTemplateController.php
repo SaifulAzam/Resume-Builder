@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ResumeTemplateResource;
 use App\Resume;
 
 /**
@@ -18,12 +17,8 @@ class ResumeTemplateController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getTemplates() {
-        $templates = [];
-
-        foreach (Resume::$templates as $template) {
-            // 
-        }
-
-        return ResumeTemplateResource::collection($templates);
+        return response()->json(
+            Resume::getTemplates()
+        );
     }
 }

@@ -110,6 +110,7 @@
             let data       = undefined;
             let updated_at = undefined;
             let sections   = [];
+            let showTemplateModal = false;
 
             if (this.author.length > 0) {
                 author = JSON.parse(this.author);
@@ -124,6 +125,8 @@
                     sections[index] = new Section(section);
                 });
             } else {
+                showTemplateModal = true;
+
                 const section1 = new Section({
                     data: [],
                     has_name_editable: false,
@@ -175,7 +178,44 @@
             // after it has been successfully rendered on the screen.
             this.$nextTick(() => {
                 this.$store.dispatch("setActiveSection", sections[0]);
+
+                this.fetchTemplates()
+                    .then(response => {
+                            this.$store.dispatch("setTemplates", response.data)
+                                .then(() => {
+                                    $('.owl-carousel').owlCarousel({
+                                        center: true,
+                                        dots: false,
+                                        stagePadding: 50,
+                                        loop: true,
+                                        margin: 10,
+                                        nav: true,
+                                        navText: ['<span class="fas fa-chevron-left"></span>', '<span class="fas fa-chevron-right"></span>'],
+                                        navClass: ['owl-prev', 'owl-next'],
+                                        responsive:{
+                                            0: {
+                                                items:1
+                                            }
+                                        }
+                                    });
+
+                                    if (showTemplateModal) {
+                                        $("#select-template-modal").modal("show");
+                                    }
+                                });
+                        });
             });
+        },
+
+        methods: {
+            fetchTemplates() {
+                const TEMPLATES_URL = APP_API + '/templates';
+
+                return axios.get(TEMPLATES_URL)
+                    .catch(error => {
+                        console.log(error.response);
+                    });
+            }
         },
 
         props: {

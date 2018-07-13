@@ -4,7 +4,9 @@ const state = {
      *
      * @type {Object}
      */
-    resume: undefined
+    resume: undefined,
+
+    templates: []
 };
 
 const mutations = {
@@ -51,6 +53,16 @@ const mutations = {
      */
     SET_ACTIVE_SECTION: (state, section) => {
         state.resume.setActiveSection(section);
+    },
+
+    /**
+     * Sets the supplied templates as available for the resume.
+     *
+     * @param state
+     * @param templates
+     */
+    SET_TEMPLATES: (state, templates) => {
+        state.templates = templates;
     },
 
     /**
@@ -150,6 +162,16 @@ const actions = {
     },
 
     /**
+     * Sets the supplied templates as available for the resume.
+     *
+     * @param commit
+     * @param section
+     */
+    setTemplates({ commit }, templates) {
+        commit("SET_TEMPLATES", templates);
+    },
+
+    /**
      * Updates the name of the resume.
      *
      * @param commit
@@ -191,7 +213,8 @@ const actions = {
 };
 
 const getters = {
-    resume: state => state.resume
+    resume: state => state.resume,
+    templates: state => state.templates
 };
 
 export default {

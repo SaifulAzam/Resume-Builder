@@ -42,5 +42,6 @@
         </div>
 
         <resume-add-section-modal-component></resume-add-section-modal-component>
+        <resume-select-template-modal-component></resume-select-template-modal-component>
     </section>
 @endsection

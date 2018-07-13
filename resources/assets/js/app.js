@@ -28,11 +28,6 @@ Vue.component(
 );
 
 Vue.component(
-    "resume-download-form-component",
-    require("./components/ResumeDownloadFormComponent.vue")
-);
-
-Vue.component(
     "resume-add-section-modal-component",
     require("./components/ResumeAddSectionModalComponent.vue")
 );
@@ -47,6 +42,15 @@ Vue.component(
     require("./components/ResumeDisplayTemplateNameComponent.vue")
 );
 
+Vue.component(
+    "resume-download-form-component",
+    require("./components/ResumeDownloadFormComponent.vue")
+);
+
+Vue.component(
+    "resume-select-template-modal-component",
+    require("./components/ResumeSelectTemplateModalComponent.vue")
+);
 
 const app = new Vue({
     el: "#app",

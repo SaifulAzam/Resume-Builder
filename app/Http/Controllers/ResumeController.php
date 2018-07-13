@@ -226,11 +226,13 @@ class ResumeController extends Controller
             }
         }
 
+        $templates = Resume::getTemplates();
+
         return view('pages.resume-form', [
             'author'          => $author,
             'form_action_url' => route('resumes.store'),
             'form_method'     => 'POST',
-            'template'        => 'Oxford',
+            'template'        => $templates[0]['name'],
             'title'           => 'New Resume',
             'user'            => $user
         ]);

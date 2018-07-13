@@ -18,6 +18,7 @@ try {
     window.$ = window.jQuery = require("jquery");
 
     require("bootstrap");
+    require('owl.carousel');
 } catch (e) {}
 
 /**

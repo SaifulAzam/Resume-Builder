@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "es6-promise": "^4.2.4",
+        "owl.carousel": "^2.3.4",
         "vuex": "^3.0.1"
     }
 }

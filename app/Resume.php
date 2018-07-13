@@ -4,6 +4,7 @@ namespace App;
 
 use App\Contracts\ResumeTokenInterface;
 use Carbon\Carbon;
+use File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cookie;
 
@@ -22,15 +23,6 @@ class Resume extends Model implements ResumeTokenInterface
         'data',
         'template',
         'title'
-    ];
-
-    /**
-     * The name of the design templates.
-     *
-     * @var array
-     */
-    public static $templates = [
-        //
     ];
 
     /**
@@ -71,6 +63,39 @@ class Resume extends Model implements ResumeTokenInterface
       return $this->token()->create([
           'key' => $key
       ]);
+    }
+
+    /**
+     * Returns the available templates for the resume.
+     * 
+     * @return array
+     */
+    public static function getTemplates() : array {
+        $templates_path = resource_path("views\\resumes\\");
+        $templates = glob($templates_path . "*");
+        $thumbnails_path = public_path("uploads\\template_thumbnails\\");
+
+        $templates = array_map(function ($template) use ($templates_path, $thumbnails_path) {
+            $name = basename($template);
+            $thumbnail_path = $thumbnails_path . $name . ".jpg";
+
+            if (! file_exists($thumbnail_path)) {
+                $temp_thumbail_path = $templates_path . $name . "\\thumbnail.jpg";
+
+                if (file_exists($temp_thumbail_path)) {
+                    File::copy($temp_thumbail_path, $thumbnail_path);
+                }
+            }
+
+            $thumbnail = asset("uploads/template_thumbnails/" . $name . ".jpg");
+
+            return [
+                'name'    => $name,
+                'preview' => $thumbnail
+            ];
+        }, $templates);
+
+        return $templates;
     }
 
     /**

@@ -64,7 +64,7 @@
 </script>
 
 <style lang="sass" scoped>
-    .img-thumbnail
+    .img-thumbnail:not(.resume-preview)
 
         &:hover
             border: 1px solid var(--primary)

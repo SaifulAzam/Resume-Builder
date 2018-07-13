@@ -62990,7 +62990,7 @@ exports = module.exports = __webpack_require__(25)(false);
 
 
 // module
-exports.push([module.i, "\n.img-thumbnail[data-v-5ca89b64]:hover {\n  border: 1px solid var(--primary);\n}\n.active .img-thumbnail[data-v-5ca89b64] {\n  border: 1px solid var(--primary);\n}\n.resume-preview[data-v-5ca89b64] {\n  height: 100%;\n  min-height: 1035px;\n}\n", ""]);
+exports.push([module.i, "\n.img-thumbnail[data-v-5ca89b64]:not(.resume-preview):hover {\n  border: 1px solid var(--primary);\n}\n.active .img-thumbnail[data-v-5ca89b64] {\n  border: 1px solid var(--primary);\n}\n.resume-preview[data-v-5ca89b64] {\n  height: 100%;\n  min-height: 1035px;\n}\n", ""]);
 
 // exports
 

@@ -37,8 +37,8 @@
                     <div class="py-2">
                         <div>
                             <div class="d-inline mr-2">
-                                @if (! empty($profile->avatar))
-                                    <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ $profile->avatar }}">
+                                @if (! empty($author->avatar))
+                                    <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ $author->avatar }}">
                                 @else
                                     <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ asset('uploads/avatars/default.png' ) }}">
                                 @endif

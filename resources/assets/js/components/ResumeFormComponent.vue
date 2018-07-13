@@ -93,7 +93,7 @@
             }),
 
             getSubmitButtonText() {
-                return this.getAuthor !== undefined ? "Save" : "<i class='fa-download'></i>&nbsp;Download";
+                return this.getAuthor !== undefined ? "<i class='fa-save'></i>&nbsp;Save" : "<i class='fa-download'></i>&nbsp;Download";
             }
         },
 

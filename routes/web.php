@@ -20,7 +20,7 @@ Route::name('resumes.')
         Route::post('/new', 'ResumeController@storeResume')->name('store');
 
         Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
-        Route::post('/download', 'ResumeController@duplicateResume')->name('download');
+        Route::post('/download', 'ResumeController@downloadResume')->name('download');
         Route::post('/{resume_id}/duplicate', 'ResumeController@duplicateResume')->name('duplicate');
         Route::post('/preview', 'ResumeController@previewResume')->name('preview');
         Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');

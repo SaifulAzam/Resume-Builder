@@ -54,7 +54,7 @@ class ResumeController extends Controller
         return redirect()->route('resumes.create')->with('status', 'deleted');
     }
 
-    public function downloadResume($resume_id) {
+    public function downloadResume(Request $request) {
         // 
     }
 

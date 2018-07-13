@@ -43,20 +43,31 @@
                                                     </td>
                                                     <td>{{ $resume->author->name }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($resume->updated_at)->diffForHumans(\Carbon\Carbon::now()) }}</td>
-                                                    <td>
-                                                        <div class="buttons text-right">
-                                                            <div class="btn btn-sm btn-light">
-                                                                <i class="fa-download"></i>
-                                                            </div>
+                                                    <td class="text-right">
+                                                        <form class="d-inline" name="download-resume" action="{{ route('resumes.download') }}" method="post">
+                                                            @csrf
 
-                                                            <div class="btn btn-sm btn-light">
+                                                            <button type="submit" class="btn btn-sm btn-light">
+                                                                <i class="fa-download"></i>
+                                                            </button>
+                                                        </form>
+
+                                                        <form class="d-inline" name="duplicate-resume" action="{{ route('resumes.duplicate', ['resume_id' => $resume->id]) }}" method="post">
+                                                            @csrf
+
+                                                            <button type="submit" class="btn btn-sm btn-light">
                                                                 <i class="fa-copy"></i>
-                                                            </div>
-                                                            
-                                                            <div class="btn btn-sm btn-danger">
+                                                            </button>
+                                                        </form>
+
+                                                        <form class="d-inline" name="delete-resume" action="{{ route('resumes.destroy', ['resume_id' => $resume->id]) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="fa-trash"></i>
-                                                            </div>
-                                                        </div>
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach

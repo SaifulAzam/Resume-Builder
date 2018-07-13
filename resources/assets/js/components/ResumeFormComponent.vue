@@ -72,6 +72,7 @@
 
     import ComponentHashMixin from "./../mixins/ComponentHashMixin.js";
     import HandleBootstrapElementsMixin from "./../mixins/HandleBootstrapElementsMixin.js";
+    import HandleFormSectionDataMixin from "./../mixins/HandleFormSectionDataMixin.js";
     import HandleResumeNameMixin from "./../mixins/HandleResumeNameMixin.js";
     import ResumeNavigationTabsComponent from "./ResumeNavigationTabsComponent.vue";
     import ResumeSectionElementsComponent from "./ResumeSectionElementsComponent.vue";
@@ -99,6 +100,7 @@
         mixins: [
             ComponentHashMixin,
             HandleBootstrapElementsMixin,
+            HandleFormSectionDataMixin,
             HandleResumeNameMixin
         ],
 
@@ -176,12 +178,6 @@
             });
         },
 
-        data() {
-            return {
-                resume_sections: {}
-            };
-        },
-
         props: {
             author: {
                 default: undefined
@@ -202,17 +198,5 @@
                 default: undefined
             }
         },
-
-        watch: {
-            resume: {
-                deep: true,
-                immediate: true,
-                handler: function (resume) {
-                    if (resume !== undefined) {
-                        this.resume_sections = resume.getSections();
-                    }
-                }
-            }
-        }
     };
 </script>

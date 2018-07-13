@@ -13,13 +13,18 @@
 
 Auth::routes();
 
-Route::name('resumes.')->prefix('resumes')->group(function () {
-    Route::get('/new', 'ResumeController@showResumeForm')->name('create');
-    Route::post('/new', 'ResumeController@storeResume')->name('store');
+Route::name('resumes.')
+    ->prefix('resumes')
+    ->group(function () {
+        Route::get('/new', 'ResumeController@showResumeForm')->name('create');
+        Route::post('/new', 'ResumeController@storeResume')->name('store');
 
-    Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
-    Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');
-    Route::delete('/{resume_id}', 'ResumeController@deleteResume')->name('destroy');
+        Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
+        Route::post('/download', 'ResumeController@duplicateResume')->name('download');
+        Route::post('/{resume_id}/duplicate', 'ResumeController@duplicateResume')->name('duplicate');
+        Route::post('/preview', 'ResumeController@previewResume')->name('preview');
+        Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');
+        Route::delete('/{resume_id}', 'ResumeController@deleteResume')->name('destroy');
 });
 
 Route::middleware('auth')

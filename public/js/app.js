@@ -26474,6 +26474,8 @@ Vue.prototype.$http = window.axios;
 
 Vue.component("resume-form-component", __webpack_require__(57));
 
+Vue.component("resume-download-form-component", __webpack_require__(145));
+
 Vue.component("resume-add-section-modal-component", __webpack_require__(128));
 
 Vue.component("resume-assign-author-component", __webpack_require__(131));
@@ -50441,13 +50443,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__mixins_HandleFormSectionDataMixin_js__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__mixins_HandleResumeNameMixin_js__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeNavigationTabsComponent_vue__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ResumeNavigationTabsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__ResumeNavigationTabsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeSectionElementsComponent_vue__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ResumeSectionElementsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__ResumeSectionElementsComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ResumeTitleComponent_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ResumeTitleComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__ResumeTitleComponent_vue__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -50529,11 +50532,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        ResumeNavigationTabsComponent: __WEBPACK_IMPORTED_MODULE_7__ResumeNavigationTabsComponent_vue___default.a,
-        ResumeSectionElementsComponent: __WEBPACK_IMPORTED_MODULE_8__ResumeSectionElementsComponent_vue___default.a,
-        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_9__ResumeTitleComponent_vue___default.a
+        ResumeNavigationTabsComponent: __WEBPACK_IMPORTED_MODULE_8__ResumeNavigationTabsComponent_vue___default.a,
+        ResumeSectionElementsComponent: __WEBPACK_IMPORTED_MODULE_9__ResumeSectionElementsComponent_vue___default.a,
+        ResumeTitleComponent: __WEBPACK_IMPORTED_MODULE_10__ResumeTitleComponent_vue___default.a
     },
 
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({
@@ -50546,7 +50550,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         }
     }),
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_HandleResumeNameMixin_js__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_4__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__mixins_HandleBootstrapElementsMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__mixins_HandleFormSectionDataMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__mixins_HandleResumeNameMixin_js__["a" /* default */]],
 
     created: function created() {
         var _this = this;
@@ -50623,11 +50627,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             _this.$store.dispatch("setActiveSection", sections[0]);
         });
     },
-    data: function data() {
-        return {
-            resume_sections: {}
-        };
-    },
 
 
     props: {
@@ -50648,18 +50647,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         template: String,
         updated_at: {
             default: undefined
-        }
-    },
-
-    watch: {
-        resume: {
-            deep: true,
-            immediate: true,
-            handler: function handler(resume) {
-                if (resume !== undefined) {
-                    this.resume_sections = resume.getSections();
-                }
-            }
         }
     }
 });
@@ -58578,6 +58565,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -58632,6 +58625,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         setAuthor: function setAuthor(author) {
             this.$store.dispatch("updateAuthor", author);
         }
+    },
+
+    props: {
+        defaultAvatar: String
     },
 
     watch: {
@@ -58740,7 +58737,23 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._m(1, true),
+                      _c("div", { staticClass: "mr-2 mt-2" }, [
+                        user.avatar.length > 0
+                          ? _c("div", [
+                              _c("img", {
+                                staticClass: "rounded-circle",
+                                staticStyle: { width: "30px", height: "30px" },
+                                attrs: { src: user.avatar }
+                              })
+                            ])
+                          : _c("div", [
+                              _c("img", {
+                                staticClass: "rounded-circle",
+                                staticStyle: { width: "30px", height: "30px" },
+                                attrs: { src: _vm.defaultAvatar }
+                              })
+                            ])
+                      ]),
                       _vm._v(" "),
                       _c("div", [
                         _c("span", {
@@ -58778,24 +58791,6 @@ var staticRenderFns = [
         attrs: {
           "data-src": "holder.js/45x45",
           alt: "45x45",
-          src:
-            "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1646211c6f3%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1646211c6f3%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274%22%20y%3D%22104.8%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-          "data-holder-rendered": "true"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mr-2 mt-2" }, [
-      _c("img", {
-        staticClass: "rounded-circle",
-        staticStyle: { width: "30px", height: "30px" },
-        attrs: {
-          "data-src": "holder.js/30x30",
-          alt: "30x30",
           src:
             "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1646211c6f3%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1646211c6f3%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274%22%20y%3D%22104.8%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
           "data-holder-rendered": "true"
@@ -58915,6 +58910,175 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume"])),
+
+    data: function data() {
+        return {
+            resume_sections: {}
+        };
+    },
+
+
+    watch: {
+        resume: {
+            deep: true,
+            immediate: true,
+            handler: function handler(resume) {
+                if (resume !== undefined) {
+                    this.resume_sections = resume.getSections();
+                }
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(146)
+/* template */
+var __vue_template__ = __webpack_require__(147)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeDownloadFormComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-07c3411d", Component.options)
+  } else {
+    hotAPI.reload("data-v-07c3411d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 146 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_HandleFormSectionDataMixin_js__ = __webpack_require__(141);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_HandleFormSectionDataMixin_js__["a" /* default */]],
+
+    props: {
+        form_action_url: String
+    }
+});
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass: "d-inline",
+      attrs: {
+        name: "download-resume",
+        action: _vm.form_action_url,
+        method: "post"
+      }
+    },
+    [
+      _c("input", {
+        attrs: { name: "_token", type: "hidden" },
+        domProps: { value: _vm.$CSRF_TOKEN }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { name: "data", type: "hidden" },
+        domProps: { value: JSON.stringify(_vm.resume_sections) }
+      }),
+      _vm._v(" "),
+      _vm._m(0)
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
+      [_c("i", { staticClass: "fa-download" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-07c3411d", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

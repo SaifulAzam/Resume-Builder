@@ -31,9 +31,7 @@
                                     <div class="col-md-6">
                                         <div class="card border-0 shadow-sm text-center">
                                             <div class="card-body px-0 pb-0">
-                                                <p class="display-1 font-weight-bold text-warning">
-                                                    <sup class="text-secondary">$</sup>7.25
-                                                </p>
+                                                <p class="display-1 font-weight-bold text-warning">FREE</p>
 
                                                 <h4 class="lead text-secondary">Monthly Plan</h4>
 

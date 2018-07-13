@@ -81,7 +81,7 @@
                                 <div class="mt-3">
                                     <div class="text-center">
                                         @if (! empty($profile->avatar))
-                                            <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ asset('uploads/avatars/' . $profile->avatar ) }}">
+                                            <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ $profile->avatar }}">
                                         @else
                                             <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ asset('uploads/avatars/default.png' ) }}">
                                         @endif

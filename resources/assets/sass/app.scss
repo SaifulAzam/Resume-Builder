@@ -12,3 +12,13 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+#dashboard-sidebar a {
+    color: #F0F0F0;
+}
+
+#dashboard-sidebar a.active {
+    background-color: #0869D1;
+    border-radius: 5px;
+    color: #FFF;
+}

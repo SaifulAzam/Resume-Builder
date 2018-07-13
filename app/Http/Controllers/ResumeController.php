@@ -51,7 +51,52 @@ class ResumeController extends Controller
         }
 
         $resume->delete();
-        return redirect()->route('resumes.single')->with('status', 'deleted');
+        return redirect()->route('resumes.create')->with('status', 'deleted');
+    }
+
+    public function downloadResume($resume_id) {
+        // 
+    }
+
+    /**
+     * Duplicates the resume in the database.
+     *
+     * @param  int $resume_id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws NoPermissionException
+     */
+    public function duplicateResume($resume_id) {
+        $resume = Resume::with('author')->findOrFail($resume_id);
+        $author = $resume->author;
+
+        // To duplicate a resume either the user should be the owner of
+        // it or they must hold the super user privilege.
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            // Next, we'll determine whether the authenticated user has not
+            // been restricted from deleting the resume. Or the user should be
+            // a person with super privilege if they are not the owner of the
+            // resume.
+            if (! $user->hasPermissionTo('create resumes')) {
+                throw new NoPermissionException( ResumePermissionError::CREATE );
+            } elseif ((int) $user->id !== (int) $author->id) {
+                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                    throw new NoPermissionException( ResumePermissionError::CREATE );
+                }
+            }
+        }
+
+        $new_resume = $resume->replicate();
+        $new_resume->save();
+
+        return redirect()->route('resumes.single', ['resume_id' => $new_resume->id])->with('status', 'created');
+    }
+
+    public function previewResume($resume_id) {
+        // 
     }
 
     /**
@@ -138,6 +183,7 @@ class ResumeController extends Controller
             'data'            => $resume->data,
             'form_action_url' => route('resumes.update', ['resume_id' => $resume->id]),
             'form_method'     => 'PUT',
+            'resume_id'       => $resume->id,
             'template'        => $resume->template,
             'title'           => $resume->title,
             'updated_at'      => $resume->updated_at->toDateTimeString(),

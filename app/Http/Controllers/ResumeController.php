@@ -95,10 +95,6 @@ class ResumeController extends Controller
         return redirect()->route('resumes.single', ['resume_id' => $new_resume->id])->with('status', 'created');
     }
 
-    public function previewResume($resume_id) {
-        // 
-    }
-
     /**
      * Displays all the resumes.
      *

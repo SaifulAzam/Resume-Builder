@@ -48,6 +48,11 @@ Vue.component(
 );
 
 Vue.component(
+    "resume-preview-modal-component",
+    require("./components/ResumePreviewModalComponent.vue")
+);
+
+Vue.component(
     "resume-select-template-modal-component",
     require("./components/ResumeSelectTemplateModalComponent.vue")
 );

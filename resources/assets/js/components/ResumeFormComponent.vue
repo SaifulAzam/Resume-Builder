@@ -34,9 +34,9 @@
 
                             <div class="col-sm">
                                 <div class="buttons text-right">
-                                    <button type="button" class="btn btn-secondary shadow-sm" aria-pressed="false">Preview</button>
+                                    <a class="btn btn-secondary shadow-sm text-white" role="button" data-toggle="modal" data-target="#resume-preview-modal">Preview</a>
 
-                                    <button type="submit" class="btn btn-primary shadow-sm" aria-pressed="false" v-text="getSubmitButtonText"></button>
+                                    <button type="submit" class="btn btn-primary shadow-sm" aria-pressed="false" v-html="getSubmitButtonText"></button>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
             }),
 
             getSubmitButtonText() {
-                return this.getAuthor !== undefined ? "Save" : "Download";
+                return this.getAuthor !== undefined ? "Save" : "<i class='fa-download'></i>&nbsp;Download";
             }
         },
 

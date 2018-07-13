@@ -22,7 +22,6 @@ Route::name('resumes.')
         Route::get('/{resume_id}', 'ResumeController@showResume')->name('single');
         Route::post('/download', 'ResumeController@downloadResume')->name('download');
         Route::post('/{resume_id}/duplicate', 'ResumeController@duplicateResume')->name('duplicate');
-        Route::post('/preview', 'ResumeController@previewResume')->name('preview');
         Route::put('/{resume_id}', 'ResumeController@updateResume')->name('update');
         Route::delete('/{resume_id}', 'ResumeController@deleteResume')->name('destroy');
 });

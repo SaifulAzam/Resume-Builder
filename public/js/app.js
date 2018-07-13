@@ -26471,7 +26471,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(26);
-module.exports = __webpack_require__(145);
+module.exports = __webpack_require__(153);
 
 
 /***/ }),
@@ -26515,7 +26515,9 @@ Vue.component("resume-display-template-name-component", __webpack_require__(136)
 
 Vue.component("resume-download-form-component", __webpack_require__(139));
 
-Vue.component("resume-select-template-modal-component", __webpack_require__(142));
+Vue.component("resume-preview-modal-component", __webpack_require__(142));
+
+Vue.component("resume-select-template-modal-component", __webpack_require__(145));
 
 var app = new Vue({
     el: "#app",
@@ -54064,7 +54066,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         resume: "resume"
     }), {
         getSubmitButtonText: function getSubmitButtonText() {
-            return this.getAuthor !== undefined ? "Save" : "Download";
+            return this.getAuthor !== undefined ? "Save" : "<i class='fa-download'></i>&nbsp;Download";
         }
     }),
 
@@ -61560,10 +61562,14 @@ var render = function() {
                   _c("div", { staticClass: "col-sm" }, [
                     _c("div", { staticClass: "buttons text-right" }, [
                       _c(
-                        "button",
+                        "a",
                         {
-                          staticClass: "btn btn-secondary shadow-sm",
-                          attrs: { type: "button", "aria-pressed": "false" }
+                          staticClass: "btn btn-secondary shadow-sm text-white",
+                          attrs: {
+                            role: "button",
+                            "data-toggle": "modal",
+                            "data-target": "#resume-preview-modal"
+                          }
                         },
                         [_vm._v("Preview")]
                       ),
@@ -61571,9 +61577,7 @@ var render = function() {
                       _c("button", {
                         staticClass: "btn btn-primary shadow-sm",
                         attrs: { type: "submit", "aria-pressed": "false" },
-                        domProps: {
-                          textContent: _vm._s(_vm.getSubmitButtonText)
-                        }
+                        domProps: { innerHTML: _vm._s(_vm.getSubmitButtonText) }
                       })
                     ])
                   ])
@@ -62597,19 +62601,19 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(153)
+  __webpack_require__(160)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(143)
 /* template */
-var __vue_template__ = __webpack_require__(157)
+var __vue_template__ = __webpack_require__(162)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-7b7561ec"
+var __vue_scopeId__ = "data-v-5ca89b64"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -62620,7 +62624,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ResumeSelectTemplateModalComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ResumePreviewModalComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -62629,9 +62633,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7b7561ec", Component.options)
+    hotAPI.createRecord("data-v-5ca89b64", Component.options)
   } else {
-    hotAPI.reload("data-v-7b7561ec", Component.options)
+    hotAPI.reload("data-v-5ca89b64", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -62685,33 +62689,124 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["templates"])),
-
-    methods: {
-        hideModal: function hideModal() {
-            $("#select-template-modal").modal("hide");
-        },
-        setActiveTemplate: function setActiveTemplate(template) {
-            this.$store.dispatch("updateResumeTemplate", template);
-            this.hideModal();
-        }
-    }
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume", "templates"]))
 });
 
 /***/ }),
 /* 144 */,
 /* 145 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(146)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(151)
+/* template */
+var __vue_template__ = __webpack_require__(152)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-7b7561ec"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ResumeSelectTemplateModalComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7b7561ec", Component.options)
+  } else {
+    hotAPI.reload("data-v-7b7561ec", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
-/* 146 */,
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(147);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(149)("0f6deb7c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b7561ec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumeSelectTemplateModalComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b7561ec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumeSelectTemplateModalComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(148)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.item[data-v-7b7561ec] {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  background-color: #F5F5F5;\n  background-repeat: no-repeat;\n  background-size: cover;\n  cursor: pointer;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 420px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 148 */
 /***/ (function(module, exports) {
 
 /*
@@ -62793,52 +62888,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(154);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(155)("0f6deb7c", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b7561ec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumeSelectTemplateModalComponent.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b7561ec\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumeSelectTemplateModalComponent.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 154 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(147)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.item[data-v-7b7561ec] {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  background-color: #F5F5F5;\n  background-repeat: no-repeat;\n  background-size: cover;\n  cursor: pointer;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  height: 420px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 155 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -62857,7 +62907,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(156)
+var listToStyles = __webpack_require__(150)
 
 /*
 type StyleObject = {
@@ -63066,7 +63116,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 156 */
+/* 150 */
 /***/ (function(module, exports) {
 
 /**
@@ -63099,7 +63149,68 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 157 */
+/* 151 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["templates"])),
+
+    methods: {
+        hideModal: function hideModal() {
+            $("#select-template-modal").modal("hide");
+        },
+        setActiveTemplate: function setActiveTemplate(template) {
+            this.$store.dispatch("updateResumeTemplate", template);
+            this.hideModal();
+        }
+    }
+});
+
+/***/ }),
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63206,6 +63317,213 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-7b7561ec", module.exports)
+  }
+}
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(161);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(149)("fc5e3a94", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5ca89b64\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumePreviewModalComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5ca89b64\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ResumePreviewModalComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(148)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.img-thumbnail[data-v-5ca89b64]:hover {\n  border: 1px solid var(--primary);\n}\n.active .img-thumbnail[data-v-5ca89b64] {\n  border: 1px solid var(--primary);\n}\n.resume-preview[data-v-5ca89b64] {\n  height: 100%;\n  min-height: 1035px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "resume-preview-modal",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "resume-preview-modal-title",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "modal-dialog modal-lg modal-dialog-centered",
+          attrs: { role: "document" }
+        },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body p-4" }, [
+              _c(
+                "div",
+                { staticClass: "row" },
+                _vm._l(_vm.templates, function(template, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: template.name,
+                      staticClass: "col-sm-2",
+                      attrs: { index: index }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "text-center",
+                          class: {
+                            active: template.name === _vm.resume.getTemplate()
+                          }
+                        },
+                        [
+                          _c("img", {
+                            staticClass:
+                              "img-thumbnail img-fluid rounded cursor-pointer mx-auto d-block",
+                            attrs: { src: template.preview }
+                          }),
+                          _vm._v(" "),
+                          _c("p", {
+                            staticClass:
+                              "font-weight-bold text-capitalize text-muted mt-2 mb-0",
+                            domProps: { textContent: _vm._s(template.name) }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                })
+              ),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("div", { staticClass: "col-6" }, [
+        _c(
+          "h6",
+          {
+            staticClass: "modal-title mt-2",
+            attrs: { id: "resume-preview-modal-title" }
+          },
+          [_c("strong", [_vm._v("Select a template for the preview")])]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-6" }, [
+        _c("div", { staticClass: "buttons text-right" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-light",
+              attrs: {
+                type: "button",
+                "data-dismiss": "modal",
+                "aria-label": "Close"
+              }
+            },
+            [_vm._v("Back")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "button" } },
+            [
+              _c("i", { staticClass: "fa-download" }),
+              _vm._v(" Download\n                        ")
+            ]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("div", { staticClass: "img-thumbnail resume-preview" }, [
+          _c(
+            "h5",
+            { staticClass: "font-weight-bold text-muted text-center my-5" },
+            [
+              _vm._v(
+                "Click on the above above resume designs to generate a preview."
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5ca89b64", module.exports)
   }
 }
 

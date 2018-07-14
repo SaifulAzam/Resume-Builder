@@ -68,9 +68,9 @@ class DashboardController extends Controller
         $profile = Auth::user();
         $templates = Resume::getTemplates();
 
-        // if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
-        //     throw new NoPermissionException( UserPermissionError::VIEW );
-        // }
+        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
 
         return view('pages.dashboard.templates', [
             'profile'   => $profile,
@@ -104,6 +104,18 @@ class DashboardController extends Controller
         return view('pages.dashboard.users', [
             'profile' => $profile,
             'users'   => $users  
+        ]);
+    }
+
+    public function showUploadResumeTemplateForm() {
+        $profile = Auth::user();
+
+        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
+        return view('pages.dashboard.templates-upload', [
+            'profile' => $profile
         ]);
     }
 
@@ -156,5 +168,23 @@ class DashboardController extends Controller
 
         $profile->save();
         return redirect()->route('dashboard.profile', ['username' => $profile->username]);
+    }
+
+    public function uploadResumeTemplate(Request $request) {
+        $request->validate([
+            'template' => 'required|mimetypes:application/zip,application/x-zip-compressed,multipart/x-zip,application/x-compressed'
+        ]);
+
+        $zip = new \ZipArchive();
+        $res = $zip->open(
+            $request->file('template'),
+            \ZipArchive::CHECKCONS
+        );
+
+        if ($res === true) {
+            $zip->extractTo(resource_path("views\\resumes\\test\\"));
+        }
+
+        return redirect()->route("dashboard.resumes.templates");
     }
 }

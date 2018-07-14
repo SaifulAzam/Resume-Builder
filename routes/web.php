@@ -32,6 +32,8 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
         Route::get('/resumes/templates', 'DashboardController@showResumeTemplates')->name('resumes.templates');
+        Route::get('/resumes/templates/upload', 'DashboardController@showUploadResumeTemplateForm')->name('resumes.templates-upload');
+        Route::post('/resumes/templates/upload', 'DashboardController@uploadResumeTemplate');
         Route::delete('/resumes/templates', 'DashboardController@deleteResumeTemplate');
         Route::get('/users', 'DashboardController@showUsers')->name('users');
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');

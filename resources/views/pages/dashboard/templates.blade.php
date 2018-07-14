@@ -13,7 +13,7 @@
                         </div>
 
                         <div class="col text-right">
-                            <a class="btn btn-outline-primary" href="#">Upload</a>
+                            <a class="btn btn-outline-primary" href="{{ route('dashboard.resumes.templates-upload') }}">New Template</a>
                         </div>
                     </div>
 

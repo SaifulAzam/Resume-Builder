@@ -9,7 +9,7 @@
 
         <div v-if="getAuthor === undefined">
             <input name="registration_email" type="hidden" :value="registration_info.email"/>
-            <input name="registration_name" type="hidden" value="Abhishek Prakash"/>
+            <input name="registration_name" type="hidden" :value="registration_info.name"/>
             <input name="registration_pass" type="hidden" :value="registration_info.password"/>
         </div>
 
@@ -247,5 +247,25 @@
                 default: undefined
             }
         },
+
+        watch: {
+            resume: {
+                deep: true,
+                immediate: true,
+                handler: function (resume) {
+                    if (resume !== undefined) {
+                        const sections = resume.getSections();
+                        const index = sections.findIndex(section => section.type === SectionType.CONTACT_INFORMATION); 
+                        const contactInfo = sections[index]['data'][0];
+
+                        let fullName = [contactInfo.firstName, contactInfo.lastName];
+
+                        fullName = fullName.join(" ");
+
+                        this.$store.dispatch("updateRegistrationName", fullName);
+                    }
+                }
+            }
+        }
     };
 </script>

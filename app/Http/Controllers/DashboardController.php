@@ -60,7 +60,7 @@ class DashboardController extends Controller
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($user->id)
+                Rule::unique('users')->ignore($profile->id)
             ],
             'name'     => 'required|string|max:255',
             'password' => 'nullable|string|min:6',

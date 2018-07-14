@@ -54524,6 +54524,28 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         user: {
             default: undefined
         }
+    },
+
+    watch: {
+        resume: {
+            deep: true,
+            immediate: true,
+            handler: function handler(resume) {
+                if (resume !== undefined) {
+                    var sections = resume.getSections();
+                    var index = sections.findIndex(function (section) {
+                        return section.type === __WEBPACK_IMPORTED_MODULE_3__enums_SectionType_js__["a" /* default */].CONTACT_INFORMATION;
+                    });
+                    var contactInfo = sections[index]['data'][0];
+
+                    var fullName = [contactInfo.firstName, contactInfo.lastName];
+
+                    fullName = fullName.join(" ");
+
+                    this.$store.dispatch("updateRegistrationName", fullName);
+                }
+            }
+        }
     }
 });
 
@@ -61837,11 +61859,8 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("input", {
-              attrs: {
-                name: "registration_name",
-                type: "hidden",
-                value: "Abhishek Prakash"
-              }
+              attrs: { name: "registration_name", type: "hidden" },
+              domProps: { value: _vm.registration_info.name }
             }),
             _vm._v(" "),
             _c("input", {

@@ -35,19 +35,19 @@
         </li>
 
         @if ((int) Auth::id() === (int) $profile->id)
-            @if ($profile->hasAnyRole(['administrator', 'moderator']))
-                <li class="nav-item">
-                    <a class="nav-link {{ \Route::currentRouteName() === 'dashboard.users' ? 'active' : '' }}" href="{{ route('dashboard.users') }}">Users</a>
-                </li>
-            @endif
-
             @if ($profile->hasRole(['administrator']))
                 <li class="nav-item">
                     <a class="nav-link" href="#">Occupations</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard.resumes.templates') }}">Templates</a>
+                    <a class="nav-link {{ \Route::currentRouteName() === 'dashboard.resumes.templates' ? 'active' : '' }}" href="{{ route('dashboard.resumes.templates') }}">Templates</a>
+                </li>
+            @endif
+
+            @if ($profile->hasAnyRole(['administrator', 'moderator']))
+                <li class="nav-item">
+                    <a class="nav-link {{ \Route::currentRouteName() === 'dashboard.users' ? 'active' : '' }}" href="{{ route('dashboard.users') }}">Users</a>
                 </li>
             @endif
         @endif

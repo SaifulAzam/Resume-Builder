@@ -31,7 +31,8 @@
 
             <div>
                 @if (! empty($user) && $user->hasAnyRole(['administrator', 'moderator']))
-                    <resume-assign-author-component defaultAvatar="{{ asset( 'uploads/avatars/default.png' ) }}"></resume-assign-author-component>
+                    <resume-assign-author-component
+                        avatar="{{ asset( 'uploads/avatars/default.png' ) }}"></resume-assign-author-component>
                 @else
                     <div class="py-2">
                         <div>

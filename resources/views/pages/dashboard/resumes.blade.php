@@ -81,7 +81,9 @@
                                     </tbody>
                                 </table>
 
-                                {{ $resumes->links() }}
+                                <div class="text-right">
+                                    {{ $resumes->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

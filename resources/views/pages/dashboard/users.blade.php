@@ -61,7 +61,9 @@
                                     </tbody>
                                 </table>
 
-                                {{ $users->links() }}
+                                <div class="text-right">
+                                    {{ $users->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

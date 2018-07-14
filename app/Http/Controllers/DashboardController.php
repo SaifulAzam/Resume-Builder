@@ -82,14 +82,24 @@ class DashboardController extends Controller
         $profile = User::with('resumes')->where('username', $username)->firstOrFail();
         $user    = Auth::user();
 
+        $super_user = $user->hasAnyRole(['administrator', 'moderator']);
+
+        $total_resume_count = null;
+        $total_user_count   = null;
+
         if ((int) $profile->id !== (int) $user->id) {
-            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+            if (! $super_user) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
             }
+        } elseif ($super_user) {
+            $total_resume_count = Resume::all()->count();
+            $total_user_count   = User::all()->count();
         }
 
         return view('pages.dashboard.statistics', [
-            'profile' => $profile
+            'profile' => $profile,
+            'total_resume_count' => $total_resume_count,
+            'total_user_count' => $total_user_count
         ]);
     }
 

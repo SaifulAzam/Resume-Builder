@@ -71,8 +71,8 @@ class Resume extends Model implements ResumeTokenInterface
      * @return array
      */
     public static function getTemplates() : array {
-        $templates_path = resource_path("views\\resumes\\");
-        $templates = glob($templates_path . "*");
+        $templates_path  = resource_path("views\\resumes\\");
+        $templates       = array_values(array_filter(glob($templates_path . "*"), "is_dir"));
         $thumbnails_path = public_path("uploads\\template_thumbnails\\");
 
         $templates = array_map(function ($template) use ($templates_path, $thumbnails_path) {

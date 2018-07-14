@@ -10,11 +10,11 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        @stack('app_header')
-
         <!-- Stylesheet -->
         <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
         <script src="https://use.fontawesome.com/8efcdd9cc3.js"></script>
+
+        @stack('app_header')
     </head>
 
     <body>

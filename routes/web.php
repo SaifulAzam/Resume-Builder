@@ -31,9 +31,11 @@ Route::middleware('auth')
     ->prefix('dashboard')
     ->group(function () {
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
+        Route::get('/resumes/templates', 'DashboardController@showResumeTemplates')->name('resumes.templates');
+        Route::delete('/resumes/templates', 'DashboardController@deleteResumeTemplate');
         Route::get('/users', 'DashboardController@showUsers')->name('users');
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
-        Route::delete('/{username}', 'DashboardController@deleteUser')->name('profile-delete');
+        Route::delete('/{username}', 'DashboardController@deleteUser')->name('profile.delete');
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');
         Route::get('/{username}', 'DashboardController@showStatistics')->name('statistics');

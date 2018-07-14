@@ -47,5 +47,9 @@
                 </li>
             @endif
         @endif
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('dashboard.resumes.templates') }}">Templates</a>
+        </li>
     </ul>
 </nav>

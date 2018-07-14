@@ -40,7 +40,7 @@
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans(\Carbon\Carbon::now()) }}</td>
                                                     <td>
-                                                        <form name="delete-user" action="{{ route('dashboard.profile-delete', ['username' => $user->username]) }}" method="post">
+                                                        <form name="delete-user" action="{{ route('dashboard.profile.delete', ['username' => $user->username]) }}" method="post">
                                                             @csrf
                                                             @method('DELETE')
 

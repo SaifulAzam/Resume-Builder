@@ -67,6 +67,13 @@ class Resume extends Model implements ResumeTokenInterface
         ]);
     }
 
+    public static function deleteTemplate(string $template) : bool {
+        $path = resource_path("views\\resumes\\" . $template);
+
+        File::deleteDirectory($path);
+        return true;
+    }
+
     /**
      * Returns the available templates for the resume.
      * 

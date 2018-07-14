@@ -6,6 +6,7 @@ use App\Constants\ProfilePermissionError;
 use App\Constants\ResumePermissionError;
 use App\Constants\UserPermissionError;
 use App\Exceptions\NoPermissionException;
+use App\Resume;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,18 @@ use Image;
  */
 class DashboardController extends Controller
 {
+    public function deleteResumeTemplate(Request $request) {
+        $request->validate([
+            'template' => 'required|string'
+        ]);
+
+        Resume::deleteTemplate(
+            $request->input('template')
+        );
+
+        return redirect()->back();
+    }
+
     public function deleteUser($username) {
         $profile = User::where('username', $username)->firstOrFail();
         $user    = Auth::user();
@@ -51,6 +64,20 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function showResumeTemplates() {
+        $profile = Auth::user();
+        $templates = Resume::getTemplates();
+
+        // if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+        //     throw new NoPermissionException( UserPermissionError::VIEW );
+        // }
+
+        return view('pages.dashboard.templates', [
+            'profile'   => $profile,
+            'templates' => $templates
+        ]);
+    }
+
     public function showStatistics($username) {
         $profile = User::with('resumes')->where('username', $username)->firstOrFail();
         $user    = Auth::user();
@@ -63,6 +90,20 @@ class DashboardController extends Controller
 
         return view('pages.dashboard.statistics', [
             'profile' => $profile
+        ]);
+    }
+
+    public function showUsers() {
+        $profile = Auth::user();
+        $users   = User::paginate();
+
+        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+            throw new NoPermissionException( UserPermissionError::VIEW );
+        }
+
+        return view('pages.dashboard.users', [
+            'profile' => $profile,
+            'users'   => $users  
         ]);
     }
 
@@ -115,19 +156,5 @@ class DashboardController extends Controller
 
         $profile->save();
         return redirect()->route('dashboard.profile', ['username' => $profile->username]);
-    }
-
-    public function showUsers() {
-        $profile = Auth::user();
-        $users   = User::paginate();
-
-        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
-            throw new NoPermissionException( UserPermissionError::VIEW );
-        }
-
-        return view('pages.dashboard.users', [
-            'profile' => $profile,
-            'users'   => $users  
-        ]);
     }
 }

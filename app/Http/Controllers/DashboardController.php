@@ -19,6 +19,23 @@ use Image;
  */
 class DashboardController extends Controller
 {
+    public function deleteUser($username) {
+        $profile = User::where('username', $username)->firstOrFail();
+        $user    = Auth::user();
+
+        if ((int) $profile->id !== (int) $user->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                throw new NoPermissionException( ProfilePermissionError::DELETE );
+            }
+        } else {
+            $profile->delete();
+            return redirect()->route('resumes.create');
+        }
+
+        $profile->delete();
+        return redirect()->back();
+    }
+
     public function showProfile($username) {
         $profile = User::where('username', $username)->firstOrFail();
         $user    = Auth::user();

@@ -40,11 +40,14 @@
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans(\Carbon\Carbon::now()) }}</td>
                                                     <td>
-                                                        <div class="buttons text-right">
-                                                            <div class="btn btn-sm btn-danger">
+                                                        <form name="delete-user" action="{{ route('dashboard.profile-delete', ['username' => $user->username]) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="fa-trash"></i>
-                                                            </div>
-                                                        </div>
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach

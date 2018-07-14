@@ -7,5 +7,6 @@ namespace App\Constants;
  * @author  Abhishek Prakash <prakashabhishek6262@gmail.com>
  */
 class UserPermissionError {
-    const VIEW = "Sorry! You don't have permission to view the users.";
+    const DELETE = "Sorry! You don't have permission to delete the users.";
+    const VIEW   = "Sorry! You don't have permission to view the users.";
 }

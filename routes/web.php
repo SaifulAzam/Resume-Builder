@@ -33,6 +33,7 @@ Route::middleware('auth')
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
         Route::get('/users', 'DashboardController@showUsers')->name('users');
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
+        Route::delete('/{username}', 'DashboardController@deleteUser')->name('profile-delete');
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');
         Route::get('/{username}', 'DashboardController@showStatistics')->name('statistics');

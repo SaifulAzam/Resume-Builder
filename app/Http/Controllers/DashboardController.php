@@ -85,6 +85,7 @@ class DashboardController extends Controller
         $super_user = $user->hasAnyRole(['administrator', 'moderator']);
 
         $total_resume_count = null;
+        $total_revenue      = null;
         $total_user_count   = null;
 
         if ((int) $profile->id !== (int) $user->id) {
@@ -93,12 +94,14 @@ class DashboardController extends Controller
             }
         } elseif ($super_user) {
             $total_resume_count = Resume::all()->count();
+            $total_revenue      = 265.5;
             $total_user_count   = User::all()->count();
         }
 
         return view('pages.dashboard.statistics', [
             'profile' => $profile,
             'total_resume_count' => $total_resume_count,
+            'total_revenue' => $total_revenue,
             'total_user_count' => $total_user_count
         ]);
     }

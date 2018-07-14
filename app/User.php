@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Faker\Generator as Faker;
+use Faker\Factory as Faker;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
@@ -54,7 +54,7 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Model
      */
     public static function createRandomUser() {
-        $faker    = new Faker();
+        $faker    = Faker::create();
         $username = self::generateUsername();
 
         return app('\App\Http\Controllers\Auth\RegisterController')->create([
@@ -72,8 +72,8 @@ class User extends Authenticatable
      * @return string
      */
     public static function generateEmail() : string {
-        $faker = new Faker();
-        $email = $faker->unique()->safeEmail;
+        $faker = Faker::create();
+        $email = $faker->safeEmail;
 
         $emails = User::pluck('email')->toArray();
 
@@ -85,7 +85,7 @@ class User extends Authenticatable
 
         // Generate the mail again if it exists in the emails.
         do {
-            $email = $faker->unique()->safeEmail;
+            $email = $faker->safeEmail;
         } while (in_array($email, $emails));
 
         return $email;

@@ -93,7 +93,13 @@
             }),
 
             getSubmitButtonText() {
-                return this.getAuthor !== undefined ? "<i class='fa-save'></i>&nbsp;Save" : "<i class='fa-download'></i>&nbsp;Download";
+                if (this.data === undefined) {
+                    return "<i class='fa-save'></i>&nbsp;Proceed";
+                } if (this.author.length > 0 && this.user.length > 0) {
+                    return "<i class='fa-save'></i>&nbsp;Save";
+                }
+
+                return "<i class='fa-download'></i>&nbsp;Download";
             }
         },
 
@@ -235,6 +241,9 @@
             name: String,
             template: String,
             updated_at: {
+                default: undefined
+            },
+            user: {
                 default: undefined
             }
         },

@@ -24,14 +24,16 @@
                                 form_action_url="{{ $form_action_url }}"
                                 form_method="{{ $form_method }}"
                                 name="{{ $title }}"
-                                template="{{ $template }}"></resume-form-component>
+                                template="{{ $template }}"
+                                user="{{ $user }}"></resume-form-component>
                     @else
                         <resume-form-component
                                 author="{{ $author }}"
                                 form_action_url="{{ $form_action_url }}"
                                 form_method="{{ $form_method }}"
                                 name="{{ $title }}"
-                                template="{{ $template }}"></resume-form-component>
+                                template="{{ $template }}"
+                                user="{{ $user }}"></resume-form-component>
                     @endif
                 </div>
 

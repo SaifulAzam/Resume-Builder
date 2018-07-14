@@ -17,6 +17,6 @@ class ResumeToken extends Model
      */
     protected $fillable = [
         'resume_id',
-        'token',
+        'key',
     ];
 }

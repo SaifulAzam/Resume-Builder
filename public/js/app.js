@@ -54376,7 +54376,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         resume: "resume"
     }), {
         getSubmitButtonText: function getSubmitButtonText() {
-            return this.getAuthor !== undefined ? "<i class='fa-save'></i>&nbsp;Save" : "<i class='fa-download'></i>&nbsp;Download";
+            if (this.data === undefined) {
+                return "<i class='fa-save'></i>&nbsp;Proceed";
+            }if (this.author.length > 0 && this.user.length > 0) {
+                return "<i class='fa-save'></i>&nbsp;Save";
+            }
+
+            return "<i class='fa-download'></i>&nbsp;Download";
         }
     }),
 
@@ -54513,6 +54519,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         name: String,
         template: String,
         updated_at: {
+            default: undefined
+        },
+        user: {
             default: undefined
         }
     }
@@ -56585,7 +56594,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     data: function data() {
         return {
-            registerUser: "true"
+            registerUser: "1"
         };
     },
 
@@ -57582,18 +57591,17 @@ var render = function() {
                             staticClass: "custom-control-input",
                             attrs: {
                               name: "registration",
-                              checked: "",
                               required: "",
                               type: "radio",
-                              value: "true",
+                              value: "1",
                               id: _vm.getHashedElementId("yes")
                             },
                             domProps: {
-                              checked: _vm._q(_vm.registerUser, "true")
+                              checked: _vm._q(_vm.registerUser, "1")
                             },
                             on: {
                               change: function($event) {
-                                _vm.registerUser = "true"
+                                _vm.registerUser = "1"
                               }
                             }
                           }),
@@ -57627,15 +57635,15 @@ var render = function() {
                               name: "registration",
                               required: "",
                               type: "radio",
-                              value: "false",
+                              value: "0",
                               id: _vm.getHashedElementId("no")
                             },
                             domProps: {
-                              checked: _vm._q(_vm.registerUser, "false")
+                              checked: _vm._q(_vm.registerUser, "0")
                             },
                             on: {
                               change: function($event) {
-                                _vm.registerUser = "false"
+                                _vm.registerUser = "0"
                               }
                             }
                           }),
@@ -57653,7 +57661,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm.registerUser == "true"
+                  _vm.registerUser == "1"
                     ? _c("form-user-registration-component", {
                         on: {
                           "form-data-updated": _vm.updateRegistrationInformation
@@ -62827,7 +62835,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_HandleFormSectionDataMixin_js__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_HandleFormSectionDataMixin_js__ = __webpack_require__(24);
 //
 //
 //
@@ -62839,14 +62848,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_HandleFormSectionDataMixin_js__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_HandleFormSectionDataMixin_js__["a" /* default */]],
+
+    mounted: function mounted() {
+        if (this.resume_status === "created") {
+            var formId = this.getHashedElementId('download-resume-form');
+
+            $("#" + formId).submit();
+        }
+    },
+
 
     props: {
-        form_action_url: String
+        form_action_url: String,
+        resume_status: {
+            default: undefined,
+            type: String
+        }
     }
 });
 
@@ -62864,8 +62889,9 @@ var render = function() {
       staticClass: "d-inline",
       attrs: {
         name: "download-resume",
+        method: "post",
         action: _vm.form_action_url,
-        method: "post"
+        id: _vm.getHashedElementId("download-resume-form")
       }
     },
     [

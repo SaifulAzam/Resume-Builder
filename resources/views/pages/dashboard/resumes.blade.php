@@ -44,7 +44,7 @@
                                                     <td>{{ $resume->author->name }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($resume->updated_at)->diffForHumans(\Carbon\Carbon::now()) }}</td>
                                                     <td class="text-right">
-                                                        <form class="d-inline" name="download-resume" action="{{ route('resumes.download') }}" method="post">
+                                                        <form class="d-inline" name="download-resume" action="{{ route('resumes.download', ['resume_id' => $resume->id]) }}" method="post">
                                                             @csrf
 
                                                             <button type="submit" class="btn btn-sm btn-light">

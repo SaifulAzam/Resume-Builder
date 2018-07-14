@@ -54,20 +54,11 @@ class ResumeController extends Controller
         return redirect()->route('resumes.create')->with('status', 'deleted');
     }
 
-    public function downloadResume(Request $request) {
-        $resume = null;
-        $template = null;
+    public function downloadResume($resume_id) {
+        $resume = Resume::with("author")->findOrFail($resume_id);
+        $author = $resume->author;
 
-        if ($request->has('resume_id')) {
-            $resume = Resume::with('author')->findOrFail($request->input('resume_id'));
-            $author = $resume->author;
-
-            // To download a resume either the user should be the owner of
-            // it or they must hold the super user privilege.
-            if (! Auth::check()) {
-                throw new NoPermissionException( ResumePermissionError::VIEW );
-            }
-
+        if (Auth::check()) {
             $user = Auth::user();
 
             // Next, we'll determine whether the authenticated user has not
@@ -79,8 +70,8 @@ class ResumeController extends Controller
                     throw new NoPermissionException( ResumePermissionError::VIEW );
                 }
             }
-        } else {
-            $resume = $this->storeResume($request, false);
+        } elseif (! $resume->validateToken()) {
+            throw new NoPermissionException( ResumePermissionError::VIEW );
         }
 
         $pdf_name = sha1(Carbon::now()) . '.pdf';
@@ -198,6 +189,8 @@ class ResumeController extends Controller
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
         $author = $resume->author;
         $user   = null;
+        $route  = null;
+        $form_method = "POST";
 
         // Determine whether the user is authenticated or holds the resume token
         // to access the resume.
@@ -214,16 +207,23 @@ class ResumeController extends Controller
                     throw new NoPermissionException( ResumePermissionError::VIEW );
                 }
             }
-        } elseif (! $resume->validateToken()) {
-            throw new NoPermissionException( ResumePermissionError::VIEW );
+
+            $route = route('resumes.update', ['resume_id' => $resume->id]);
+            $form_method = "PUT";
+        } else{
+            if (! $resume->validateToken()) {
+                throw new NoPermissionException( ResumePermissionError::VIEW );
+            }
+
+            $route = route('resumes.download', ['resume_id' => $resume->id]);
         }
 
         return view('pages.resume-form', [
             'author'          => $resume->author,
             'created_at'      => $resume->created_at->toDateTimeString(),
             'data'            => $resume->data,
-            'form_action_url' => route('resumes.update', ['resume_id' => $resume->id]),
-            'form_method'     => 'PUT',
+            'form_action_url' => $route,
+            'form_method'     => $form_method,
             'resume_id'       => $resume->id,
             'template'        => $resume->template,
             'title'           => $resume->title,
@@ -290,15 +290,24 @@ class ResumeController extends Controller
      * @throws NoPermissionException
      */
     public function storeResume(Request $request, bool $redirect = true) {
-        $request->validate([
-            'author_id'          => 'exists:users,id',
-            'data'               => 'required',
-            'registration_email' => 'required_if:registration,true|email|unique:users,email',
-            'registration_name'  => 'required_if:registration,true|string',
-            'registration_pass'  => 'required_if:registration,true|string|min:6|max:16',
-            'template'           => 'required|string',
-            'title'              => 'required|string',
-        ]);
+        if ($request->has('registration') && (int) $request->input('registration') === 1) {
+            $request->validate([
+                'author_id'          => 'exists:users,id',
+                'data'               => 'required',
+                'template'           => 'required|string',
+                'title'              => 'required|string',
+                'registration_email' => 'required|email|unique:users,email',
+                'registration_name'  => 'required|string',
+                'registration_pass'  => 'required|string|min:6|max:16',
+            ]);
+        } else {
+            $request->validate([
+                'author_id'          => 'exists:users,id',
+                'data'               => 'required',
+                'template'           => 'required|string',
+                'title'              => 'required|string',
+            ]);
+        }
 
         // Determine whether the authenticated user is trying to create a resume
         // or an unauthenticated user since we need to restrict the

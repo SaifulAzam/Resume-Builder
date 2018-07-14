@@ -51,18 +51,20 @@ class Resume extends Model implements ResumeTokenInterface
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function generateToken() {
-      $key = bcrypt(Carbon::now());
+        $key = bcrypt(Carbon::now());
 
-      $tokens = Cookie::get('resumes', []);
-      array_push($tokens, [
-          'key'       => $key,
-          'resume_id' => $this->id
-      ]);
+        $tokens = Cookie::get('resumes', null);
+        $tokens = ! empty($tokens) ? json_decode($tokens) : [];
 
-      Cookie::forever('resumes', $tokens);
-      return $this->token()->create([
-          'key' => $key
-      ]);
+        array_push($tokens, [
+            'key'       => $key,
+            'resume_id' => $this->id
+        ]);
+
+        Cookie::queue('resumes', json_encode($tokens), "2628000");
+        return $this->token()->create([
+            'key' => $key
+        ]);
     }
 
     /**
@@ -109,9 +111,11 @@ class Resume extends Model implements ResumeTokenInterface
             return false;
         }
 
-        $tokens = Cookie::get('resumes', []);
+        $tokens = Cookie::get('resumes', null);
+        $tokens = ! empty($tokens) ? json_decode($tokens) : [];
+
         $token = array_where($tokens, function ($token) {
-            return $token['resume_id'] === $this->id && $token['key'] === $this->token->key;
+            return $token->resume_id === $this->id && $token->key === $this->token->key;
         });
 
         if (count($token) > 0) {

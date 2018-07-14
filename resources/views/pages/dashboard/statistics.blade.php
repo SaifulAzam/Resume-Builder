@@ -20,10 +20,10 @@
                                     <div class="col-md-4 mb-5">
                                         <div class="card border-0 shadow-sm text-center">
                                             <div class="card-body px-0 pb-0">
-                                                <p class="display-1 font-weight-bold text-secondary">{{ $profile->resumes->count() }}</p>
+                                                <p class="display-1 font-weight-bold text-dark">{{ $profile->resumes->count() }}</p>
                                                 <h5 class="lead text-secondary">My Resumes</h5>
 
-                                                <a class="btn btn-secondary mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.resumes', ['username' => $profile->username]) }}">View</a>
+                                                <a class="btn btn-dark mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.resumes', ['username' => $profile->username]) }}">View</a>
                                             </div>
                                         </div>
                                     </div>
@@ -33,10 +33,10 @@
                                             <div class="col-md-4 mb-5">
                                                 <div class="card border-0 shadow-sm text-center">
                                                     <div class="card-body px-0 pb-0">
-                                                        <p class="display-1 font-weight-bold text-secondary">{{ $total_resume_count }}</p>
+                                                        <p class="display-1 font-weight-bold text-dark">{{ $total_resume_count }}</p>
                                                         <h5 class="lead text-secondary">Total Resumes</h5>
 
-                                                        <a class="btn btn-secondary mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.resumes.all') }}">View</a>
+                                                        <a class="btn btn-dark mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.resumes.all') }}">View</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -46,10 +46,10 @@
                                             <div class="col-md-4 mb-5">
                                                 <div class="card border-0 shadow-sm text-center">
                                                     <div class="card-body px-0 pb-0">
-                                                        <p class="display-1 font-weight-bold text-secondary">{{ $total_user_count }}</p>
+                                                        <p class="display-1 font-weight-bold text-dark">{{ $total_user_count }}</p>
                                                         <h5 class="lead text-secondary">Total Users</h5>
 
-                                                        <a class="btn btn-secondary mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.users') }}">View</a>
+                                                        <a class="btn btn-dark mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.users') }}">View</a>
                                                     </div>
                                                 </div>
                                             </div>

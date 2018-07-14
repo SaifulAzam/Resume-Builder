@@ -54494,7 +54494,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     methods: {
         fetchTemplates: function fetchTemplates() {
-            var TEMPLATES_URL = APP_API + '/templates';
+            var TEMPLATES_URL = APP_API + '/resumes/templates';
 
             return axios.get(TEMPLATES_URL).catch(function (error) {
                 console.log(error.response);
@@ -62857,21 +62857,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_ComponentHashMixin_js__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__mixins_HandleFormSectionDataMixin_js__["a" /* default */]],
 
-    mounted: function mounted() {
-        if (this.resume_status === "created") {
-            var formId = this.getHashedElementId('download-resume-form');
-
-            $("#" + formId).submit();
-        }
-    },
-
-
     props: {
-        form_action_url: String,
-        resume_status: {
-            default: undefined,
-            type: String
-        }
+        form_action_url: String
     }
 });
 
@@ -63061,8 +63048,23 @@ module.exports = function listToStyles (parentId, list) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -63119,7 +63121,51 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["resume", "templates"]))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["author", "resume", "templates"])),
+
+    created: function created() {
+        this.selectedTemplate = this.resume.getTemplate();
+    },
+    data: function data() {
+        return {
+            preview_src: "",
+            selectedTemplate: ""
+        };
+    },
+
+
+    methods: {
+        fetchPreview: function fetchPreview(template) {
+            var _this = this;
+
+            this.selectedTemplate = template;
+
+            var PREVIEW_URL = APP_API + '/resumes/preview';
+
+            var params = {
+                data: JSON.stringify(this.resume.getSections()),
+                template: this.selectedTemplate,
+                title: this.resume.getName()
+            };
+
+            if (_typeof(this.author) === "object") {
+                params.author_id = this.author.id;
+            }
+
+            return axios.get(PREVIEW_URL, {
+                params: params
+            }).then(function (response) {
+                return _this.preview_src = response.data;
+            }).catch(function (error) {
+                console.log(error.response);
+            });
+        }
+    },
+
+    props: {
+        form_action_url: String,
+        form_method: String
+    }
 });
 
 /***/ }),
@@ -63151,7 +63197,51 @@ var render = function() {
         },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "modal-header" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6" }, [
+                _c("div", { staticClass: "buttons text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-light",
+                      attrs: {
+                        type: "button",
+                        "data-dismiss": "modal",
+                        "aria-label": "Close"
+                      }
+                    },
+                    [_vm._v("Back")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "form",
+                    {
+                      staticClass: "d-inline",
+                      attrs: {
+                        name: "download-resume",
+                        action: _vm.form_action_url,
+                        method: _vm.form_method
+                      }
+                    },
+                    [
+                      _c("input", {
+                        attrs: { name: "_token", type: "hidden" },
+                        domProps: { value: _vm.$CSRF_TOKEN }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "template", type: "hidden" },
+                        domProps: { value: _vm.resume.getTemplate() }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(1)
+                    ]
+                  )
+                ])
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body p-4" }, [
               _c(
@@ -63171,7 +63261,12 @@ var render = function() {
                         {
                           staticClass: "text-center",
                           class: {
-                            active: template.name === _vm.resume.getTemplate()
+                            active: template.name === _vm.selectedTemplate
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.fetchPreview(template.name)
+                            }
                           }
                         },
                         [
@@ -63195,7 +63290,29 @@ var render = function() {
               _vm._v(" "),
               _c("hr"),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-12" }, [
+                  _c("div", { staticClass: "img-thumbnail resume-preview" }, [
+                    _vm.preview_src.length > 0
+                      ? _c("img", {
+                          staticClass: "image-preview",
+                          attrs: { src: _vm.preview_src }
+                        })
+                      : _c(
+                          "h5",
+                          {
+                            staticClass:
+                              "font-weight-bold text-muted text-center my-5"
+                          },
+                          [
+                            _vm._v(
+                              "Click on the above above resume designs to generate a preview."
+                            )
+                          ]
+                        )
+                  ])
+                ])
+              ])
             ])
           ])
         ]
@@ -63208,64 +63325,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("div", { staticClass: "col-6" }, [
-        _c(
-          "h6",
-          {
-            staticClass: "modal-title mt-2",
-            attrs: { id: "resume-preview-modal-title" }
-          },
-          [_c("strong", [_vm._v("Select a template for the preview")])]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "buttons text-right" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-light",
-              attrs: {
-                type: "button",
-                "data-dismiss": "modal",
-                "aria-label": "Close"
-              }
-            },
-            [_vm._v("Back")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "button" } },
-            [
-              _c("i", { staticClass: "fa-download" }),
-              _vm._v(" Download\n                        ")
-            ]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "col-6" }, [
+      _c(
+        "h6",
+        {
+          staticClass: "modal-title mt-2",
+          attrs: { id: "resume-preview-modal-title" }
+        },
+        [_c("strong", [_vm._v("Select a template for the preview")])]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c("div", { staticClass: "img-thumbnail resume-preview" }, [
-          _c(
-            "h5",
-            { staticClass: "font-weight-bold text-muted text-center my-5" },
-            [
-              _vm._v(
-                "Click on the above above resume designs to generate a preview."
-              )
-            ]
-          )
-        ])
-      ])
-    ])
+    return _c(
+      "button",
+      { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+      [
+        _c("i", { staticClass: "fa-download" }),
+        _vm._v(" Download\n                            ")
+      ]
+    )
   }
 ]
 render._withStripped = true

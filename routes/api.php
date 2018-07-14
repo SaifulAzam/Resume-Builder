@@ -15,6 +15,6 @@ use Illuminate\Http\Request;
 
 Route::get('/occupations', 'API\OccupationController@getOccupations');
 Route::get('/occupations/{occupation_id}/responsibilities', 'API\OccupationController@getResponsibilities');
-Route::post('/preview', 'API\ResumeController@getPreview')->name('resumes.preview');
-Route::get('/templates', 'API\ResumeController@getTemplates');
+Route::get('/resumes/preview', 'API\ResumeController@getPreview')->name('resumes.preview');
+Route::get('/resumes/templates', 'API\ResumeController@getTemplates');
 Route::get('/users', 'API\UserController@getAuthors');

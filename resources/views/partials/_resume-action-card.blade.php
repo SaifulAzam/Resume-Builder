@@ -10,14 +10,8 @@
                     <div class="col-sm">
                         <div class="mt-1 text-right">
                             @if (isset($resume_id))
-                                @if (session()->has('status'))
-                                    <resume-download-form-component
-                                        form_action_url="{{ route('resumes.download', ['resume_id' => $resume_id]) }}"
-                                        resume_status="{{ session('status') }}"></resume-download-form-component>
-                                @else
-                                    <resume-download-form-component
-                                        form_action_url="{{ route('resumes.download', ['resume_id' => $resume_id]) }}"></resume-download-form-component>
-                                @endif
+                                <resume-download-form-component
+                                    form_action_url="{{ route('resumes.download', ['resume_id' => $resume_id]) }}"></resume-download-form-component>
 
                                 <form class="d-inline" name="delete-resume" action="{{ route('resumes.destroy', ['resume_id' => $resume_id]) }}" method="post">
                                     @csrf

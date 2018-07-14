@@ -21,20 +21,8 @@
             HandleFormSectionDataMixin
         ],
 
-        mounted() {
-            if (this.resume_status === "created") {
-                const formId = this.getHashedElementId('download-resume-form');
-
-                $("#" + formId).submit();
-            }
-        },
-
         props: {
-            form_action_url: String,
-            resume_status: {
-                default: undefined,
-                type: String
-            }
+            form_action_url: String
         }
     };
 </script>

@@ -54,9 +54,11 @@ class ResumeController extends Controller
         return redirect()->route('resumes.create')->with('status', 'deleted');
     }
 
-    public function downloadResume($resume_id) {
+    public function downloadResume(Request $request, $resume_id) {
         $resume = Resume::with("author")->findOrFail($resume_id);
         $author = $resume->author;
+
+        $template = $request->has('template') ? $request->input('template') : $resume->template;
 
         if (Auth::check()) {
             $user = Auth::user();
@@ -77,7 +79,6 @@ class ResumeController extends Controller
         $pdf_name = sha1(Carbon::now()) . '.pdf';
 
         $data     = json_decode($resume->data);
-        $template = $resume->template;
 
         $contact_info = array_filter($data, function ($temp) {
             return $temp->type === 'contact-information';

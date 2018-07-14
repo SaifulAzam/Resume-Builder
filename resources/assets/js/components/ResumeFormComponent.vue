@@ -215,7 +215,7 @@
 
         methods: {
             fetchTemplates() {
-                const TEMPLATES_URL = APP_API + '/templates';
+                const TEMPLATES_URL = APP_API + '/resumes/templates';
 
                 return axios.get(TEMPLATES_URL)
                     .catch(error => {

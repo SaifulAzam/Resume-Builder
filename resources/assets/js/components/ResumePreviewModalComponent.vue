@@ -13,9 +13,17 @@
                     <div class="col-6">
                         <div class="buttons text-right">
                             <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">Back</button>
-                            <button type="button" class="btn btn-primary">
-                                <i class="fa-download"></i>&nbsp;Download
-                            </button>
+
+                            <form class="d-inline" name="download-resume"
+                                v-bind:action="form_action_url"
+                                v-bind:method="form_method">
+                                <input name="_token" type="hidden" :value="$CSRF_TOKEN"/>
+                                <input name="template" type="hidden" :value="resume.getTemplate()">
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa-download"></i>&nbsp;Download
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -27,7 +35,8 @@
                             v-bind:index="index"
                             v-bind:key="template.name">
                             <div class="text-center"
-                                v-bind:class="{'active': template.name === resume.getTemplate()}">
+                                v-bind:class="{'active': template.name === selectedTemplate}"
+                                v-on:click="fetchPreview(template.name)">
                                 <img class="img-thumbnail img-fluid rounded cursor-pointer mx-auto d-block" v-bind:src="template.preview">
 
                                 <p class="font-weight-bold text-capitalize text-muted mt-2 mb-0" v-text="template.name"></p>
@@ -40,7 +49,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="img-thumbnail resume-preview">
-                                <h5 class="font-weight-bold text-muted text-center my-5">Click on the above above resume designs to generate a preview.</h5>
+                                <img class="image-preview"
+                                    v-bind:src="preview_src"
+                                    v-if="preview_src.length > 0">
+                                <h5 class="font-weight-bold text-muted text-center my-5"
+                                    v-else>Click on the above above resume designs to generate a preview.</h5>
                             </div>
                         </div>
                     </div>
@@ -56,10 +69,54 @@
     export default {
         computed: {
             ...mapGetters([
+                "author",
                 "resume",
                 "templates"
             ]),
         },
+
+        created() {
+            this.selectedTemplate = this.resume.getTemplate();
+        },
+
+        data() {
+            return {
+                preview_src: "",
+                selectedTemplate: ""
+            };
+        },
+
+        methods: {
+            fetchPreview(template) {
+                this.selectedTemplate = template;
+
+                const PREVIEW_URL = APP_API + '/resumes/preview';
+
+                let params = {
+                        data: JSON.stringify(this.resume.getSections()),
+                        template: this.selectedTemplate,
+                        title: this.resume.getName()
+                    };
+
+                if (typeof this.author === "object") {
+                    params.author_id = this.author.id;
+                }
+
+                return axios
+                    .get(PREVIEW_URL, {
+                        params
+                    })
+                    .then(response => this.preview_src = response.data)
+                    .catch(error => {
+                        console.log(error.response);
+                    });
+            },
+        },
+
+        props: {
+            form_action_url: String,
+            form_method: String
+        }
     };
 </script>
 

@@ -68,7 +68,7 @@ class Resume extends Model implements ResumeTokenInterface
     }
 
     public static function deleteTemplate(string $template) : bool {
-        $path = resource_path("views\\resumes\\" . $template);
+        $path = resource_path("views/resumes/" . $template);
 
         File::deleteDirectory($path);
         return true;
@@ -80,16 +80,16 @@ class Resume extends Model implements ResumeTokenInterface
      * @return array
      */
     public static function getTemplates() : array {
-        $templates_path  = resource_path("views\\resumes\\");
+        $templates_path  = resource_path("views/resumes/");
         $templates       = array_values(array_filter(glob($templates_path . "*"), "is_dir"));
-        $thumbnails_path = public_path("uploads\\thumbnails\\");
+        $thumbnails_path = public_path("uploads/thumbnails/");
 
         $templates = array_map(function ($template) use ($templates_path, $thumbnails_path) {
             $name = basename($template);
             $thumbnail_path = $thumbnails_path . $name . ".jpg";
 
             if (! file_exists($thumbnail_path)) {
-                $temp_thumbail_path = $templates_path . $name . "\\thumbnail.jpg";
+                $temp_thumbail_path = $templates_path . $name . "/thumbnail.jpg";
 
                 if (file_exists($temp_thumbail_path)) {
                     File::copy($temp_thumbail_path, $thumbnail_path);

@@ -29,7 +29,7 @@
                                     </div>
 
                                     @if ((int) Auth::id() === (int) $profile->id)
-                                        @if (! empty($total_resume_count))
+                                        @if (! is_null($total_resume_count))
                                             <div class="col-md-4 mb-5">
                                                 <div class="card border-0 shadow-sm text-center">
                                                     <div class="card-body px-0 pb-0">
@@ -42,7 +42,7 @@
                                             </div>
                                         @endif
 
-                                        @if (! empty($total_user_count))
+                                        @if (! is_null($total_user_count))
                                             <div class="col-md-4 mb-5">
                                                 <div class="card border-0 shadow-sm text-center">
                                                     <div class="card-body px-0 pb-0">

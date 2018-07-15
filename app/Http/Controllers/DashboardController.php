@@ -195,7 +195,7 @@ class DashboardController extends Controller
         );
 
         if ($res === true) {
-            $zip->extractTo(resource_path("views\\resumes\\test\\"));
+            $zip->extractTo(resource_path("views/resumes/test/"));
         }
 
         return redirect()->route("dashboard.resumes.templates");

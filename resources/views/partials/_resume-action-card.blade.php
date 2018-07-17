@@ -32,7 +32,7 @@
             <div>
                 @if (! empty($user) && $user->hasAnyRole(['administrator', 'moderator']))
                     <resume-assign-author-component
-                        avatar="{{ asset( 'uploads/avatars/default.png' ) }}"></resume-assign-author-component>
+                        avatar="{{ asset( 'images/avatar.png' ) }}"></resume-assign-author-component>
                 @else
                     <div class="py-2">
                         <div>
@@ -40,7 +40,7 @@
                                 @if (! empty($author->avatar))
                                     <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ $author->avatar }}">
                                 @else
-                                    <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ asset('uploads/avatars/default.png' ) }}">
+                                    <img class="rounded-circle" style="width: 45px; height: 45px;" src="{{ asset('images/avatar.png' ) }}">
                                 @endif
                             </div>
 

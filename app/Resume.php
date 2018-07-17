@@ -5,9 +5,10 @@ namespace App;
 use App\Contracts\ResumeTokenInterface;
 use App\Option;
 use Carbon\Carbon;
-use File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @package Resume Builder
@@ -102,8 +103,8 @@ class Resume extends Model implements ResumeTokenInterface
      * @return array
      */
     public static function getTemplates() : array {
-        $templates_path  = resource_path("views/resumes/");
-        $thumbnails_path = public_path("uploads/thumbnails/");
+        $templates_path = resource_path("views/resumes/");
+        $thumbnails_dir = "thumbnails/";
 
         $templates = array_values(
                         array_filter(
@@ -111,23 +112,24 @@ class Resume extends Model implements ResumeTokenInterface
                         )
                     );
 
-        $templates = array_map(function ($template) use ($templates_path, $thumbnails_path) {
+        $templates = array_map(function ($template) use ($templates_path, $thumbnails_dir) {
             $name = basename($template);
-            $thumbnail_path = $thumbnails_path . $name . ".jpg";
+            $thumbnail_path = $thumbnails_dir . $name . ".jpg";
 
-            // If we don't find the thumbnail in the public directory
+            // If we don't find the thumbnail in the thumbnails directory
             // already, then we will assume that it's a new template and
-            // we'll proceed to look for the thumbnail in its own
-            // directory.
-            if (! file_exists($thumbnail_path)) {
+            // we'll proceed to look for the thumbnail in the template's
+            // own directory.
+            if (! Storage::exists($thumbnail_path)) {
                 $temp_thumbail_path = $templates_path . $name . "/thumbnail.jpg";
 
                 if (file_exists($temp_thumbail_path)) {
-                    File::copy($temp_thumbail_path, $thumbnail_path);
+                    $file = new File($temp_thumbail_path);
+                    Storage::disk('public')->putFileAs($thumbnails_dir, $file, $name . '.jpg');
                 }
             }
 
-            $thumbnail = asset("uploads/thumbnails/" . $name . ".jpg");
+            $thumbnail = Storage::url($thumbnail_path);
 
             return [
                 'name'    => $name,

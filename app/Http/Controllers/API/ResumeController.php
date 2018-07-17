@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Resume;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use SnappyImage;
 
 /**
@@ -49,10 +51,7 @@ class ResumeController extends Controller
         // Finally, we can generate a preview of the resume and store it
         // in the asset to return back the image url to the client
         // application to reuse it as they want.
-        $filename = sha1(Carbon::now()) . '.png';
-        $filelocation = public_path('uploads/previews/' . $filename);
-
-        SnappyImage::loadView('resumes.' . $template . '.index', [
+        $image = SnappyImage::loadView('resumes.' . $template . '.index', [
             'author'       => $author,
             'contact_info' => $contact_info[0],
             'data'         => $data,
@@ -64,10 +63,14 @@ class ResumeController extends Controller
             ->setOption("crop-w", 868)
             ->setOption("crop-h", 1035)
             ->setOption("disable-smart-width", true)
-            ->setOption("zoom", 1)
-            ->save($filelocation);
+            ->setOption("zoom", 1);
 
-        return asset('thumbnails/' . $filename);
+        $file = new File($image);
+        $path = $file->hashName('previews');
+
+        Storage::put($path, $file);
+
+        return Storage::url($path);
     }
 
     /**

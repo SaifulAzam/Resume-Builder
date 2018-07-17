@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.26 on 2018-07-14 00:10:52.
+ * Generated for Laravel 5.6.26 on 2018-07-17 07:30:10.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15193,6 +15193,8 @@ namespace  {
 
     class Password extends \Illuminate\Support\Facades\Password {}
 
+    class PDF extends \Barryvdh\Snappy\Facades\SnappyPdf {}
+
     class Queue extends \Illuminate\Support\Facades\Queue {}
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
@@ -15207,6 +15209,8 @@ namespace  {
 
     class Session extends \Illuminate\Support\Facades\Session {}
 
+    class SnappyImage extends \Barryvdh\Snappy\Facades\SnappyImage {}
+
     class Storage extends \Illuminate\Support\Facades\Storage {}
 
     class URL extends \Illuminate\Support\Facades\URL {}
@@ -15214,10 +15218,6 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
-
-    class PDF extends \Barryvdh\Snappy\Facades\SnappyPdf {}
-
-    class SnappyImage extends \Barryvdh\Snappy\Facades\SnappyImage {}
  
 }
 

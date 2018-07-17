@@ -4,7 +4,7 @@
             @if (! empty($profile->avatar))
                 <img class="rounded-circle mx-auto d-block" style="width: 120px; height: 120px;" src="{{ $profile->avatar }}">
             @else
-                <img class="rounded-circle mx-auto d-block" style="width: 120px; height: 120px;" src="{{ asset( 'uploads/avatars/default.png' ) }}">
+                <img class="rounded-circle mx-auto d-block" style="width: 120px; height: 120px;" src="{{ asset( 'images/avatar.png' ) }}">
             @endif
 
             <p class="card-title h5 font-weight-bold text-white mt-3">{{ $profile->name }}</p>

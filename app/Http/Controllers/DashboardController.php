@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Image;
 use Spatie\Permission\Models\Role;
@@ -322,13 +323,16 @@ class DashboardController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $avatar   = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $filename = 'uploads/avatars/' . $filename;
+            $file  = $request->file('avatar');
+            $path  = $file->hashName('avatars');
+            $image = Image::make($file);
 
-            Image::make($avatar)->resize(300, 300)->save(public_path($filename));
+            $image->fit(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
 
-            $profile->avatar = asset($filename);
+            Storage::disk('public')->put($path, (string) $image->encode());
+            $profile->avatar = Storage::url($path);
         }
 
         // Assign a new role to the user if an adminstrator is requesting

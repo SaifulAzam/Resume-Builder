@@ -94,7 +94,7 @@
                                         @if (! empty($profile->avatar))
                                             <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ $profile->avatar }}">
                                         @else
-                                            <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ asset('uploads/avatars/default.png' ) }}">
+                                            <img class="rounded mx-auto d-block" style="width: 140px; height: 140px;" src="{{ asset('images/avatar.png' ) }}">
                                         @endif
 
                                         <div class="input-group mx-auto mt-3" style="max-width: 200px;">

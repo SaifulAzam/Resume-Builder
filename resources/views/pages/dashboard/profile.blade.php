@@ -16,6 +16,8 @@
                             </div>
 
                             <div class="col text-right">
+                                <span class="badge badge-pill badge-warning mr-2 text-capitalize">{{ $profile->getRoleNames()[0] }}</span>
+
                                 <button class="btn btn-outline-primary" type="submit">Save</button>
                             </div>
                         </div>
@@ -62,6 +64,27 @@
                                             <input name="password" id="new-password" type="password" class="form-control" placeholder="New Password">
                                         </div>
                                     </div>
+
+                                    @if (! empty($user_roles))
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <label class="col-form-label font-weight-bold" for="user-role">Role</label>
+                                            </div>
+
+                                            <div class="col-sm-8">
+                                                <select name="user-role" id="user-role" class="custom-select d-block w-100">
+                                                    <option value="" selected disabled>Choose...</option>
+                                                    @foreach ($user_roles as $role)
+                                                        @php
+                                                            $name = ucfirst($role->name);
+                                                        @endphp
+
+                                                        <option value="{{ $role->name }}">{{ $name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 

@@ -20,7 +20,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Full name</th>
-                                            <th scope="col">Username</th>
+                                            <th scope="col">Role</th>
                                             <th scope="col">Email address</th>
                                             <th scope="col">Created at</th>
                                             <th scope="col"></th>
@@ -35,7 +35,7 @@
                                                         <a href="{{ route('dashboard.statistics', ['username' => $user->username]) }}">{{ $user->name }}</a>
                                                     </th>
                                                     <td>
-                                                        <span class="badge badge-pill badge-warning">{{ $user->username }}</span>
+                                                        <span class="badge badge-pill badge-warning">{{ $user->getRoleNames()[0] }}</span>
                                                     </td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans(\Carbon\Carbon::now()) }}</td>

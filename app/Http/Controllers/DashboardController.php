@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Image;
+use Spatie\Permission\Models\Role;
 
 /**
  * @package Resume Builder
@@ -126,19 +127,23 @@ class DashboardController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
     public function showProfile($username) {
-        $profile = User::where('username', $username)->firstOrFail();
-        $user    = Auth::user();
+        $profile    = User::where('username', $username)->firstOrFail();
+        $user       = Auth::user();
+        $user_roles = [];
 
         // To view a profile either the user should be its owner or they
         // should hold the super user privilege.
         if ((int) $profile->id !== (int) $user->id) {
             if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
+            } elseif ($user->hasRole('administrator')) {
+                $user_roles = Role::all();
             }
         }
 
         return view('pages.dashboard.profile', [
-            'profile' => $profile
+            'profile' =>    $profile,
+            'user_roles' => $user_roles
         ]);
     }
 
@@ -224,7 +229,7 @@ class DashboardController extends Controller
      */
     public function showUsers() {
         $profile = Auth::user();
-        $users   = User::paginate();
+        $users   = User::with('roles')->paginate();
 
         if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
             throw new NoPermissionException( UserPermissionError::VIEW );
@@ -326,7 +331,14 @@ class DashboardController extends Controller
             $profile->avatar = asset($filename);
         }
 
+        // Assign a new role to the user if an adminstrator is requesting
+        // to do so.
+        if ($request->has('user-role') && $user->hasRole('administrator')) {
+            $profile->syncRoles($request->input('user-role'));
+        }
+
         $profile->save();
+
         return redirect()->route('dashboard.profile', [
                 'username' => $profile->username
             ])

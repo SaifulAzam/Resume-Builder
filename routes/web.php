@@ -41,7 +41,7 @@ Route::middleware('auth')
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
-        Route::delete('/{username}', 'DashboardController@deleteUser')->name('profile.delete');
+        Route::delete('/{username}', 'DashboardController@deleteProfile')->name('profile.delete');
         Route::get('/{username}', 'DashboardController@showStatistics')->name('statistics');
 });
 

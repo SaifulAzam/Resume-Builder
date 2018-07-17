@@ -3,18 +3,6 @@
 @section('app_content')
     <section class="resume-new">
         <div class="container">
-            @if ($errors->any())
-                <div class="row justify-content-center">
-                    <div class="col-md-6 mt-4">
-                        <div class="alert alert-danger mb-0">
-                            <ul class="mb-0">
-                                <li>{{ $errors->first() }}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <div class="row my-4">
                 <div class="col-md-9">
                     @if (isset($data))

@@ -3,18 +3,6 @@
 @section('app_content')
     <section id="dashboard" class="dashboard mt-4">
         <div class="container">
-            @if ($errors->any())
-                <div class="row justify-content-center">
-                    <div class="col-md-6 mb-4">
-                        <div class="alert alert-danger mb-0">
-                            <ul class="mb-0">
-                                <li>{{ $errors->first() }}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <div class="row">
                 @include('partials._dashboard-sidebar')
 

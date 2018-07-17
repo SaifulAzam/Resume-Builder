@@ -20,39 +20,84 @@ use Image;
  */
 class DashboardController extends Controller
 {
-    public function deleteResumeTemplate(Request $request) {
-        $request->validate([
-            'template' => 'required|string'
-        ]);
-
-        Resume::deleteTemplate(
-            $request->input('template')
-        );
-
-        return redirect()->back();
-    }
-
-    public function deleteUser($username) {
+    /**
+     * Deletes the user by the supplied username.
+     * 
+     * @param  string $username
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteProfile($username) {
         $profile = User::where('username', $username)->firstOrFail();
         $user    = Auth::user();
 
-        if ((int) $profile->id !== (int) $user->id) {
+        // To delete a profile either the user should be its owner or they
+        // should hold the super user privilege.
+        if (! $user->hasPermissionTo('delete users')) {
+            throw new NoPermissionException( ProfilePermissionError::DELETE );
+        } elseif ((int) $profile->id !== (int) $user->id) {
             if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::DELETE );
             }
         } else {
             $profile->delete();
-            return redirect()->route('resumes.create');
+            return redirect()->route('resumes.create')->with([
+                    'message' => 'The profile was successfully deleted.',
+                    'status'  => 'success'
+                ]);
         }
 
         $profile->delete();
-        return redirect()->back();
+        return redirect()->route('dashboard.users')->with([
+                'message' => 'The profile was successfully deleted.',
+                'status'  => 'success'
+            ]);
     }
 
+    /**
+     * Deletes the resume template.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteResumeTemplate(Request $request) {
+        $request->validate([
+            'template' => 'required|string'
+        ]);
+
+        if (! $user->hasRole('administrator')) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
+        $deletion = Resume::deleteTemplate( $request->input('template'));
+
+        if ($deletion) {
+            return redirect()->route('dashboard.resumes.templates')->with([
+                    'message' => 'The template was successfully deleted.',
+                    'status'  => 'success'
+                ]);
+        }
+
+        return redirect()->route('dashboard.resumes.templates')->with([
+                'message' => 'Failed to delete the template.',
+                'status'  => 'failed'
+            ]);
+    }
+
+    /**
+     * Displays the user profile of the supplied username.
+     * 
+     * @param  string $username
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function showProfile($username) {
         $profile = User::where('username', $username)->firstOrFail();
         $user    = Auth::user();
 
+        // To view a profile either the user should be its owner or they
+        // should hold the super user privilege.
         if ((int) $profile->id !== (int) $user->id) {
             if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
@@ -64,20 +109,32 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Displays the list resume templates available in the application.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function showResumeTemplates() {
-        $profile = Auth::user();
+        $user      = Auth::user();
         $templates = Resume::getTemplates();
 
-        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
+        if (! $user->hasRole('administrator')) {
             throw new NoPermissionException( ResumePermissionError::TEMPLATE );
         }
 
         return view('pages.dashboard.templates', [
-            'profile'   => $profile,
+            'profile'   => $user,
             'templates' => $templates
         ]);
     }
 
+    /**
+     * Displays the statistics of the user profile and application.
+     * 
+     * @param  string $username
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function showStatistics($username) {
         $profile = User::with('resumes')->where('username', $username)->firstOrFail();
         $user    = Auth::user();
@@ -88,6 +145,8 @@ class DashboardController extends Controller
         $total_revenue      = null;
         $total_user_count   = null;
 
+        // To view a profile either the user should be its owner or they
+        // should hold the super user privilege.
         if ((int) $profile->id !== (int) $user->id) {
             if (! $super_user) {
                 throw new NoPermissionException( ProfilePermissionError::VIEW );
@@ -106,6 +165,28 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Displays a form to upload new resume templates in the application.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
+    public function showUploadResumeTemplateForm() {
+        $user = Auth::user();
+
+        if (! $user->hasAnyRole(['administrator'])) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
+        return view('pages.dashboard.templates-upload', [
+            'profile' => $user
+        ]);
+    }
+
+    /**
+     * Displays the list of users available in the application.
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function showUsers() {
         $profile = Auth::user();
         $users   = User::paginate();
@@ -120,21 +201,25 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function showUploadResumeTemplateForm() {
-        $profile = Auth::user();
-
-        if (! $profile->hasAnyRole(['administrator', 'moderator'])) {
-            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
-        }
-
-        return view('pages.dashboard.templates-upload', [
-            'profile' => $profile
-        ]);
-    }
-
+    /**
+     * Updates the user profile of the supplied username.
+     * 
+     * @param  Request $request
+     * @param  string $username
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateProfile(Request $request, $username) {
         $profile = User::where('username', $username)->firstOrFail();
         $user    = Auth::user();
+
+        // To update a profile either the user should be its owner or they
+        // should hold the super user privilege.
+        if ((int) $profile->id !== (int) $user->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                throw new NoPermissionException( ProfilePermissionError::UPDATE );
+            }
+        }
 
         $props = $request->validate([
             'avatar'   => 'image',
@@ -149,13 +234,9 @@ class DashboardController extends Controller
             'password' => 'nullable|string|min:6',
         ]);
 
-        if ((int) $profile->id !== (int) $user->id) {
-            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                throw new NoPermissionException( ProfilePermissionError::UPDATE );
-            }
-        }
-
         foreach ($props as $key => $value) {
+            // We can simply skip the avatar here since it will be taken
+            // care of later.
             if ($key === 'avatar') {
                 continue;
             } elseif ($key === 'password') {
@@ -169,8 +250,8 @@ class DashboardController extends Controller
             $profile->{$key} = $value;
         }
 
-        if($request->hasFile('avatar')){
-            $avatar = $request->file('avatar');
+        if ($request->hasFile('avatar')) {
+            $avatar   = $request->file('avatar');
             $filename = time() . '.' . $avatar->getClientOriginalExtension();
             $filename = 'uploads/avatars/' . $filename;
 
@@ -180,10 +261,27 @@ class DashboardController extends Controller
         }
 
         $profile->save();
-        return redirect()->route('dashboard.profile', ['username' => $profile->username]);
+        return redirect()->route('dashboard.profile', [
+                'username' => $profile->username
+            ])
+            ->with([
+                'message' => 'Successfully updated the profile.',
+                'status'  => 'success'
+            ]);
     }
 
+    /**
+     * Uploads a new resume template in the application.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function uploadResumeTemplate(Request $request) {
+        if (! $user->hasAnyRole(['administrator'])) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
         $request->validate([
             'template' => 'required|mimetypes:application/zip,application/x-zip-compressed,multipart/x-zip,application/x-compressed'
         ]);
@@ -195,9 +293,24 @@ class DashboardController extends Controller
         );
 
         if ($res === true) {
+            if ($zip->locateName('index.blade.php') === false) {
+                return redirect()->route("dashboard.resumes.templates")->with([
+                        'message' => 'The zip file does not contain a valid template.',
+                        'status'  => 'failed'
+                    ]);
+            } elseif ($zip->locateName('thumbnail.jpg') === false) {
+                return redirect()->route("dashboard.resumes.templates")->with([
+                        'message' => 'The template must contain a thumbnail.jpg file for the preview.',
+                        'status'  => 'failed'
+                    ]);
+            }
+
             $zip->extractTo(resource_path("views/resumes/test/"));
         }
 
-        return redirect()->route("dashboard.resumes.templates");
+        return redirect()->route("dashboard.resumes.templates")->with([
+                'message' => 'Successfully uploaded the template.',
+                'status'  => 'success'
+            ]);
     }
 }

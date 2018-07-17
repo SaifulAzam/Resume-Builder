@@ -3,6 +3,8 @@
             @include('partials._topnavigation')
 
             <div id="page" class="site-main">
+                @include('partials._errors')
+
                 @yield('app_content')
             </div>
 

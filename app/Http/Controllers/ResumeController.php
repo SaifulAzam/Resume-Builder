@@ -25,48 +25,59 @@ class ResumeController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws NoPermissionException
-     * @throws \Exception
      */
     public function deleteResume($resume_id) {
         $resume = Resume::with('author')->findOrFail($resume_id);
         $author = $resume->author;
 
-        // To delete a resume either the user should be authenticated or they
-        // should hold the token with them to enjoy the resume owner
-        // privileges.
-        if (Auth::check()) {
-            $user = Auth::user();
+        if (! Auth::check()) {
+            throw new NoPermissionException( ResumePermissionError::DELETE );
+        }
 
-            // Next, we'll determine whether the authenticated user has not
-            // been restricted from deleting the resume. Or the user should be
-            // a person with super privilege if they are not the owner of the
-            // resume.
-            if ((int) $user->id !== (int) $author->id) {
-                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                    throw new NoPermissionException( ResumePermissionError::VIEW );
-                }
+        $user = Auth::user();
+
+        // To delete a resume either the user should be its owner or they
+        // should hold the super user privilege.
+        if (! $user->hasPermissionTo('delete resumes')) {
+            throw new NoPermissionException( ResumePermissionError::DELETE );
+        } elseif ((int) $user->id !== (int) $author->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                throw new NoPermissionException( ResumePermissionError::DELETE );
             }
-        } elseif (! $resume->validateToken()) {
-            throw new NoPermissionException( ResumePermissionError::VIEW );
         }
 
         $resume->delete();
-        return redirect()->route('resumes.create')->with('status', 'deleted');
+        return redirect()->route('dashboard.resumes', [
+                'username' => $author->id
+            ])->with([
+                'message' => 'The resume was successfully deleted.',
+                'status'  => 'success'
+            ]);
     }
 
+    /**
+     * Generates a downloadable format of the resume..
+     * 
+     * @param  Request $request
+     * @param  int $resume_id
+     * 
+     * @return PDF
+     * 
+     * @throws NoPermissionException
+     */
     public function downloadResume(Request $request, $resume_id) {
         $resume = Resume::with("author")->findOrFail($resume_id);
         $author = $resume->author;
 
-        $template = $request->has('template') ? $request->input('template') : $resume->template;
+        // We'll use the new template for the resume if any supplied.
+        $template = $request->has('template') ?
+                        $request->input('template') : $resume->template;
 
+        // To download a resume either the user should be its owner or
+        // they should hold the super user privilege.
         if (Auth::check()) {
             $user = Auth::user();
 
-            // Next, we'll determine whether the authenticated user has not
-            // been restricted from viewing the resume. Or the user should be
-            // a person with super privilege if they are not the owner of the
-            // resume.
             if ((int) $user->id !== (int) $author->id) {
                 if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                     throw new NoPermissionException( ResumePermissionError::VIEW );
@@ -77,26 +88,27 @@ class ResumeController extends Controller
         }
 
         $pdf_name = sha1(Carbon::now()) . '.pdf';
-
         $data     = json_decode($resume->data);
 
+        // Extract out the contact information from the data so it can be
+        // reused easily whenever required in the future by the templates.
         $contact_info = array_filter($data, function ($temp) {
             return $temp->type === 'contact-information';
         });
 
         return PDF::loadView('resumes.' . $template . '.index', [
-            'author'       => $resume->author,
-            'contact_info' => $contact_info[0],
-            'data'         => $data,
-            'template'     => $template,
-            'title'        => $resume->title,
-        ])
-            ->setPaper('a4')
-            ->download($pdf_name);
+                'author'       => $author,
+                'contact_info' => $contact_info[0],
+                'data'         => $data,
+                'template'     => $template,
+                'title'        => $resume->title,
+            ])
+                ->setPaper('a4')
+                ->download($pdf_name);
     }
 
     /**
-     * Duplicates the resume in the database.
+     * Generates a clone of the resume.
      *
      * @param  int $resume_id
      *
@@ -108,28 +120,31 @@ class ResumeController extends Controller
         $resume = Resume::with('author')->findOrFail($resume_id);
         $author = $resume->author;
 
-        // To duplicate a resume either the user should be the owner of
-        // it or they must hold the super user privilege.
-        if (Auth::check()) {
-            $user = Auth::user();
+        if (! Auth::check()) {
+            throw new NoPermissionException( ResumePermissionError::CREATE );
+        }
 
-            // Next, we'll determine whether the authenticated user has not
-            // been restricted from creating the resume. Or the user should be
-            // a person with super privilege if they are not the owner of the
-            // resume.
-            if (! $user->hasPermissionTo('create resumes')) {
+        $user = Auth::user();
+
+        // To duplicate a resume either the user should be its owner or
+        // they should hold the super user privilege.
+        if (! $user->hasPermissionTo('create resumes')) {
+            throw new NoPermissionException( ResumePermissionError::CREATE );
+        } elseif ((int) $user->id !== (int) $author->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                 throw new NoPermissionException( ResumePermissionError::CREATE );
-            } elseif ((int) $user->id !== (int) $author->id) {
-                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                    throw new NoPermissionException( ResumePermissionError::CREATE );
-                }
             }
         }
 
         $new_resume = $resume->replicate();
         $new_resume->save();
 
-        return redirect()->route('resumes.single', ['resume_id' => $new_resume->id])->with('status', 'created');
+        return redirect()->route('resumes.single', [
+                'resume_id' => $new_resume->id
+            ])->with([
+                'message' => 'The resume was successfully duplicated.',
+                'status'  => 'success'
+            ]);
     }
 
     /**
@@ -160,7 +175,7 @@ class ResumeController extends Controller
             }
 
             $profile = $author;
-            $resumes = Resume::where('author_id', $author->id);
+            $resumes = $resumes->with('author')->where('author_id', $author->id);
         } else {
             if (! $is_super_user) {
                 return redirect()->route('dashboard.resumes', ['username' => $user->username]);
@@ -172,13 +187,13 @@ class ResumeController extends Controller
         $resumes = $resumes->paginate();
 
         return view('pages.dashboard.resumes', [
-            'profile' => $profile,
-            'resumes' => $resumes
-        ]);
+                'profile' => $profile,
+                'resumes' => $resumes
+            ]);
     }
 
     /**
-     * Displays the resume with supplied resume id.
+     * Displays the singular resume.
      *
      * @param  int $resume_id
      *
@@ -187,50 +202,45 @@ class ResumeController extends Controller
      * @throws NoPermissionException
      */
     public function showResume($resume_id) {
-        $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
-        $author = $resume->author;
-        $user   = null;
-        $route  = null;
-        $form_method = "POST";
+        $resume           = Resume::with(['author', 'token'])->findOrFail($resume_id);
+        $author           = $resume->author;
+        $user             = null;
+        $form_action_url  = null;
+        $form_method      = "POST";
 
-        // Determine whether the user is authenticated or holds the resume token
-        // to access the resume.
+        // To access a resume either the user should be its owner or they
+        // should hold the super user privilege.
         if (Auth::check()) {
             $user = Auth::user();
 
-            // Next, we'll check whether the authenticated user is the owner of
-            // the resume or holds any super privilege and if none of the case
-            // apply then we'll restrict the user from accessing the resume and
-            // redirect him with error messages to explain him better about the
-            // issue.
             if ((int) $user->id !== (int) $author->id) {
                 if (! $user->hasAnyRole(['administrator', 'moderator'])) {
                     throw new NoPermissionException( ResumePermissionError::VIEW );
                 }
             }
 
-            $route = route('resumes.update', ['resume_id' => $resume->id]);
-            $form_method = "PUT";
+            $form_action_url = route('resumes.update', ['resume_id' => $resume->id]);
+            $form_method     = "PUT";
         } else{
             if (! $resume->validateToken()) {
                 throw new NoPermissionException( ResumePermissionError::VIEW );
             }
 
-            $route = route('resumes.download', ['resume_id' => $resume->id]);
+            $form_action_url = route('resumes.download', ['resume_id' => $resume->id]);
         }
 
         return view('pages.resume-form', [
-            'author'          => $resume->author,
-            'created_at'      => $resume->created_at->toDateTimeString(),
-            'data'            => $resume->data,
-            'form_action_url' => $route,
-            'form_method'     => $form_method,
-            'resume_id'       => $resume->id,
-            'template'        => $resume->template,
-            'title'           => $resume->title,
-            'updated_at'      => $resume->updated_at->toDateTimeString(),
-            'user'            => $user
-        ]);
+                'author'          => $author,
+                'created_at'      => $resume->created_at->toDateTimeString(),
+                'data'            => $resume->data,
+                'form_action_url' => $form_action_url,
+                'form_method'     => $form_method,
+                'resume_id'       => $resume->id,
+                'template'        => $resume->template,
+                'title'           => $resume->title,
+                'updated_at'      => $resume->updated_at->toDateTimeString(),
+                'user'            => $user
+            ]);
     }
 
     /**
@@ -246,10 +256,8 @@ class ResumeController extends Controller
         $author = null;
         $user   = null;
 
-        // Determine whether the authenticated user is trying to create a resume
-        // or an unauthenticated user since we need to restrict the
-        // authenticated user from creating the resume if they have no
-        // permission.
+        // Restrict the authenticated user from creating a new resume if
+        // he doesn't hold the permission.
         if (Auth::check()) {
             $author = Auth::user();
             $user   = $author;
@@ -271,19 +279,19 @@ class ResumeController extends Controller
         $templates = Resume::getTemplates();
 
         return view('pages.resume-form', [
-            'author'          => $author,
-            'form_action_url' => route('resumes.store'),
-            'form_method'     => 'POST',
-            'template'        => $templates[0]['name'],
-            'title'           => 'New Resume',
-            'user'            => $user
-        ]);
+                'author'          => $author,
+                'form_action_url' => route('resumes.store'),
+                'form_method'     => 'POST',
+                'template'        => $templates[0]['name'],
+                'title'           => 'New Resume',
+                'user'            => $user
+            ]);
     }
 
     /**
      * Stores the new resume into the database.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param  bool $redirect
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -291,7 +299,9 @@ class ResumeController extends Controller
      * @throws NoPermissionException
      */
     public function storeResume(Request $request, bool $redirect = true) {
-        if ($request->has('registration') && (int) $request->input('registration') === 1) {
+        $registration = (bool) $request->input('registration');
+
+        if ($registration === true) {
             $request->validate([
                 'author_id'          => 'exists:users,id',
                 'data'               => 'required',
@@ -303,17 +313,15 @@ class ResumeController extends Controller
             ]);
         } else {
             $request->validate([
-                'author_id'          => 'exists:users,id',
-                'data'               => 'required',
-                'template'           => 'required|string',
-                'title'              => 'required|string',
+                'author_id' => 'exists:users,id',
+                'data'      => 'required',
+                'template'  => 'required|string',
+                'title'     => 'required|string',
             ]);
         }
 
-        // Determine whether the authenticated user is trying to create a resume
-        // or an unauthenticated user since we need to restrict the
-        // authenticated user from creating the resume if they have no
-        // permission.
+        // Restrict the authenticated user from creating a new resume if
+        // he doesn't hold the permission.
         if (Auth::check()) {
             $author = Auth::user();
             $user   = $author;
@@ -331,11 +339,12 @@ class ResumeController extends Controller
                 }
             }
         } else {
-            // If the user is not authenticated then our task is to check
-            // whether they're trying to register or otherwise we'll create a
-            // random user and assign it the resume since we always need to
-            // assign a user to the resume and hence we're restricted to it.
-            if ($request->has('registration') && (bool) $request->input('registration') === true) {
+            // We can create a new random user for the resume to attach as
+            // an author if the user is not registering for the
+            // application. Otherwise we will simply register the user
+            // with their supplied details and authenticate him in the
+            // application for the ease of them.
+            if ($registration === true) {
                 $password = $request->input('registration_pass');
 
                 $author = app('\App\Http\Controllers\Auth\RegisterController')->create([
@@ -353,19 +362,16 @@ class ResumeController extends Controller
             }
         }
 
-        $data     = $request->input('data');
-        $template = $request->input('template');
-        $title    = $request->input('title');
-
         $resume = $author->resumes()->create([
-            'data'     => $data,
-            'template' => $template,
-            'title'    => $title,
+            'data'     => $request->input('data'),
+            'template' => $request->input('template'),
+            'title'    => $request->input('title')
         ]);
 
-        // Finally, if the user is not authenticated then we'll generate a token
-        // for the user to access the resume anytime in the future through the
-        // same browser.
+        // Finally, if the user is not authenticated then we need to
+        // generate an access token for the user so he can access the
+        // resume anytime in the same browser until the cookies are
+        // cleared.
         if (! Auth::check()) {
             $resume->generateToken();
         }
@@ -374,13 +380,19 @@ class ResumeController extends Controller
             return $resume;
         }
 
-        return redirect()->route('resumes.single', ['resume_id' => $resume->id])->with('status', 'created');
+        return redirect()->route('resumes.single', [
+                'resume_id' => $resume->id
+            ])
+            ->with([
+                'message' => 'The resume was successfully created.',
+                'status'  => 'success'
+            ]);
     }
 
     /**
      * Updates the resume with new supplied details.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param  int $resume_id
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -391,6 +403,10 @@ class ResumeController extends Controller
         $resume = Resume::with(['author', 'token'])->findOrFail($resume_id);
         $author = $resume->author;
 
+        if (! Auth::check()) {
+            throw new NoPermissionException( ResumePermissionError::UPDATE );
+        }
+
         $props = $request->validate([
             'author_id' => 'exists:users,id',
             'data'      => 'required',
@@ -398,33 +414,31 @@ class ResumeController extends Controller
             'template'  => 'required|string',
         ]);
 
-        // Determine whether the user is authenticated or holds the resume token
-        // to update the resume.
-        if (Auth::check()) {
-            $user = Auth::user();
+        $user = Auth::user();
 
-            // Next, we'll determine whether the authenticated user has not
-            // been restricted from updating the resume. Or the user should be
-            // a person with super privilege if they are not the owner of the
-            // resume.
-            if (! $user->hasPermissionTo('edit resumes')) {
-                throw new NoPermissionException( ResumePermissionError::UPDATE );
-            } elseif ((int) $user->id !== (int) $author->id) {
-                if (! $user->hasAnyRole(['administrator', 'moderator'])) {
-                    throw new NoPermissionException( ResumePermissionError::UPDATE );
-                }
-            }
-        } elseif (! $resume->validateToken()) {
+        // To update a resume either the user should be its owner or
+        // they should hold the super user privilege.
+        if (! $user->hasPermissionTo('edit resumes')) {
             throw new NoPermissionException( ResumePermissionError::UPDATE );
+        } elseif ((int) $user->id !== (int) $author->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                throw new NoPermissionException( ResumePermissionError::UPDATE );
+            }
         }
 
-        // Finally, we'll save the properties of the resume in the database and
-        // redirect to the newly updated resume to perform more actions on it.
+        // Finally, we're good to populate the resume with the updated
+        // details.
         foreach ($props as $key => $value) {
             $resume->{$key} = $value;
         }
 
         $resume->save();
-        return redirect()->route('resumes.single', ['resume_id' => $resume->id])->with('status', 'updated');
+        return redirect()->route('resumes.single', [
+                'resume_id' => $resume->id
+            ])
+            ->with([
+                'message' => 'The resume was successfully updated.',
+                'status'  => 'success'
+            ]);
     }
 }

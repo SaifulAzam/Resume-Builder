@@ -44,6 +44,23 @@ class Resume extends Model implements ResumeTokenInterface
     }
 
     /**
+     * Deletes a resume template by the supplied name.
+     * 
+     * @param  string $template
+     * 
+     * @return bool
+     */
+    public static function deleteTemplate(string $template) : bool {
+        $path = resource_path("views/resumes/" . $template);
+
+        if ( File::deleteDirectory($path) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Generates a token that gets stored into the user's browser so they enjoy
      * the same privilege as of the owner of the resume even when they're not
      * authenticated in the application.
@@ -67,27 +84,29 @@ class Resume extends Model implements ResumeTokenInterface
         ]);
     }
 
-    public static function deleteTemplate(string $template) : bool {
-        $path = resource_path("views/resumes/" . $template);
-
-        File::deleteDirectory($path);
-        return true;
-    }
-
     /**
-     * Returns the available templates for the resume.
+     * Returns the list of templates for the resume.
      * 
      * @return array
      */
     public static function getTemplates() : array {
         $templates_path  = resource_path("views/resumes/");
-        $templates       = array_values(array_filter(glob($templates_path . "*"), "is_dir"));
         $thumbnails_path = public_path("uploads/thumbnails/");
+
+        $templates = array_values(
+                        array_filter(
+                            glob($templates_path . "*"), "is_dir"
+                        )
+                    );
 
         $templates = array_map(function ($template) use ($templates_path, $thumbnails_path) {
             $name = basename($template);
             $thumbnail_path = $thumbnails_path . $name . ".jpg";
 
+            // If we don't find the thumbnail in the public directory
+            // already, then we will assume that it's a new template and
+            // we'll proceed to look for the thumbnail in its own
+            // directory.
             if (! file_exists($thumbnail_path)) {
                 $temp_thumbail_path = $templates_path . $name . "/thumbnail.jpg";
 

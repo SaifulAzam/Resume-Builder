@@ -79,7 +79,7 @@ class User extends Authenticatable
 
         // Return the generated email if it doesn't exist in the
         // Database.
-        if (!in_array($email, $emails)) {
+        if (! in_array($email, $emails)) {
             return $email;
         }
 

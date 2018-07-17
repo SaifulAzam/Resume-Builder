@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\ResumeTokenInterface;
+use App\Option;
 use Carbon\Carbon;
 use File;
 use Illuminate\Database\Eloquent\Model;
@@ -85,7 +86,18 @@ class Resume extends Model implements ResumeTokenInterface
     }
 
     /**
-     * Returns the list of templates for the resume.
+     * Returns a list of templates that should be prohibited from being
+     * returned the client.
+     * 
+     * @return array
+     */
+    public static function getIgnoredTemplates() : array {
+        $templates = Option::where('name', 'ignore_templates')->firstOrFail(['value']);
+        return unserialize($templates['value']);
+    }
+
+    /**
+     * Returns list of all templates for the resume.
      * 
      * @return array
      */
@@ -124,6 +136,68 @@ class Resume extends Model implements ResumeTokenInterface
         }, $templates);
 
         return $templates;
+    }
+
+    /**
+     * Returns a list of unignored templates to returned to the client.
+     * 
+     * @return array
+     */
+    public static function getUnignoredTemplates() : array {
+        $ignore_templates = self::getIgnoredTemplates();
+        $templates        = self::getTemplates();
+
+        return array_values(
+                array_where($templates, function ($template) use ($ignore_templates) {
+                    return ! in_array($template['name'], $ignore_templates);
+                })
+            );
+    }
+
+    /**
+     * Hides the resume template for the client.
+     * 
+     * @param  $template
+     * 
+     * @return bool
+     */
+    public static function ignoreTemplate(string $template) : bool {
+        $templates = Option::where('name', 'ignore_templates')->firstOrFail(['id', 'value']);
+        $values    = unserialize($templates['value']);
+
+        if (array_search($template, $values) !== false) {
+            return false;
+        }
+
+        array_push($values, $template);
+
+        $templates->value = serialize($values);
+        $templates->save();
+
+        return true;
+    }
+
+    /**
+     * Unhides the resume template for the client.
+     * 
+     * @param  $template
+     * 
+     * @return bool
+     */
+    public static function unignoreTemplate(string $template) : bool {
+        $templates = Option::where('name', 'ignore_templates')->firstOrFail(['id', 'value']);
+        $values    = unserialize($templates['value']);
+
+        if (($key = array_search($template, $values)) === false) {
+            return false;
+        }
+
+        unset($values[$key]);
+
+        $templates->value = serialize($values);
+        $templates->save();
+
+        return true;
     }
 
     /**

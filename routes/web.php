@@ -31,18 +31,26 @@ Route::middleware('auth')
     ->name('dashboard.')
     ->prefix('dashboard')
     ->group(function () {
+        Route::post('/resumes/templates/ignore', 'DashboardController@ignoreResumeTemplate')->name('resumes.templates.ignore');
+        Route::delete('/resumes/templates/ignore', 'DashboardController@unignoreResumeTemplate');
+
         Route::get('/resumes/templates/upload', 'DashboardController@showUploadResumeTemplateForm')->name('resumes.templates-upload');
         Route::post('/resumes/templates/upload', 'DashboardController@uploadResumeTemplate');
+
         Route::get('/resumes/templates', 'DashboardController@showResumeTemplates')->name('resumes.templates');
         Route::delete('/resumes/templates', 'DashboardController@deleteResumeTemplate');
+        
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
 
         Route::get('/users', 'DashboardController@showUsers')->name('users');
+        
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');
+
         Route::get('/{username}/resumes', 'ResumeController@showAllResumes')->name('resumes');
-        Route::delete('/{username}', 'DashboardController@deleteProfile')->name('profile.delete');
+
         Route::get('/{username}', 'DashboardController@showStatistics')->name('statistics');
+        Route::delete('/{username}', 'DashboardController@deleteProfile')->name('profile.delete');
 });
 
 Route::get('/', function () {

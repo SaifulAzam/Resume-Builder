@@ -66,6 +66,8 @@ class DashboardController extends Controller
             'template' => 'required|string'
         ]);
 
+        $user = Auth::user();
+
         if (! $user->hasRole('administrator')) {
             throw new NoPermissionException( ResumePermissionError::TEMPLATE );
         }
@@ -81,6 +83,37 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard.resumes.templates')->with([
                 'message' => 'Failed to delete the template.',
+                'status'  => 'failed'
+            ]);
+    }
+
+    /**
+     * Hides the resume template for the client.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function ignoreResumeTemplate(Request $request) {
+        $request->validate([
+            'template' => 'required|string'
+        ]);
+
+        $user = Auth::user();
+
+        if (! $user->hasRole('administrator')) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
+        if (Resume::ignoreTemplate($request->input('template'))) {
+            return redirect()->route('dashboard.resumes.templates')->with([
+                    'message' => 'Successfully hidden the template.',
+                    'status'  => 'success'
+                ]);
+        }
+
+        return redirect()->route('dashboard.resumes.templates')->with([
+                'message' => 'Failed to hide the template.',
                 'status'  => 'failed'
             ]);
     }
@@ -115,16 +148,18 @@ class DashboardController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
     public function showResumeTemplates() {
-        $user      = Auth::user();
-        $templates = Resume::getTemplates();
+        $user             = Auth::user();
+        $ignore_templates = Resume::getIgnoredTemplates();
+        $templates        = Resume::getTemplates();
 
         if (! $user->hasRole('administrator')) {
             throw new NoPermissionException( ResumePermissionError::TEMPLATE );
         }
 
         return view('pages.dashboard.templates', [
-            'profile'   => $user,
-            'templates' => $templates
+            'profile'          => $user,
+            'ignore_templates' => $ignore_templates,
+            'templates'        => $templates
         ]);
     }
 
@@ -199,6 +234,37 @@ class DashboardController extends Controller
             'profile' => $profile,
             'users'   => $users  
         ]);
+    }
+
+    /**
+     * Unhides the resume template for the client.
+     * 
+     * @param  Request $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unignoreResumeTemplate(Request $request) {
+        $request->validate([
+            'template' => 'required|string'
+        ]);
+
+        $user = Auth::user();
+
+        if (! $user->hasRole('administrator')) {
+            throw new NoPermissionException( ResumePermissionError::TEMPLATE );
+        }
+
+        if (Resume::unignoreTemplate($request->input('template'))) {
+            return redirect()->route('dashboard.resumes.templates')->with([
+                    'message' => 'Successfully unhidden the template.',
+                    'status'  => 'success'
+                ]);
+        }
+
+        return redirect()->route('dashboard.resumes.templates')->with([
+                'message' => 'Failed to unhide the template.',
+                'status'  => 'failed'
+            ]);
     }
 
     /**

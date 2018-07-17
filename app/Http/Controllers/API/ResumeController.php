@@ -77,7 +77,7 @@ class ResumeController extends Controller
      */
     public function getTemplates() {
         return response()->json(
-            Resume::getTemplates()
+            Resume::getUnignoredTemplates()
         );
     }
 }

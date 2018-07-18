@@ -63,9 +63,9 @@
                                                     <i class="fa-dropbox"></i>
                                                 </p>
 
-                                                <h4 class="lead text-secondary">Cloud Connection</h4>
+                                                <h4 class="lead text-secondary">Cloud Connections</h4>
 
-                                                <a class="btn btn-primary mt-2 py-3 w-100 rounded-0" href="#">View</a>
+                                                <a class="btn btn-primary mt-2 py-3 w-100 rounded-0" href="{{ route('dashboard.cloud', ['username' => $profile->username]) }}">View</a>
                                             </div>
                                         </div>
                                     </div>

@@ -43,7 +43,12 @@ Route::middleware('auth')
         Route::get('/resumes', 'ResumeController@showAllResumes')->name('resumes.all');
 
         Route::get('/users', 'DashboardController@showUsers')->name('users');
-        
+
+        Route::get('/cloud/dropbox/callback', 'CloudController@storeDropboxToken')->name('cloud.dropbox.callback');
+        Route::post('/{username}/cloud/dropbox', 'CloudController@connectDropbox')->name('cloud.dropbox');
+        Route::delete('/{username}/cloud/dropbox', 'CloudController@disconnectDropbox')->name('cloud.dropbox');
+        Route::get('/{username}/cloud', 'DashboardController@showCloudConnections')->name('cloud');
+
         Route::get('/{username}/profile', 'DashboardController@showProfile')->name('profile');
         Route::post('/{username}/profile', 'DashboardController@updateProfile');
 

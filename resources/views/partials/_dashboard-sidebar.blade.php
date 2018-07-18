@@ -31,7 +31,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">Clouds</a>
+            <a class="nav-link {{ \Route::currentRouteName() === 'dashboard.cloud' ? 'active' : '' }}" href="{{ route('dashboard.cloud', ['username' => $profile->username]) }}">Clouds</a>
         </li>
 
         @if ((int) Auth::id() === (int) $profile->id)

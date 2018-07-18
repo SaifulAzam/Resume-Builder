@@ -40,6 +40,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Defines the relationship between the user and their clouds.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cloudTokens() {
+        return $this->hasMany(CloudToken::class, 'user_id');
+    }
+
+    /**
      * Defines the relationship between the user and their resumes.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

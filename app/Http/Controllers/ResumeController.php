@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Constants\ResumePermissionError;
 use App\Exceptions\NoPermissionException;
+use App\Events\ResumeCreated;
+use App\Events\ResumeUpdated;
 use App\Resume;
 use App\User;
 use \Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PDF;
 
 /**
  * @package Resume Builder
@@ -48,7 +49,7 @@ class ResumeController extends Controller
 
         $resume->delete();
         return redirect()->route('dashboard.resumes', [
-                'username' => $author->id
+                'username' => $author->username
             ])->with([
                 'message' => 'The resume was successfully deleted.',
                 'status'  => 'success'
@@ -90,20 +91,11 @@ class ResumeController extends Controller
         $pdf_name = sha1(Carbon::now()) . '.pdf';
         $data     = json_decode($resume->data);
 
-        // Extract out the contact information from the data so it can be
-        // reused easily whenever required in the future by the templates.
-        $contact_info = array_filter($data, function ($temp) {
-            return $temp->type === 'contact-information';
-        });
-
-        return PDF::loadView('resumes.' . $template . '.index', [
-                'author'       => $author,
-                'contact_info' => $contact_info[0],
-                'data'         => $data,
-                'template'     => $template,
-                'title'        => $resume->title,
+        return $resume->generatePDF([
+                'author'   => $author,
+                'data'     => $data,
+                'template' => $template
             ])
-                ->setPaper('a4')
                 ->download($pdf_name);
     }
 
@@ -138,6 +130,10 @@ class ResumeController extends Controller
 
         $new_resume = $resume->replicate();
         $new_resume->save();
+
+        // Fire an event so the action of storing the resume on cloud or
+        // mailing can take place.
+        event(new ResumeCreated($new_resume));
 
         return redirect()->route('resumes.single', [
                 'resume_id' => $new_resume->id
@@ -376,6 +372,10 @@ class ResumeController extends Controller
             $resume->generateToken();
         }
 
+        // Fire an event so the action of storing the resume on cloud or
+        // mailing can take place.
+        event(new ResumeCreated($resume));
+
         if ($redirect === false) {
             return $resume;
         }
@@ -433,6 +433,11 @@ class ResumeController extends Controller
         }
 
         $resume->save();
+
+        // Fire an event so the action of storing the resume on cloud or
+        // mailing can take place.
+        event(new ResumeUpdated($resume));
+
         return redirect()->route('resumes.single', [
                 'resume_id' => $resume->id
             ])

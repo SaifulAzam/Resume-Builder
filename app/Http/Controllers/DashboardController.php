@@ -121,6 +121,32 @@ class DashboardController extends Controller
     }
 
     /**
+     * Displays the connections made to the cloud to store a copy resume
+     * on them.
+     * 
+     * @param  string $username
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
+    public function showCloudConnections($username) {
+        $profile = User::with('cloudTokens')->where('username', $username)->firstOrFail();
+        $user    = Auth::user();
+
+        // To view a profile either the user should be its owner or they
+        // should hold the super user privilege.
+        if ((int) $profile->id !== (int) $user->id) {
+            if (! $user->hasAnyRole(['administrator', 'moderator'])) {
+                throw new NoPermissionException( ProfilePermissionError::VIEW );
+            }
+        }
+
+        return view('pages.dashboard.cloud-connections', [
+            'profile' => $profile,
+            'cloud'   => $profile->cloudTokens
+        ]);
+    }
+
+    /**
      * Displays the user profile of the supplied username.
      * 
      * @param  string $username
@@ -143,7 +169,7 @@ class DashboardController extends Controller
         }
 
         return view('pages.dashboard.profile', [
-            'profile' =>    $profile,
+            'profile'    => $profile,
             'user_roles' => $user_roles
         ]);
     }

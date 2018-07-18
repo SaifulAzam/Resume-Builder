@@ -26894,7 +26894,7 @@ if (token) {
 }
 
 // Set the API URL for the Application to use them all over the front-end.
-window.APP_API = "http://www.resumebuilder.test/api";
+window.APP_API = "https://www.resumebuilder.test/api";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

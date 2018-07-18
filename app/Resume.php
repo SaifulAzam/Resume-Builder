@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 /**
  * @package Resume Builder
@@ -60,6 +61,37 @@ class Resume extends Model implements ResumeTokenInterface
         }
 
         return false;
+    }
+
+    /**
+     * Generates a PDF version of the resume.
+     * 
+     * @param  array $props
+     * 
+     * @return PDF
+     */
+    public function generatePDF($props = []) {
+        $author   = array_key_exists('author', $props) ? $props['author'] : $this->author;
+        $data     = array_key_exists('data', $props) ? $props['data'] : json_decode($this->data);
+        $template = array_key_exists('template', $props) ? $props['template'] : $this->template;
+        $title    = array_key_exists('title', $props) ? $props['title'] : $this->title;
+
+        // Extract out the contact information from the data so it can be
+        // reused easily whenever required in the future by the templates.
+        $contact_info = array_filter($data, function ($temp) {
+            return $temp->type === 'contact-information';
+        });
+
+        $contact_info = $contact_info[0];
+
+        return PDF::loadView('resumes.' . $template . '.index', [
+            'author'       => $author,
+            'contact_info' => $contact_info,
+            'data'         => $data,
+            'template'     => $template,
+            'title'        => $title,
+        ])
+            ->setPaper('a4');
     }
 
     /**

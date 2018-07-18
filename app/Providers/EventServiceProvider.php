@@ -13,9 +13,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        'App\Events\ResumeCreated' => [
+            'App\Listeners\StoreResumeOnCloud'
+        ],
+
+        'App\Events\ResumeUpdated' => [
+            'App\Listeners\StoreResumeOnCloud'
+        ],
+
         'App\Events\UserRegistered' => [
             'App\Listeners\AssignUserRole',
-        ],
+        ]
     ];
 
     /**

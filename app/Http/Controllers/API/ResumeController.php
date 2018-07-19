@@ -44,16 +44,14 @@ class ResumeController extends Controller
 
         // Extract out the contact information from the data so it can be
         // reused easily whenever required in the future by the templates.
-        $contact_info = array_filter($data, function ($temp) {
-            return $temp->type === 'contact-information';
-        });
+        $contact_info = Resume::extractContactInfo($data);
 
         // Finally, we can generate a preview of the resume and store it
         // in the asset to return back the image url to the client
         // application to reuse it as they want.
         $image = SnappyImage::loadView('resumes.' . $template . '.index', [
             'author'       => $author,
-            'contact_info' => $contact_info[0],
+            'contact_info' => $contact_info,
             'data'         => $data,
             'template'     => $template,
             'title'        => $title,

@@ -64,7 +64,22 @@ class Resume extends Model implements ResumeTokenInterface
     }
 
     /**
-     * Generates a PDF version of the resume.
+     * Returns the contact information from the supplied data.
+     * 
+     * @param  array $data
+     * 
+     * @return array
+     */
+    public static function extractContactInfo($data) {
+        $contact_info = array_filter($data, function ($temp) {
+            return $temp->type === 'contact-information';
+        });
+
+        return count($contact_info) > 0 ? $contact_info[0] : $contact_info;
+    }
+
+    /**
+     * Returns an instance of PDF generated for the resume.
      * 
      * @param  array $props
      * 
@@ -78,11 +93,7 @@ class Resume extends Model implements ResumeTokenInterface
 
         // Extract out the contact information from the data so it can be
         // reused easily whenever required in the future by the templates.
-        $contact_info = array_filter($data, function ($temp) {
-            return $temp->type === 'contact-information';
-        });
-
-        $contact_info = $contact_info[0];
+        $contact_info = self::extractContactInfo($data);
 
         return PDF::loadView('resumes.' . $template . '.index', [
             'author'       => $author,

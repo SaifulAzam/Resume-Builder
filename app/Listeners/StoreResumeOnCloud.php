@@ -38,8 +38,8 @@ class StoreResumeOnCloud
 
         $dropbox_token = $cloud->where('name', 'dropbox')->pluck('value');
 
-        // Store the PDF in the dropbox cloud if the user has connected
-        // the platform.
+        // Generate and store a copy of resume to the account of dropbox
+        // platform if the user has allowed our application.
         if (count($dropbox_token) > 0) {
             $dropbox = (new DropboxFactory)->create($dropbox_token[0]);
 

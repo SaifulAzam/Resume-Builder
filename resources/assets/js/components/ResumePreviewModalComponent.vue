@@ -133,4 +133,9 @@
     .resume-preview
         height: 100%
         min-height: 1035px
+
+        img
+            background-color: #FFF
+            padding: 20px
+            width: 100%
 </style>

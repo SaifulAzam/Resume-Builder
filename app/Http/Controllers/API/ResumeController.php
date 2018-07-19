@@ -49,6 +49,9 @@ class ResumeController extends Controller
         // Finally, we can generate a preview of the resume and store it
         // in the asset to return back the image url to the client
         // application to reuse it as they want.
+        $adapter_path = Storage::disk('public')->getAdapter()->getPathPrefix();
+        $file_path    = 'previews/' . sha1(time()) . '.png';
+
         $image = SnappyImage::loadView('resumes.' . $template . '.index', [
             'author'       => $author,
             'contact_info' => $contact_info,
@@ -56,19 +59,14 @@ class ResumeController extends Controller
             'template'     => $template,
             'title'        => $title,
         ])
-            ->setOption("width", 868)
+            ->setOption("width", 750)
             ->setOption("height", 1035)
-            ->setOption("crop-w", 868)
+            ->setOption("crop-w", 750)
             ->setOption("crop-h", 1035)
             ->setOption("disable-smart-width", true)
-            ->setOption("zoom", 1);
+            ->save($adapter_path . $file_path);
 
-        $file = new File($image);
-        $path = $file->hashName('previews');
-
-        Storage::put($path, $file);
-
-        return Storage::url($path);
+        return Storage::disk('public')->url($file_path);
     }
 
     /**
